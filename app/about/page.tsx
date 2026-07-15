@@ -104,13 +104,13 @@ export default function AboutPage() {
               <h2 className="font-display text-3xl font-bold text-cream">Why we exist</h2>
             </div>
             <blockquote className="border-l-2 border-coral/40 pl-5 text-sm italic leading-relaxed text-cream/65">
-              "My first inception of the idea arrived in September 2023 after reminiscing on my summer in New York City: one of my teachers at Jakarta Intercultural School had persuaded me to take a summer course on nanotechnology at Columbia University, which prompted me to explore the potential of natural materials replacing artificial ones."
+              &ldquo;My first inception of the idea arrived in September 2023 after reminiscing on my summer in New York City: one of my teachers at Jakarta Intercultural School had persuaded me to take a summer course on nanotechnology at Columbia University, which prompted me to explore the potential of natural materials replacing artificial ones.&rdquo;
             </blockquote>
             <p className="text-xs uppercase tracking-[0.1em] text-amber-warm/50">
               — Rayden Yap, Founder &amp; Head Manufacturer
             </p>
             <p className="text-sm leading-relaxed text-cream/60">
-              As a social impact startup, we'll work with anyone — from seasoned artisans to young Gen Z influencers — who hopes to develop eco-friendly products but lacks resources or training. Our workshops teach participants the process of making our bioleather and navigating social entrepreneurship just as we have.
+              As a social impact startup, we&apos;ll work with anyone — from seasoned artisans to young Gen Z influencers — who hopes to develop eco-friendly products but lacks resources or training. Our workshops teach participants the process of making our bioleather and navigating social entrepreneurship just as we have.
             </p>
           </div>
 

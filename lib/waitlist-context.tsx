@@ -11,7 +11,7 @@ type WaitlistContextType = {
 const WaitlistContext = createContext<WaitlistContextType | null>(null);
 
 export function WaitlistProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <WaitlistContext.Provider
       value={{ isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) }}

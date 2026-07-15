@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { useWaitlist } from "@/lib/waitlist-context";
 
 type NavLink = {
@@ -16,12 +16,41 @@ const navLinks: NavLink[] = [
   { href: "#contact", label: "Contact", type: "section" },
 ];
 
+/** How far the hero must scroll away before the bar slides in, as a share of the viewport. */
+const REVEAL_AT = 0.75;
+
 type NavbarProps = {
   onHomePage?: boolean;
+  /** "light" is the frosted bar for the white logo hero; "dark" rides the leather background. */
+  variant?: "dark" | "light";
+  /** Hold the bar off-screen until the hero has scrolled past, then slide it in. */
+  revealAfterHero?: boolean;
 };
 
-export default function Navbar({ onHomePage = false }: NavbarProps) {
+function joinClassNames(...classNames: Array<string | false | undefined>) {
+  return classNames.filter(Boolean).join(" ");
+}
+
+export default function Navbar({
+  onHomePage = false,
+  variant = "dark",
+  revealAfterHero = false,
+}: NavbarProps) {
   const { open } = useWaitlist();
+  const [revealed, setRevealed] = useState(!revealAfterHero);
+
+  useEffect(() => {
+    if (!revealAfterHero) return;
+
+    // Re-runs on every scroll frame, but React bails out unless the boundary is crossed.
+    const syncRevealed = () =>
+      setRevealed(window.scrollY > window.innerHeight * REVEAL_AT);
+
+    syncRevealed();
+    window.addEventListener("scroll", syncRevealed, { passive: true });
+
+    return () => window.removeEventListener("scroll", syncRevealed);
+  }, [revealAfterHero]);
 
   const handleNavClick =
     (id?: string) => (event: MouseEvent<HTMLAnchorElement>) => {
@@ -30,19 +59,43 @@ export default function Navbar({ onHomePage = false }: NavbarProps) {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     };
 
+  const isLight = variant === "light";
+  const hidden = revealAfterHero && !revealed;
+
   return (
-    <nav className="sticky top-0 z-20 px-6 pt-5 pb-3">
+    <nav
+      // `inert` keeps the hidden bar out of the tab order without killing the slide-out.
+      inert={hidden}
+      className={joinClassNames(
+        "z-30 px-6",
+        revealAfterHero
+          ? "fixed inset-x-0 top-0 transition duration-500 ease-out motion-reduce:transition-none"
+          : "sticky top-0",
+        hidden && "pointer-events-none -translate-y-full opacity-0",
+        isLight
+          ? "border-b border-earth/10 bg-soft/80 py-3 backdrop-blur-xl"
+          : "pt-5 pb-3",
+      )}
+    >
       <div className="mx-auto flex max-w-5xl items-center justify-between">
         {/* Wordmark */}
         <Link
           href="/"
-          className="font-display text-lg font-bold tracking-tight text-cream transition-colors hover:text-coral"
+          className={joinClassNames(
+            "font-display text-lg font-bold tracking-tight transition-colors hover:text-coral",
+            isLight ? "text-earth" : "text-cream",
+          )}
         >
           Symbia
         </Link>
 
         {/* Links */}
-        <div className="flex items-center gap-7 text-xs uppercase tracking-[0.14em] text-cream/50">
+        <div
+          className={joinClassNames(
+            "flex items-center gap-7 text-xs uppercase tracking-[0.14em]",
+            isLight ? "text-earth/55" : "text-cream/50",
+          )}
+        >
           {navLinks.map((link) => {
             const href =
               link.type === "section"
@@ -51,7 +104,10 @@ export default function Navbar({ onHomePage = false }: NavbarProps) {
             return (
               <Link
                 key={link.href}
-                className="transition-colors hover:text-cream"
+                className={joinClassNames(
+                  "transition-colors",
+                  isLight ? "hover:text-earth" : "hover:text-cream",
+                )}
                 href={href}
                 onClick={
                   onHomePage && link.type === "section"

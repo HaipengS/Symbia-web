@@ -1,7 +1,7 @@
 import Logo from "@/components/Logo";
-import Navbar from "@/components/Navbar";
+import LogoIntro from "@/components/LogoIntro";
 import HomeSections from "@/components/HomeSections";
-import Image from "next/image";
+import MissionExpandable from "@/components/MissionExpandable";
 
 export const metadata = {
   title: "Symbia Logo",
@@ -10,35 +10,16 @@ export const metadata = {
 
 export default function LogoPage() {
   return (
-    <div className="bg-white">
-      <Navbar onHomePage variant="light" revealAfterHero />
+    <LogoIntro
+      // Two copies of one artwork: the hero plays the drop; the fixed clone is the
+      // single shared logo scrubbed between hero and navbar. Both share the cached read.
+      heroLogo={<Logo animated delay={0} className="hero-logo-mark" />}
+      flyingLogo={<Logo label="Symbia" />}
+    >
+      {/* Mission + expandable brand / supplier pathways */}
+      <MissionExpandable />
 
-      <main>
-        {/* ── Logo hero ── */}
-        <section className="logo-wallet-scene" id="home">
-          <div className="hero-logo-placement">
-            <Logo animated delay={0} className="hero-logo-mark" />
-          </div>
-
-          <Image
-            src="/Font/wallet.png"
-            alt="Symbia bioleather wallet"
-            fill
-            priority
-            unoptimized
-            className="wallet-product-image object-contain"
-            sizes="100vw"
-          />
-        </section>
-
-        {/* ── Leather-backed content, same as the home page ── */}
-        <div className="warm-bg relative text-cream">
-          <div className="absolute inset-0 bg-gradient-to-b from-coral/5 via-transparent to-black/60" />
-          <div className="relative z-10">
-            <HomeSections />
-          </div>
-        </div>
-      </main>
-    </div>
+      <HomeSections />
+    </LogoIntro>
   );
 }

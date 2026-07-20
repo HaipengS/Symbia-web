@@ -25,6 +25,14 @@ type NavbarProps = {
   variant?: "dark" | "light";
   /** Hold the bar off-screen until the hero has scrolled past, then slide it in. */
   revealAfterHero?: boolean;
+  /**
+   * Intro-controlled mode (the scroll-linked logo hero transition). LogoIntro drives
+   * the bar's opacity/pointer-events and the links' opacity imperatively (keyed to
+   * scroll progress) via the `data-intro-nav` / `data-intro-links` hooks, so nothing
+   * here re-renders on scroll. The logo slot is empty — the single shared logo is a
+   * fixed clone that parks over it — but sized/measured by LogoIntro.
+   */
+  introControlled?: boolean;
 };
 
 function joinClassNames(...classNames: Array<string | false | undefined>) {
@@ -35,22 +43,23 @@ export default function Navbar({
   onHomePage = false,
   variant = "dark",
   revealAfterHero = false,
+  introControlled = false,
 }: NavbarProps) {
   const { open } = useWaitlist();
-  const [revealed, setRevealed] = useState(!revealAfterHero);
+  const [scrollRevealed, setScrollRevealed] = useState(!revealAfterHero);
 
   useEffect(() => {
-    if (!revealAfterHero) return;
+    if (!revealAfterHero || introControlled) return;
 
     // Re-runs on every scroll frame, but React bails out unless the boundary is crossed.
     const syncRevealed = () =>
-      setRevealed(window.scrollY > window.innerHeight * REVEAL_AT);
+      setScrollRevealed(window.scrollY > window.innerHeight * REVEAL_AT);
 
     syncRevealed();
     window.addEventListener("scroll", syncRevealed, { passive: true });
 
     return () => window.removeEventListener("scroll", syncRevealed);
-  }, [revealAfterHero]);
+  }, [revealAfterHero, introControlled]);
 
   const handleNavClick =
     (id?: string) => (event: MouseEvent<HTMLAnchorElement>) => {
@@ -59,8 +68,74 @@ export default function Navbar({
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     };
 
+  const renderLinks = (linkClass: string, hoverClass: string) =>
+    navLinks.map((link) => {
+      const href =
+        link.type === "section"
+          ? `${onHomePage ? "" : "/"}${link.href}`
+          : link.href;
+      return (
+        <Link
+          key={link.href}
+          className={joinClassNames("transition-colors", hoverClass)}
+          href={href}
+          onClick={
+            onHomePage && link.type === "section"
+              ? handleNavClick(link.href.slice(1))
+              : undefined
+          }
+        >
+          {link.label}
+        </Link>
+      );
+    });
+
+  // ── Intro-controlled bar (scroll-linked logo hero transition) ──
+  // Opacity / pointer-events are written imperatively by LogoIntro on scroll, via
+  // the data-intro-* hooks — no React state, so it never lags the scroll.
+  if (introControlled) {
+    return (
+      <nav
+        data-intro-nav
+        inert
+        className="fixed inset-x-0 top-0 z-30 border-b border-earth/10 bg-soft/80 px-6 py-3 backdrop-blur-xl"
+        style={{ opacity: 0, pointerEvents: "none" }}
+      >
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
+          {/* Empty logo slot — the single shared logo (a fixed clone) parks here.
+              LogoIntro sizes it and measures it as the progress-1 target. */}
+          <Link
+            href="/"
+            aria-label="Symbia home"
+            data-navbar-logo-slot
+            className="navbar-logo-slot"
+            style={{ display: "inline-flex", alignItems: "center", lineHeight: 0 }}
+          />
+
+          {/* Links + CTA — opacity/pointer-events driven by scroll progress. */}
+          <div
+            data-intro-links
+            className="flex items-center gap-7"
+            style={{ opacity: 0, pointerEvents: "none" }}
+          >
+            <div className="flex items-center gap-7 text-xs uppercase tracking-[0.14em] text-earth/55">
+              {renderLinks("", "hover:text-earth")}
+            </div>
+            <button
+              onClick={open}
+              className="rounded-full border border-coral/50 bg-coral/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-coral transition hover:bg-coral hover:text-soft"
+            >
+              Join waitlist
+            </button>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  // ── Default bar ──
   const isLight = variant === "light";
-  const hidden = revealAfterHero && !revealed;
+  const hidden = revealAfterHero && !scrollRevealed;
 
   return (
     <nav
@@ -83,7 +158,7 @@ export default function Navbar({
           href="/"
           className={joinClassNames(
             "font-display text-lg font-bold tracking-tight transition-colors hover:text-coral",
-            isLight ? "text-earth" : "text-cream",
+            isLight ? "text-earth" : "text-ink",
           )}
         >
           Symbia
@@ -93,32 +168,10 @@ export default function Navbar({
         <div
           className={joinClassNames(
             "flex items-center gap-7 text-xs uppercase tracking-[0.14em]",
-            isLight ? "text-earth/55" : "text-cream/50",
+            isLight ? "text-earth/55" : "text-ink/50",
           )}
         >
-          {navLinks.map((link) => {
-            const href =
-              link.type === "section"
-                ? `${onHomePage ? "" : "/"}${link.href}`
-                : link.href;
-            return (
-              <Link
-                key={link.href}
-                className={joinClassNames(
-                  "transition-colors",
-                  isLight ? "hover:text-earth" : "hover:text-cream",
-                )}
-                href={href}
-                onClick={
-                  onHomePage && link.type === "section"
-                    ? handleNavClick(link.href.slice(1))
-                    : undefined
-                }
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          {renderLinks("", isLight ? "hover:text-earth" : "hover:text-ink")}
         </div>
 
         {/* CTA */}

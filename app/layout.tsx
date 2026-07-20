@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { WaitlistProvider } from "@/lib/waitlist-context";
 import WaitlistModal from "@/components/WaitlistModal";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["700", "800", "900"],
+// Roxborough CF ships Regular only — headings render at 400, no synthetic bold.
+const roxborough = localFont({
+  src: "./fonts/roxborough-cf-regular.otf",
+  variable: "--font-roxborough",
+  weight: "400",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -32,9 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${roxborough.variable} antialiased`}>
         <WaitlistProvider>
           {children}
           <WaitlistModal />

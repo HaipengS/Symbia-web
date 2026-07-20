@@ -74,8 +74,8 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="warm-bg relative min-h-screen overflow-hidden text-cream">
-      <div className="absolute inset-0 bg-gradient-to-b from-coral/5 via-transparent to-black/60" />
+    <div className="warm-bg relative min-h-screen overflow-hidden text-ink">
+      <div className="absolute inset-0" />
 
       <Navbar />
 
@@ -84,11 +84,11 @@ export default function AboutPage() {
         <div className="grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
           <div className="space-y-5">
             <p className="text-xs uppercase tracking-[0.2em] text-amber-warm/60">About us</p>
-            <h1 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-cream sm:text-6xl md:text-7xl">
+            <h1 className="font-display text-5xl font-bold leading-[0.92] tracking-tight text-ink sm:text-6xl md:text-7xl">
               Growing the future of functional sustainability
             </h1>
           </div>
-          <p className="text-base leading-relaxed text-cream/55 md:pb-2">
+          <p className="text-base leading-relaxed text-ink/55 md:pb-2">
             Symbia is an independent biofabrication research group that grows microbial leather out of a Symbiotic culture of bacteria and yeast (SCOBY) and recycled Kombucha. Our operations span product manufacturing, training programs for Indonesian craftspeople, and community awareness.
           </p>
         </div>
@@ -101,15 +101,15 @@ export default function AboutPage() {
           <div className="space-y-5">
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">Origin story</p>
-              <h2 className="font-display text-3xl font-bold text-cream">Why we exist</h2>
+              <h2 className="font-display text-3xl font-bold text-ink">Why we exist</h2>
             </div>
-            <blockquote className="border-l-2 border-coral/40 pl-5 text-sm italic leading-relaxed text-cream/65">
+            <blockquote className="border-l-2 border-coral/40 pl-5 text-sm italic leading-relaxed text-ink/65">
               &ldquo;My first inception of the idea arrived in September 2023 after reminiscing on my summer in New York City: one of my teachers at Jakarta Intercultural School had persuaded me to take a summer course on nanotechnology at Columbia University, which prompted me to explore the potential of natural materials replacing artificial ones.&rdquo;
             </blockquote>
             <p className="text-xs uppercase tracking-[0.1em] text-amber-warm/50">
               — Rayden Yap, Founder &amp; Head Manufacturer
             </p>
-            <p className="text-sm leading-relaxed text-cream/60">
+            <p className="text-sm leading-relaxed text-ink/60">
               As a social impact startup, we&apos;ll work with anyone — from seasoned artisans to young Gen Z influencers — who hopes to develop eco-friendly products but lacks resources or training. Our workshops teach participants the process of making our bioleather and navigating social entrepreneurship just as we have.
             </p>
           </div>
@@ -129,33 +129,33 @@ export default function AboutPage() {
         </section>
 
         {/* ── Divider ── */}
-        <div className="my-16 h-px bg-gradient-to-r from-transparent via-blush/20 to-transparent" />
+        <div className="my-16 h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
 
         {/* ── Values ── */}
         <section className="space-y-8">
           <div className="space-y-1">
             <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">What drives us</p>
-            <h2 className="font-display text-3xl font-bold text-cream">Our values</h2>
+            <h2 className="font-display text-3xl font-bold text-ink">Our values</h2>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {values.map((v) => (
               <div key={v.title} className="card-surface rounded-2xl p-6 space-y-3">
                 <div className="h-px w-8 bg-coral/60" />
-                <p className="font-display text-lg font-bold text-cream">{v.title}</p>
-                <p className="text-sm leading-relaxed text-cream/55">{v.body}</p>
+                <p className="font-display text-lg font-bold text-ink">{v.title}</p>
+                <p className="text-sm leading-relaxed text-ink/55">{v.body}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── Divider ── */}
-        <div className="my-16 h-px bg-gradient-to-r from-transparent via-blush/20 to-transparent" />
+        <div className="my-16 h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
 
         {/* ── Milestones ── */}
         <section className="space-y-8">
           <div className="space-y-1">
             <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">Impact</p>
-            <h2 className="font-display text-3xl font-bold text-cream">By the numbers</h2>
+            <h2 className="font-display text-3xl font-bold text-ink">By the numbers</h2>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {milestones.map((item) => {
@@ -172,8 +172,8 @@ export default function AboutPage() {
                     <p className="text-xs uppercase tracking-[0.1em] text-amber-warm/55">{item.label}</p>
                   </div>
                   <p className="font-display text-5xl font-bold text-coral">{item.value}</p>
-                  <div className="h-px bg-blush/10" />
-                  <p className="text-sm leading-relaxed text-cream/55">{item.detail}</p>
+                  <div className="h-px bg-ink/10" />
+                  <p className="text-sm leading-relaxed text-ink/55">{item.detail}</p>
                 </div>
               );
             })}

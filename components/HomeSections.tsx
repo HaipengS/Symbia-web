@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Footer from "@/components/Footer";
 import ContactSection from "@/components/ContactSection";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
@@ -58,27 +59,6 @@ const stories = [
 export default function HomeSections() {
   return (
     <>
-      {/* ── Stats strip ── */}
-      <section className="mx-auto max-w-5xl px-6 py-14" aria-label="Impact metrics">
-        <div className="grid grid-cols-3 divide-x divide-blush/10 card-surface rounded-2xl">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-1 px-6 py-7">
-              <span className="font-display text-3xl font-bold text-coral md:text-4xl">
-                {stat.value}
-              </span>
-              <span className="text-xs uppercase tracking-[0.12em] text-cream/45">
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-blush/20 to-transparent" />
-      </div>
-
       {/* ── Process ── */}
       <section
         className="mx-auto max-w-5xl space-y-10 px-6 py-20"
@@ -90,11 +70,11 @@ export default function HomeSections() {
             <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
               How it&apos;s made
             </p>
-            <h2 className="font-display text-4xl font-bold text-cream">
+            <h2 className="font-display text-4xl font-bold text-ink">
               The process
             </h2>
           </div>
-          <p className="hidden max-w-xs text-right text-sm leading-relaxed text-cream/45 md:block">
+          <p className="hidden max-w-xs text-right text-sm leading-relaxed text-ink/45 md:block">
             From SCOBY culture to finished bioleather — entirely fermentation-based.
           </p>
         </div>
@@ -121,7 +101,7 @@ export default function HomeSections() {
                 </span>
               </div>
               <div className="p-5">
-                <p className="font-display text-base font-bold text-cream">
+                <p className="font-display text-base font-bold text-ink">
                   {step.label}
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.1em] text-amber-warm/50">
@@ -135,7 +115,48 @@ export default function HomeSections() {
 
       {/* ── Divider ── */}
       <div className="mx-auto max-w-5xl px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-blush/20 to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
+      </div>
+
+      {/* ── Impact: community story that gives the numbers below their meaning ── */}
+      <section className="mx-auto max-w-5xl px-6 pt-16" aria-label="Our impact">
+        <p className="mb-8 text-xs uppercase tracking-[0.16em] text-amber-warm/60">
+          In the community
+        </p>
+        <div className="grid gap-8 md:grid-cols-2 md:gap-12">
+          <p className="text-base leading-relaxed text-ink/70">
+            We visit rural Indonesian provinces to host{" "}
+            <span className="text-ink">free training programs</span>, providing
+            all materials and skills for craftspeople to grow their own Kombucha
+            Bioleather.
+          </p>
+          <p className="text-base leading-relaxed text-ink/70">
+            Our products also use locally sourced{" "}
+            <span className="text-ink">Batik and Tenun fabric</span> to promote
+            our intangible cultural heritage on a global scale.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Stats strip: the numbers behind that work, leading into the gallery ── */}
+      <section className="mx-auto max-w-5xl px-6 pb-14 pt-8" aria-label="Impact metrics">
+        <div className="grid grid-cols-3 divide-x divide-ink/10 card-surface rounded-2xl">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center gap-1 px-6 py-7">
+              <span className="font-display text-3xl font-bold text-coral md:text-4xl">
+                {stat.value}
+              </span>
+              <span className="text-xs uppercase tracking-[0.12em] text-ink/45">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
       </div>
 
       {/* ── Gallery ── */}
@@ -144,14 +165,14 @@ export default function HomeSections() {
           <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
             In the field
           </p>
-          <h2 className="font-display mt-1 text-4xl font-bold text-cream">
+          <h2 className="font-display mt-1 text-4xl font-bold text-ink">
             Our work
           </h2>
         </div>
 
         <div className="relative overflow-hidden">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#1C1108] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#1C1108] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#ffffff] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#ffffff] to-transparent" />
 
           <div className="space-y-3">
             <div className="marquee-row animate-marquee-left">
@@ -192,7 +213,7 @@ export default function HomeSections() {
 
       {/* ── Divider ── */}
       <div className="mx-auto max-w-5xl px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-blush/20 to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
       </div>
 
       {/* ── Stories ── */}
@@ -205,7 +226,7 @@ export default function HomeSections() {
           <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
             Community voices
           </p>
-          <h2 className="font-display text-4xl font-bold text-cream">
+          <h2 className="font-display text-4xl font-bold text-ink">
             Real stories
           </h2>
         </div>
@@ -213,16 +234,16 @@ export default function HomeSections() {
         <div className="grid gap-5 sm:grid-cols-3">
           {stories.map((story) => (
             <div
-              key={story.name}
+              key={story.quote}
               className="card-surface flex flex-col gap-5 rounded-2xl p-6"
             >
               <span className="font-display text-5xl leading-none text-coral/25" aria-hidden>
                 &ldquo;
               </span>
-              <p className="flex-1 text-sm leading-relaxed text-cream/75">
+              <p className="flex-1 text-sm leading-relaxed text-ink/75">
                 {story.quote}
               </p>
-              <div className="h-px bg-blush/10" />
+              <div className="h-px bg-ink/10" />
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber-warm/60">
                 {story.name}
               </p>
@@ -231,10 +252,13 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* ── Contact ── */}
+      {/* ── Get in touch ── */}
       <div className="mx-auto max-w-5xl px-6 pb-24">
         <ContactSection email={CONTACT_EMAIL} />
       </div>
+
+      {/* ── Social footer ── */}
+      <Footer />
     </>
   );
 }

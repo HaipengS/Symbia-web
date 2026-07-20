@@ -53,14 +53,14 @@ export default function WaitlistModal() {
               <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
                 Early access
               </p>
-              <h2 className="font-display text-4xl font-bold leading-tight text-cream">
+              <h2 className="font-display text-4xl font-bold leading-tight text-ink">
                 Join the waitlist
               </h2>
             </div>
             <button
               onClick={close}
               aria-label="Close"
-              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blush/15 text-cream/40 transition hover:border-coral/40 hover:text-coral"
+              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink/40 transition hover:border-coral/40 hover:text-coral"
             >
               ✕
             </button>
@@ -69,39 +69,39 @@ export default function WaitlistModal() {
           {state.success ? (
             <div className="flex flex-col items-start gap-3 py-4">
               <span className="font-display text-5xl text-coral" aria-hidden>✓</span>
-              <p className="font-display text-2xl font-bold text-cream">You&apos;re in.</p>
-              <p className="text-sm leading-relaxed text-cream/60">
+              <p className="font-display text-2xl font-bold text-ink">You&apos;re in.</p>
+              <p className="text-sm leading-relaxed text-ink/60">
                 We&apos;ll reach out as soon as we&apos;re ready. Thanks for being early.
               </p>
               <button
                 onClick={close}
-                className="mt-2 rounded-full border border-blush/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-cream/50 transition hover:border-coral/40 hover:text-coral"
+                className="mt-2 rounded-full border border-ink/20 px-5 py-2 text-xs uppercase tracking-[0.1em] text-ink/50 transition hover:border-coral/40 hover:text-coral"
               >
                 Close
               </button>
             </div>
           ) : (
             <>
-              <p className="mb-8 text-base leading-relaxed text-cream/60">
+              <p className="mb-8 text-base leading-relaxed text-ink/60">
                 Be the first to know when Symbia bioleather is available — for
                 makers, brands, and craftspeople ready to work with something new.
               </p>
 
               <form action={formAction} className="space-y-5">
                 <label className="block space-y-2">
-                  <span className="text-xs uppercase tracking-[0.1em] text-cream/45">
-                    Name <span className="normal-case text-cream/25">(optional)</span>
+                  <span className="text-xs uppercase tracking-[0.1em] text-ink/45">
+                    Name <span className="normal-case text-ink/25">(optional)</span>
                   </span>
                   <input
                     name="name"
                     type="text"
                     placeholder="Rayden Yap"
-                    className="w-full rounded-xl border border-blush/15 bg-black/30 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/20 focus:border-coral/50 focus:bg-black/20"
+                    className="w-full rounded-xl border border-ink/15 bg-black/30 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/20 focus:border-coral/50 focus:bg-black/20"
                   />
                 </label>
 
                 <label className="block space-y-2">
-                  <span className="text-xs uppercase tracking-[0.1em] text-cream/45">
+                  <span className="text-xs uppercase tracking-[0.1em] text-ink/45">
                     Email address
                   </span>
                   <input
@@ -109,7 +109,7 @@ export default function WaitlistModal() {
                     type="email"
                     placeholder="you@example.com"
                     required
-                    className="w-full rounded-xl border border-blush/15 bg-black/30 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/20 focus:border-coral/50 focus:bg-black/20"
+                    className="w-full rounded-xl border border-ink/15 bg-black/30 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/20 focus:border-coral/50 focus:bg-black/20"
                   />
                 </label>
 
@@ -125,7 +125,7 @@ export default function WaitlistModal() {
                   {isPending ? "Joining..." : "Join the waitlist →"}
                 </button>
 
-                <p className="text-center text-[11px] text-cream/25">
+                <p className="text-center text-[11px] text-ink/25">
                   No spam. Unsubscribe at any time.
                 </p>
               </form>

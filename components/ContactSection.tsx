@@ -23,14 +23,14 @@ export default function ContactSection({ email }: ContactSectionProps) {
           <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
             Get in touch
           </p>
-          <h2 className="font-display text-4xl font-bold text-cream">
+          <h2 className="font-display text-4xl font-bold text-ink">
             Let&apos;s work together
           </h2>
         </div>
-        <p className="text-sm leading-relaxed text-cream/50 md:text-right">
+        <p className="text-sm leading-relaxed text-ink/50 md:text-right">
           We read every note. We&apos;ll respond from{" "}
           <a
-            className="text-cream/70 underline decoration-cream/20 underline-offset-4 transition hover:text-coral"
+            className="text-ink/70 underline decoration-ink/20 underline-offset-4 transition hover:text-coral"
             href={`mailto:${email}`}
           >
             {email}
@@ -43,8 +43,8 @@ export default function ContactSection({ email }: ContactSectionProps) {
         {state.success ? (
           <div className="flex flex-col items-start gap-3 py-4">
             <span className="font-display text-5xl text-coral" aria-hidden>✓</span>
-            <p className="font-display text-2xl font-bold text-cream">Message sent.</p>
-            <p className="text-sm leading-relaxed text-cream/60">
+            <p className="font-display text-2xl font-bold text-ink">Message sent.</p>
+            <p className="text-sm leading-relaxed text-ink/60">
               Thanks for reaching out — we&apos;ll get back to you soon.
             </p>
           </div>
@@ -55,9 +55,9 @@ export default function ContactSection({ email }: ContactSectionProps) {
             autoComplete="off"
           >
             <label className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.1em] text-cream/40">Your name</span>
+              <span className="text-xs uppercase tracking-[0.1em] text-ink/40">Your name</span>
               <input
-                className="w-full rounded-xl border border-blush/10 bg-black/20 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/20 focus:border-coral/40 focus:bg-black/10"
+                className="w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                 name="name"
                 type="text"
                 placeholder="Rayden Yap"
@@ -65,9 +65,9 @@ export default function ContactSection({ email }: ContactSectionProps) {
             </label>
 
             <label className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.1em] text-cream/40">Email</span>
+              <span className="text-xs uppercase tracking-[0.1em] text-ink/40">Email</span>
               <input
-                className="w-full rounded-xl border border-blush/10 bg-black/20 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/20 focus:border-coral/40 focus:bg-black/10"
+                className="w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                 name="email"
                 type="email"
                 placeholder="you@example.com"
@@ -76,9 +76,9 @@ export default function ContactSection({ email }: ContactSectionProps) {
             </label>
 
             <label className="md:col-span-2 space-y-2">
-              <span className="text-xs uppercase tracking-[0.1em] text-cream/40">How can we help?</span>
+              <span className="text-xs uppercase tracking-[0.1em] text-ink/40">How can we help?</span>
               <textarea
-                className="min-h-[120px] w-full rounded-xl border border-blush/10 bg-black/20 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/20 focus:border-coral/40 focus:bg-black/10"
+                className="min-h-[120px] w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                 name="message"
                 placeholder="Tell us about your product, collaboration, or event."
                 required

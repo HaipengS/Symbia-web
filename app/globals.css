@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #1C1108;
-  --foreground: #FAE5D3;
+  --background: #ffffff;
+  --foreground: #241a12;
 }
 
 @theme inline {
@@ -10,47 +13,36 @@
   --color-foreground: var(--foreground);
   --color-coral: #F04E3E;
   --color-earth: #2A2019;
-  --color-amber-warm: #E8A86D;
+  --color-ink: #241a12;
+  --color-amber-warm: #A75A2B;
   --color-blush: #F5C4A8;
   --color-cream: #FAE5D3;
   --color-soft: #FFF5ED;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-playfair);
+  --font-sans: var(--font-inter);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-roxborough);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-/* ── Text contrast helpers ── */
-
-/* Deep shadow lifts display (serif) headings off the leather texture. Scoped to
-   .warm-bg so it never smudges type on light surfaces (the logo hero, the
-   frosted navbar) or on solid panels that carry their own shadow. */
-.warm-bg .font-display {
-  text-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.7),
-    0 8px 28px rgba(0, 0, 0, 0.55);
+/* Roxborough CF ships Regular only. Keep all display type at 400 so Tailwind's
+   font-bold can't trigger smeared synthetic bold. Unlayered, so it beats the
+   Tailwind utilities layer without !important. */
+.font-display {
+  font-weight: 400;
 }
 
-/* Softer shadow on body copy inside the textured background */
-.warm-bg p,
-.warm-bg span,
-.warm-bg a,
-.warm-bg li,
-.warm-bg blockquote {
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
-}
-
-/* Cards: frosted dark panel so text sits on a solid surface */
+/* Cards: light panel on the white page */
 .card-surface {
-  background: rgba(16, 8, 2, 0.70);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(245, 196, 168, 0.09);
+  background: #ffffff;
+  border: 1px solid rgba(36, 26, 18, 0.10);
+  box-shadow:
+    0 1px 2px rgba(36, 26, 18, 0.04),
+    0 10px 30px rgba(36, 26, 18, 0.05);
 }
 
 /* ── Marquee ── */
@@ -169,27 +161,68 @@ body {
   }
 }
 
-/* ── Logo wallet mockup ── */
+/* ── Logo + wallet hero ──
+   The wallet image and the wordmark both live inside .hero-stage and are
+   positioned in % of it, so they scale as ONE unit and never drift apart when
+   the viewport aspect ratio changes. The stage is fit (contain) inside the
+   viewport; its white letterbox margins are invisible on the white page. */
 .logo-wallet-scene {
   position: relative;
-  /* Not 100vw: the page scrolls now, and 100vw counts the scrollbar gutter,
-     which would push a horizontal scrollbar onto classic-scrollbar platforms. */
   width: 100%;
   height: 100vh;
-  min-height: 640px;
+  min-height: 560px;
   overflow: hidden;
   background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.hero-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  /* Largest 16:9 box that fits the viewport both ways, capped on ultrawide.
+     This is the shared coordinate system for the logo and the wallet. */
+  width: min(100vw, calc(100vh * 16 / 9), 2100px);
+  /* Moves the whole composition (logo + wallet together) down as one unit.
+     Increase to push further down, decrease/negative to raise. */
+  transform: translateY(9vh);
+}
+
+/* The <Image fill> fills the stage box; a 16:9 photo in a 16:9 stage never
+   crops, so the framing is identical at every size. */
+.wallet-product-image {
+  z-index: 3;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* Fades the hands into the white page at the bottom of the hero. Anchored to the
+   viewport bottom (not the stage) because that's where the visible hard edge is
+   once the down-shift pushes the stage's own bottom off-screen. Absolute so it
+   doesn't become a flex item of the scene. */
+.logo-wallet-scene::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 24vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.7) 55%,
+    #ffffff 100%
+  );
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Positioned in % of the stage, so it tracks the wallet at any scale. */
 .hero-logo-placement {
   position: absolute;
   z-index: 4;
-  left: 50.5%;
-  top: 32%;
-  /* The -4deg tilt costs ~3.7% of extra width, so cap below 100vw to keep the
-     S and A off the viewport edges between the 900px breakpoint and 1660px,
-     where the 1560px ceiling takes over. */
-  width: min(94vw, 1560px);
+  left: 50%;
+  top: 33%;
+  width: 99%;
   transform: translate(-50%, -50%) rotate(-4deg);
   transform-origin: center;
   pointer-events: none;
@@ -199,75 +232,74 @@ body {
   width: 100%;
 }
 
-.wallet-product-image {
-  z-index: 3;
-  transform: translate(-1.5%, 33%) scale(1.3) rotate(-0.55deg);
-  transform-origin: center bottom;
-}
-
-@media (max-width: 900px) {
-  .logo-wallet-scene {
-    min-height: 560px;
-  }
-
-  .hero-logo-placement {
-    left: 50%;
-    top: 29%;
-    width: 124vw;
-    transform: translate(-50%, -50%) rotate(-4deg);
-  }
-
-  .wallet-product-image {
-    transform: translate(-1%, 38%) scale(1.88) rotate(-0.5deg);
-  }
-}
-
-@media (max-width: 560px) {
-  .logo-wallet-scene {
-    min-height: 520px;
-  }
-
-  .hero-logo-placement {
-    left: 49%;
-    top: 31%;
-    width: 144vw;
-  }
-
-  .wallet-product-image {
-    transform: translate(-3%, 42%) scale(2.22) rotate(-0.5deg);
-  }
-}
-
-/* ── Leather texture background ── */
+/* ── Page background (plain white) ── */
 .warm-bg {
   position: relative;
-  background-color: #1C1108;
-  background-image: url('/landing/Leather-texture.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: #ffffff;
 }
 
-/* Dark overlay so text stays readable */
-.warm-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(14, 7, 2, 0.80);
-  pointer-events: none;
-  z-index: 0;
+/* Note: the hero→navbar logo flight (components/LogoIntro.tsx) sizes and positions
+   its clone + navbar logo slot entirely via inline styles at run time, so it needs
+   no rules here. */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   shadcn / Animate UI base tokens (added 2026-07-20, additive only)
+   These are DORMANT — nothing in the site references them yet, so they change
+   zero pixels. They exist so components added via `shadcn add` / the MCP server
+   compile and render. Intentionally NOT redefining --background / --foreground
+   (your design system already owns those above).
+   To put your brand on the buttons later, map --primary to your coral:
+     --primary: #F04E3E;  --primary-foreground: #ffffff;
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.625rem;
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
 }
 
-/* Subtle vignette on edges */
-.warm-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    transparent 40%,
-    rgba(10, 5, 2, 0.55) 100%
-  );
-  pointer-events: none;
-  z-index: 0;
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 }

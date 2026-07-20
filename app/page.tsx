@@ -5,8 +5,8 @@ import WaitlistButton from "@/components/WaitlistButton";
 
 export default function Home() {
   return (
-    <div className="warm-bg relative min-h-screen overflow-hidden text-cream">
-      <div className="absolute inset-0 bg-gradient-to-b from-coral/5 via-transparent to-black/60" />
+    <div className="warm-bg relative min-h-screen overflow-hidden text-ink">
+      <div className="absolute inset-0" />
 
       <Navbar onHomePage />
 
@@ -19,10 +19,10 @@ export default function Home() {
               <p className="text-xs uppercase tracking-[0.2em] text-amber-warm/60">
                 Biofabrication · Indonesia
               </p>
-              <h1 className="font-display text-6xl font-bold leading-[0.92] tracking-tight text-cream sm:text-7xl md:text-8xl">
+              <h1 className="font-display text-6xl font-bold leading-[0.92] tracking-tight text-ink sm:text-7xl md:text-8xl">
                 Grow&shy;ing the future of craft
               </h1>
-              <p className="max-w-sm text-base leading-relaxed text-cream/60">
+              <p className="max-w-sm text-base leading-relaxed text-ink/60">
                 Symbia grows leather from recycled Kombucha and bacterial cellulose — redefining sustainability and unlocking new income for rural craftspeople worldwide.
               </p>
               <div className="flex flex-wrap items-center gap-3">
@@ -31,7 +31,7 @@ export default function Home() {
                 </WaitlistButton>
                 <a
                   href="/about"
-                  className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.12em] text-cream/40 transition hover:text-cream"
+                  className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.12em] text-ink/40 transition hover:text-ink"
                 >
                   Our story →
                 </a>

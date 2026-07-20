@@ -51,22 +51,22 @@ export default function Chatbot() {
     >
       <div className="flex flex-col gap-2">
         <p className="text-xs uppercase tracking-[0.14em] text-amber-warm/70">Ask Symbia</p>
-        <h2 className="font-display text-3xl font-bold text-cream">Ask us anything</h2>
-        <p className="text-sm text-cream/60">
+        <h2 className="font-display text-3xl font-bold text-ink">Ask us anything</h2>
+        <p className="text-sm text-ink/60">
           Ask questions about Symbia, the process, or your local knowledge base.
         </p>
       </div>
 
       <div className="card-surface rounded-2xl p-6">
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <label className="block text-xs font-semibold uppercase tracking-[0.1em] text-cream/50" htmlFor="question">
+          <label className="block text-xs font-semibold uppercase tracking-[0.1em] text-ink/50" htmlFor="question">
             Your question
           </label>
           <textarea
             id="question"
             name="question"
             rows={4}
-            className="w-full rounded-xl border border-blush/15 bg-black/25 px-4 py-3 text-sm text-cream outline-none transition placeholder:text-cream/30 focus:border-coral/50"
+            className="w-full rounded-xl border border-ink/15 bg-black/25 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/50"
             placeholder="e.g. How is Symbia leather produced?"
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
@@ -85,11 +85,11 @@ export default function Chatbot() {
           </div>
         </form>
 
-        <div className="mt-6 rounded-xl border border-blush/10 bg-black/20 p-4 text-sm text-cream/80">
+        <div className="mt-6 rounded-xl border border-ink/10 bg-black/20 p-4 text-sm text-ink/80">
           {answer ? (
             <p className="whitespace-pre-wrap">{answer}</p>
           ) : (
-            <p className="text-cream/40">
+            <p className="text-ink/40">
               The answer will appear here after you ask a question.
             </p>
           )}

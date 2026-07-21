@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Image from "next/image";
 
 export const metadata = {
@@ -74,13 +73,9 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="warm-bg relative min-h-screen overflow-hidden text-ink">
-      <div className="absolute inset-0" />
-
-      <Navbar />
-
+    <>
       {/* ── Header ── */}
-      <header className="relative z-10 mx-auto max-w-5xl px-6 pb-0 pt-20 md:pt-28">
+      <header className="relative z-10 mx-auto max-w-5xl px-6 pb-0 pt-16 md:pt-20">
         <div className="grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
           <div className="space-y-5">
             <p className="text-xs uppercase tracking-[0.2em] text-amber-warm/60">About us</p>
@@ -181,6 +176,6 @@ export default function AboutPage() {
         </section>
 
       </main>
-    </div>
+    </>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type Social = {
@@ -77,19 +78,21 @@ export default function Footer() {
   return (
     <footer className="border-t border-ink/10 px-6 py-12">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-7">
-        <span className="font-display text-lg font-bold tracking-tight text-ink">
+        <Link
+          href="/"
+          aria-label="Symbia home"
+          className="font-display text-lg font-bold tracking-tight text-ink transition-colors hover:text-coral"
+        >
           Symbia
-        </span>
+        </Link>
 
-        {/* TODO: wrap each icon in <a href> once social links are ready */}
+        {/* Decorative until real social URLs are wired — not announced as links. */}
         <div className="flex items-center gap-3">
           {socials.map((s) => (
             <span
               key={s.label}
-              role="link"
-              aria-label={s.label}
               title={s.label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition hover:border-coral/50 hover:text-coral"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink/60"
             >
               {s.icon}
             </span>

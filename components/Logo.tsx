@@ -7,7 +7,16 @@ type LogoProps = {
   animated?: boolean;
   delay?: number;
   label?: string;
+  /** Small, content-trimmed navbar mark (matches the logo docked in the home navbar). */
+  mark?: boolean;
 };
+
+// The wordmark's tight content box (measured with getBBox in the browser). The "mark"
+// variant crops to it so the small navbar logo has no surrounding padding — matching the
+// logo LogoIntro docks in the animated home navbar. Update if the source SVG art changes.
+const MARK_VIEWBOX =
+  "15.912353515625 91.95791625976562 1398.2940673828125 555.3970947265625";
+const NAVBAR_LOGO_HEIGHT = 22;
 
 const LOGO_PATH = path.join(
   process.cwd(),
@@ -35,15 +44,19 @@ function escapeAttribute(value: string) {
  * The exported SVG sizes itself at 1920x1080; the stage drives the real size,
  * so the intrinsic width/height are dropped in favour of the viewBox.
  */
-function buildRootTag(openTag: string, label: string) {
-  const stripped = openTag.replace(
+function buildRootTag(openTag: string, label: string, mark: boolean) {
+  let stripped = openTag.replace(
     /\s+(?:width|height|class|role|aria-label|focusable)="[^"]*"/g,
     "",
   );
+  if (mark) {
+    stripped = stripped.replace(/\s+viewBox="[^"]*"/, ` viewBox="${MARK_VIEWBOX}"`);
+  }
+  const markStyle = mark ? ' style="display:block;height:100%;width:auto"' : "";
 
   return stripped.replace(
     />$/,
-    ` class="symbia-drop-svg" role="img" aria-label="${escapeAttribute(label)}" focusable="false">`,
+    ` class="symbia-drop-svg" role="img" aria-label="${escapeAttribute(label)}" focusable="false"${markStyle}>`,
   );
 }
 
@@ -108,7 +121,13 @@ function wrapLetterGroups(body: string, delay: number) {
   return markup + body.slice(cursor);
 }
 
-function buildSvg(svgText: string, animated: boolean, delay: number, label: string) {
+function buildSvg(
+  svgText: string,
+  animated: boolean,
+  delay: number,
+  label: string,
+  mark: boolean,
+) {
   const rootMatch = /<svg\b[^>]*>/.exec(svgText);
 
   if (!rootMatch) {
@@ -123,7 +142,7 @@ function buildSvg(svgText: string, animated: boolean, delay: number, label: stri
   const body = svgText.slice(bodyStart);
 
   return (
-    buildRootTag(rootMatch[0], label) +
+    buildRootTag(rootMatch[0], label, mark) +
     defs +
     (animated ? wrapLetterGroups(body, delay) : body)
   );
@@ -134,14 +153,30 @@ export default async function Logo({
   animated = false,
   delay = 0,
   label = "Symbia",
+  mark = false,
 }: LogoProps) {
   const svgText = await readLogoSvg();
 
   return (
     <span
       className={joinClassNames("symbia-drop-stage", className)}
+      // The "mark" variant sizes itself to the navbar inline, overriding the stage's
+      // default sizing so it never depends on globals.css (which can be stale in dev).
+      style={
+        mark
+          ? {
+              display: "inline-flex",
+              alignItems: "center",
+              width: "auto",
+              height: `${NAVBAR_LOGO_HEIGHT}px`,
+              aspectRatio: "auto",
+              minHeight: 0,
+              lineHeight: 0,
+            }
+          : undefined
+      }
       dangerouslySetInnerHTML={{
-        __html: buildSvg(svgText, animated, delay, label),
+        __html: buildSvg(svgText, animated, delay, label, mark),
       }}
     />
   );

@@ -315,7 +315,7 @@ export default function LogoIntro({ heroLogo, flyingLogo, children }: LogoIntroP
 
   return (
     <div className="bg-white">
-      <Navbar onHomePage introControlled />
+      <Navbar mode="animated" />
 
       <main>
         {/* ── Logo hero: wallet + wordmark share one scaling stage ── */}

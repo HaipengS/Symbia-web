@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import ContactSection from "@/components/ContactSection";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
@@ -10,12 +9,8 @@ export const metadata = {
 
 export default function GalleryPage() {
   return (
-    <div className="warm-bg relative min-h-screen overflow-hidden text-ink">
-      <div className="absolute inset-0" />
-
-      <Navbar />
-
-      <header className="relative z-10 mx-auto flex max-w-5xl flex-col gap-5 px-6 py-16 text-left">
+    <>
+      <header className="relative z-10 mx-auto flex max-w-5xl flex-col gap-5 px-6 pb-8 pt-16 md:pt-20 text-left">
         <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
           For brands
         </p>
@@ -47,6 +42,6 @@ export default function GalleryPage() {
         {/* ── Contact ── */}
         <ContactSection email={CONTACT_EMAIL} />
       </main>
-    </div>
+    </>
   );
 }

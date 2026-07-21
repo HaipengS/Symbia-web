@@ -119,7 +119,7 @@ export default function HomeSections() {
       </div>
 
       {/* ── Impact: community story that gives the numbers below their meaning ── */}
-      <section className="mx-auto max-w-5xl px-6 pt-16" aria-label="Our impact">
+      <section className="mx-auto max-w-5xl px-6 pt-16" id="impact" aria-label="Our impact">
         <p className="mb-8 text-xs uppercase tracking-[0.16em] text-amber-warm/60">
           In the community
         </p>

@@ -35,14 +35,14 @@ export default function WaitlistModal() {
       aria-modal="true"
       aria-label="Join the Symbia waitlist"
     >
-      {/* Backdrop */}
+      {/* Backdrop — warm dim to match the earth palette */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-earth/50 backdrop-blur-sm"
         onClick={close}
       />
 
-      {/* Panel */}
-      <div className="relative z-10 w-full max-w-2xl rounded-2xl shadow-[0_32px_100px_rgba(0,0,0,0.85)] card-surface" style={{background: 'rgba(14,7,2,0.92)', backdropFilter: 'blur(20px)'}}>
+      {/* Panel — white card surface, same as the rest of the site */}
+      <div className="card-surface relative z-10 w-full max-w-2xl rounded-2xl shadow-[0_32px_100px_rgba(36,26,18,0.25)]">
         {/* Coral top accent */}
         <div className="h-px w-full rounded-t-2xl bg-gradient-to-r from-coral/80 via-amber-warm/40 to-transparent" />
 
@@ -96,7 +96,7 @@ export default function WaitlistModal() {
                     name="name"
                     type="text"
                     placeholder="Rayden Yap"
-                    className="w-full rounded-xl border border-ink/15 bg-black/30 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/20 focus:border-coral/50 focus:bg-black/20"
+                    className="w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                   />
                 </label>
 
@@ -109,7 +109,7 @@ export default function WaitlistModal() {
                     type="email"
                     placeholder="you@example.com"
                     required
-                    className="w-full rounded-xl border border-ink/15 bg-black/30 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/20 focus:border-coral/50 focus:bg-black/20"
+                    className="w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                   />
                 </label>
 

@@ -85,10 +85,10 @@ export default function Navbar({
       <nav
         data-intro-nav
         inert
-        className="fixed inset-x-0 top-0 z-30 border-b border-earth/10 bg-soft/80 px-6 py-3 backdrop-blur-xl transition-opacity duration-300 ease-out motion-reduce:transition-none"
+        className="fixed inset-x-0 top-0 z-30 border-b border-earth/10 bg-soft/80 px-6 py-3 backdrop-blur-xl md:px-10 lg:px-14 transition-opacity duration-300 ease-out motion-reduce:transition-none"
         style={{ opacity: 0, pointerEvents: "none" }}
       >
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
+        <div className="mx-auto flex w-full max-w-[1720px] items-center justify-between">
           {/* Empty logo slot — the shared clone docks here (sized by LogoIntro). */}
           <Link
             href="/"
@@ -114,8 +114,8 @@ export default function Navbar({
 
   // ── Static mode (every other page) ──
   return (
-    <nav className="sticky top-0 z-30 border-b border-earth/10 bg-soft/80 px-6 py-3 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-5xl items-center justify-between">
+    <nav className="sticky top-0 z-30 border-b border-earth/10 bg-soft/80 px-6 py-3 backdrop-blur-xl md:px-10 lg:px-14">
+      <div className="mx-auto flex w-full max-w-[1720px] items-center justify-between">
         <Link
           href="/"
           aria-label="Symbia home"

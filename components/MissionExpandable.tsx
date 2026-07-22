@@ -31,7 +31,7 @@ const audiences: Audience[] = [
 export default function MissionExpandable() {
   return (
     <section
-      className="mx-auto max-w-[1400px] px-6 pb-24 pt-24 text-center md:pt-28"
+      className="mx-auto max-w-[1720px] px-6 pb-24 pt-24 text-center md:px-10 md:pt-28 lg:px-14"
       aria-label="What Symbia does"
     >
       {/* Title — fills the section width; text-balance evens the two lines */}

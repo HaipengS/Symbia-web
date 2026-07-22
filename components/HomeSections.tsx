@@ -61,7 +61,7 @@ export default function HomeSections() {
     <>
       {/* ── Process ── */}
       <section
-        className="mx-auto max-w-5xl space-y-10 px-6 py-20"
+        className="mx-auto max-w-[1720px] space-y-10 px-6 md:px-10 lg:px-14 py-20"
         id="process"
         aria-label="Symbia leather creation process"
       >
@@ -114,12 +114,12 @@ export default function HomeSections() {
       </section>
 
       {/* ── Divider ── */}
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-[1720px] px-6 md:px-10 lg:px-14">
         <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
       </div>
 
       {/* ── Impact: community story that gives the numbers below their meaning ── */}
-      <section className="mx-auto max-w-5xl px-6 pt-16" id="impact" aria-label="Our impact">
+      <section className="mx-auto max-w-[1720px] px-6 md:px-10 lg:px-14 pt-16" id="impact" aria-label="Our impact">
         <p className="mb-8 text-xs uppercase tracking-[0.16em] text-amber-warm/60">
           In the community
         </p>
@@ -139,7 +139,7 @@ export default function HomeSections() {
       </section>
 
       {/* ── Stats strip: the numbers behind that work, leading into the gallery ── */}
-      <section className="mx-auto max-w-5xl px-6 pb-14 pt-8" aria-label="Impact metrics">
+      <section className="mx-auto max-w-[1720px] px-6 md:px-10 lg:px-14 pb-14 pt-8" aria-label="Impact metrics">
         <div className="grid grid-cols-3 divide-x divide-ink/10 card-surface rounded-2xl">
           {stats.map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-1 px-6 py-7">
@@ -155,13 +155,13 @@ export default function HomeSections() {
       </section>
 
       {/* ── Divider ── */}
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-[1720px] px-6 md:px-10 lg:px-14">
         <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
       </div>
 
       {/* ── Gallery ── */}
       <section className="py-20" id="gallery" aria-label="Symbia gallery">
-        <div className="mx-auto mb-8 max-w-5xl px-6">
+        <div className="mx-auto mb-8 max-w-[1720px] px-6 md:px-10 lg:px-14">
           <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
             In the field
           </p>
@@ -212,13 +212,13 @@ export default function HomeSections() {
       </section>
 
       {/* ── Divider ── */}
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-[1720px] px-6 md:px-10 lg:px-14">
         <div className="h-px bg-gradient-to-r from-transparent via-ink/20 to-transparent" />
       </div>
 
       {/* ── Stories ── */}
       <section
-        className="mx-auto max-w-5xl space-y-10 px-6 py-20"
+        className="mx-auto max-w-[1720px] space-y-10 px-6 md:px-10 lg:px-14 py-20"
         id="stories"
         aria-label="Real stories"
       >
@@ -253,7 +253,7 @@ export default function HomeSections() {
       </section>
 
       {/* ── Get in touch ── */}
-      <div className="mx-auto max-w-5xl px-6 pb-24">
+      <div className="mx-auto max-w-4xl px-6 pb-24 md:px-10 lg:px-14">
         <ContactSection email={CONTACT_EMAIL} />
       </div>
 

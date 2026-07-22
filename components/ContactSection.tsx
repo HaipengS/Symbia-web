@@ -1,16 +1,52 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, type ReactNode } from "react";
 import { submitContact, type ContactResult } from "@/app/actions/contact";
 
 type ContactSectionProps = {
   email: string;
+  /** Small uppercase label above the heading. */
+  eyebrow?: string;
+  /** Section heading. */
+  heading?: string;
+  /** Supporting copy. Defaults to the "we read every note" line with the email. */
+  description?: ReactNode;
+  /** Label above the free-text field. */
+  messageLabel?: string;
+  /** Placeholder for the free-text field. */
+  messagePlaceholder?: string;
+  /**
+   * Centered single-column header (used on the wide Research page). The default
+   * split header (heading left, description right) is kept for home + gallery.
+   */
+  centered?: boolean;
 };
 
 const initialState: ContactResult = { success: false, error: "" };
 
-export default function ContactSection({ email }: ContactSectionProps) {
+export default function ContactSection({
+  email,
+  eyebrow = "Get in touch",
+  heading = "Let's work together",
+  description,
+  messageLabel = "How can we help?",
+  messagePlaceholder = "Tell us about your product, collaboration, or event.",
+  centered = false,
+}: ContactSectionProps) {
   const [state, formAction, isPending] = useActionState(submitContact, initialState);
+
+  const resolvedDescription = description ?? (
+    <>
+      We read every note. We&apos;ll respond from{" "}
+      <a
+        className="text-ink/70 underline decoration-ink/20 underline-offset-4 transition hover:text-coral"
+        href={`mailto:${email}`}
+      >
+        {email}
+      </a>
+      .
+    </>
+  );
 
   return (
     <section
@@ -18,26 +54,29 @@ export default function ContactSection({ email }: ContactSectionProps) {
       className="w-full text-left"
       aria-label="Contact Symbia"
     >
-      <div className="mb-10 grid gap-4 md:grid-cols-[1fr_1fr] md:items-end">
-        <div className="space-y-2">
+      {centered ? (
+        <div className="mb-10 flex flex-col items-center gap-3 text-center">
           <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
-            Get in touch
+            {eyebrow}
           </p>
-          <h2 className="font-display text-4xl font-bold text-ink">
-            Let&apos;s work together
-          </h2>
+          <h2 className="font-display text-4xl font-bold text-ink">{heading}</h2>
+          <p className="max-w-xl text-sm leading-relaxed text-ink/55">
+            {resolvedDescription}
+          </p>
         </div>
-        <p className="text-sm leading-relaxed text-ink/50 md:text-right">
-          We read every note. We&apos;ll respond from{" "}
-          <a
-            className="text-ink/70 underline decoration-ink/20 underline-offset-4 transition hover:text-coral"
-            href={`mailto:${email}`}
-          >
-            {email}
-          </a>
-          .
-        </p>
-      </div>
+      ) : (
+        <div className="mb-10 grid gap-4 md:grid-cols-[1fr_1fr] md:items-end">
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/60">
+              {eyebrow}
+            </p>
+            <h2 className="font-display text-4xl font-bold text-ink">{heading}</h2>
+          </div>
+          <p className="text-sm leading-relaxed text-ink/50 md:text-right">
+            {resolvedDescription}
+          </p>
+        </div>
+      )}
 
       <div className="card-surface rounded-2xl p-7">
         {state.success ? (
@@ -76,11 +115,11 @@ export default function ContactSection({ email }: ContactSectionProps) {
             </label>
 
             <label className="md:col-span-2 space-y-2">
-              <span className="text-xs uppercase tracking-[0.1em] text-ink/40">How can we help?</span>
+              <span className="text-xs uppercase tracking-[0.1em] text-ink/40">{messageLabel}</span>
               <textarea
                 className="min-h-[120px] w-full rounded-xl border border-ink/10 bg-ink/[0.03] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/30 focus:border-coral/40 focus:bg-ink/[0.06]"
                 name="message"
-                placeholder="Tell us about your product, collaboration, or event."
+                placeholder={messagePlaceholder}
                 required
               />
             </label>

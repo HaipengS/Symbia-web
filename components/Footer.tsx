@@ -35,9 +35,12 @@ export default function Footer() {
           <Link
             href="/"
             aria-label="Symbia home"
-            className="inline-flex self-start transition-opacity hover:opacity-70"
+            className="inline-flex self-start text-ink transition-colors hover:text-coral"
           >
-            <Logo mark label="Symbia" />
+            {/* The square emblem rather than the wordmark, so the footer mark reads
+                as a different object from the one sitting in the navbar. Its fills
+                are currentColor, so the class above sets the colour. */}
+            <Logo variant="emblem" emblemSize={52} label="Symbia" />
           </Link>
 
           <div className="flex flex-col gap-3">

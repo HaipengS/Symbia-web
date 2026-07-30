@@ -1,107 +1,94 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import Logo from "@/components/Logo";
+import { CONTACT_EMAIL } from "@/lib/constants";
 
-type Social = {
-  label: string;
-  icon: ReactNode;
-  // href intentionally omitted for now — links get wired in later.
-};
+/**
+ * Site footer, built on the structure Rayden pointed at in the brief: the mark on
+ * the left, then Follow us / Address / Contact as three columns.
+ *
+ * Text links rather than icon buttons, which is what the reference does and what
+ * the previous version could not do, since its three icons were decorative spans
+ * with no accounts behind two of them. Adding a platform is one entry in `socials`.
+ */
 
-const socials: Social[] = [
-  {
-    label: "Instagram",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
-        <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    label: "LinkedIn",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path
-          d="M7 10v7M7 7.5v.01M11 17v-4a2 2 0 0 1 4 0v4M11 17v-7"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    label: "Email",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="5"
-          width="18"
-          height="14"
-          rx="2.5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path
-          d="m4 7 8 6 8-6"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/madewithsymbia/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/madewithsymbia/" },
 ];
+
+const PHONE_DISPLAY = "+1 224 204 3240";
+const PHONE_HREF = "tel:+12242043240";
+
+const COLUMN_LABEL =
+  "text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-amber-warm/70";
+const FOOTER_LINK =
+  "text-sm text-ink/60 transition-colors hover:text-coral focus-visible:text-coral";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink/10 px-6 py-12">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-7">
-        <Link
-          href="/"
-          aria-label="Symbia home"
-          className="font-display text-lg font-bold tracking-tight text-ink transition-colors hover:text-coral"
-        >
-          Symbia
-        </Link>
+    <footer className="border-t border-ink/10">
+      <div className="mx-auto w-full max-w-[1720px] px-6 py-14 md:px-10 md:py-16 lg:px-14">
+        {/* Four equal columns: the mark holds the first, the three information
+            columns share the rest evenly. An `auto` track for the mark would let
+            it absorb the slack and crowd the others against the right edge. */}
+        <div className="grid gap-10 md:grid-cols-4 md:gap-8">
+          <Link
+            href="/"
+            aria-label="Symbia home"
+            className="inline-flex self-start transition-opacity hover:opacity-70"
+          >
+            <Logo mark label="Symbia" />
+          </Link>
 
-        {/* Decorative until real social URLs are wired — not announced as links. */}
-        <div className="flex items-center gap-3">
-          {socials.map((s) => (
-            <span
-              key={s.label}
-              title={s.label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink/60"
-            >
-              {s.icon}
-            </span>
-          ))}
+          <div className="flex flex-col gap-3">
+            <p className={COLUMN_LABEL}>Follow us</p>
+            <ul className="flex flex-col gap-1.5">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={FOOTER_LINK}
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <p className={COLUMN_LABEL}>Address</p>
+            <address className="text-sm not-italic leading-relaxed text-ink/60">
+              2311 N Campus Dr
+              <br />
+              Evanston, IL 60208
+            </address>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <p className={COLUMN_LABEL}>Contact</p>
+            <ul className="flex flex-col gap-1.5">
+              <li>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li>
+                <a href={PHONE_HREF} className={FOOTER_LINK}>
+                  {PHONE_DISPLAY}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <p className="text-xs uppercase tracking-[0.14em] text-ink/35">
-          © 2026 Symbia
-        </p>
+        <div className="mt-12 border-t border-ink/10 pt-6">
+          <p className="text-[0.6875rem] uppercase tracking-[0.14em] text-ink/35">
+            &copy; 2026 Symbia
+          </p>
+        </div>
       </div>
     </footer>
   );

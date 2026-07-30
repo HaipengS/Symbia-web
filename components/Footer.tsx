@@ -28,10 +28,12 @@ export default function Footer() {
   return (
     <footer className="border-t border-ink/10">
       <div className="mx-auto w-full max-w-[1720px] px-6 py-14 md:px-10 md:py-16 lg:px-14">
-        {/* Four equal columns: the mark holds the first, the three information
-            columns share the rest evenly. An `auto` track for the mark would let
-            it absorb the slack and crowd the others against the right edge. */}
-        <div className="grid gap-10 md:grid-cols-4 md:gap-8">
+        {/* Left-packed, with the right side left empty. Measuring the reference in
+            the brief, its columns sit at 28 / 42 / 55% and the group ends around 62%
+            of the width. Spreading four equal columns across the full container
+            instead stretches short content thin and opens a dead gap beside the
+            mark, so the row is sized to its content and simply stops. */}
+        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between md:gap-16">
           <Link
             href="/"
             aria-label="Symbia home"
@@ -40,9 +42,13 @@ export default function Footer() {
             {/* The square emblem rather than the wordmark, so the footer mark reads
                 as a different object from the one sitting in the navbar. Its fills
                 are currentColor, so the class above sets the colour. */}
-            <Logo variant="emblem" emblemSize={52} label="Symbia" />
+            <Logo variant="emblem" emblemSize={64} label="Symbia" />
           </Link>
 
+          {/* Fixed, equal tracks. Content-sized columns put the three headings at
+              uneven intervals, because each column is only as wide as its longest
+              line; the reference spaces them evenly. */}
+          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12">
           <div className="flex flex-col gap-3">
             <p className={COLUMN_LABEL}>Follow us</p>
             <ul className="flex flex-col gap-1.5">
@@ -84,6 +90,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
           </div>
         </div>
 

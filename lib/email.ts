@@ -67,14 +67,14 @@ export async function sendContactNotification(
     <p style="margin:24px 0 0;font-size:12px;color:rgba(36,26,18,0.4);">Reply directly to this email to respond to ${escapeHtml(name)}.</p>
   </div>`.trim();
 
-  const text = `New contact from ${name}\n\nEmail: ${input.email}\n\n${input.message}\n\n— Reply to this email to respond.`;
+  const text = `New contact from ${name}\n\nEmail: ${input.email}\n\n${input.message}\n\nReply to this email to respond.`;
 
   try {
     const { error } = await resend.emails.send({
       from: FROM,
       to: TO,
       replyTo: input.email,
-      subject: `New contact — ${name}`,
+      subject: `New contact from ${name}`,
       html,
       text,
     });

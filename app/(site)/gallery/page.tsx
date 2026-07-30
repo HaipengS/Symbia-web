@@ -22,7 +22,7 @@ export default function GalleryPage() {
         </h1>
         <p className="mt-3 max-w-2xl font-sans text-base leading-7 text-ink/60 md:text-lg">
           A continuously growing collection of Symbia products, people, workshops,
-          and events — from our studio and our work in the field.
+          and events, from our studio and our work in the field.
         </p>
       </header>
 

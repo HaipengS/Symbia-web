@@ -103,7 +103,7 @@ export default function Navbar({
             style={{ opacity: 0, pointerEvents: "none" }}
           >
             <div className={linkGroup}>{renderLinks()}</div>
-            <button onClick={open} className={CTA_CLASS}>
+            <button onClick={() => open("navbar-home")} className={CTA_CLASS}>
               Join waitlist
             </button>
           </div>
@@ -129,7 +129,7 @@ export default function Navbar({
         </Link>
         <div className="flex items-center gap-7">
           <div className={linkGroup}>{renderLinks()}</div>
-          <button onClick={open} className={CTA_CLASS}>
+          <button onClick={() => open("navbar")} className={CTA_CLASS}>
             Join waitlist
           </button>
         </div>

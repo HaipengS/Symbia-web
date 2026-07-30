@@ -84,7 +84,7 @@ export default function ContactSection({
             <span className="font-display text-5xl text-coral" aria-hidden>✓</span>
             <p className="font-display text-2xl font-bold text-ink">Message sent.</p>
             <p className="text-sm leading-relaxed text-ink/60">
-              Thanks for reaching out — we&apos;ll get back to you soon.
+              Thanks for reaching out. We&apos;ll get back to you soon.
             </p>
           </div>
         ) : (

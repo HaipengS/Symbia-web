@@ -5,13 +5,13 @@ import { CONTACT_EMAIL } from "@/lib/constants";
 export const metadata = {
   title: "Research | Symbia",
   description:
-    "How Symbia turns organic by-products from local beverage makers into bacterial cellulose and bioleather — and why it's worth partnering with us.",
+    "How Symbia turns organic by-products from local beverage makers into bacterial cellulose and bioleather, and why it's worth partnering with us.",
 };
 
 const problems = [
   {
     title: "Discarded value",
-    body: "SCOBY, spent grounds, and tea residue are treated as trash the day they're produced — even though they're clean, consistent organic material.",
+    body: "SCOBY, spent grounds, and tea residue are treated as trash the day they're produced, even though they're clean, consistent organic material.",
   },
   {
     title: "An operational burden",
@@ -38,7 +38,7 @@ const workflow = [
   {
     step: "01",
     title: "Supplier assessment",
-    body: "We review your by-product together — what it is, how much you produce, how often, and whether it's a good candidate for testing.",
+    body: "We review your by-product together: what it is, how much you produce, how often, and whether it's a good candidate for testing.",
     you: "Tell us what you make.",
     us: "Assess fit and next steps.",
   },
@@ -73,7 +73,7 @@ const workflow = [
   {
     step: "06",
     title: "Prototype & product development",
-    body: "The finished bioleather is tested and developed into products — accessories, bags, apparel components, and prototypes.",
+    body: "The finished bioleather is tested and developed into products: accessories, bags, apparel components, and prototypes.",
     you: null,
     us: "Build & showcase with partners.",
   },
@@ -117,7 +117,7 @@ export default function ResearchPage() {
             <p className="max-w-xl text-base leading-relaxed text-ink/65 md:text-lg">
               Symbia partners with kombucha breweries, coffee roasters, tea
               companies, and cafés across the Chicagoland area to redirect organic
-              by-products into biofabrication research — growing them into
+              by-products into biofabrication research, growing them into
               bacterial cellulose and, ultimately, bioleather. We handle
               collection; you gain a concrete circular-economy story.
             </p>
@@ -164,7 +164,7 @@ export default function ResearchPage() {
             </h2>
             <p className="text-base leading-relaxed text-ink/60">
               For most beverage businesses, organic by-products are hauled away at
-              a cost — with nothing to show for it.
+              a cost, with nothing to show for it.
             </p>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -192,9 +192,9 @@ export default function ResearchPage() {
               </h2>
               <p className="text-base leading-relaxed text-ink/60">
                 We evaluate each potential feedstock on consistency, cleanliness,
-                composition, and suitability for bacterial-cellulose growth — so
-                not every stream is a fit, and that&apos;s something we&apos;ll
-                assess together.
+                composition, and suitability for bacterial-cellulose growth. Not
+                every stream is a fit, and that&apos;s something we&apos;ll assess
+                together.
               </p>
             </div>
             <ul className="grid gap-4 sm:grid-cols-2">
@@ -224,7 +224,7 @@ export default function ResearchPage() {
               From by-product to bioleather
             </h2>
             <p className="text-base leading-relaxed text-ink/60">
-              A clear, six-step workflow. You provide the by-product — we handle
+              A clear, six-step workflow. You provide the by-product; we handle
               everything after that.
             </p>
           </div>
@@ -282,8 +282,8 @@ export default function ResearchPage() {
                 </p>
                 <p className="text-sm leading-relaxed text-ink/70">
                   You set aside a clean organic stream. We collect it, grow it into
-                  bacterial cellulose, and develop it into finished bioleather —
-                  the whole process, handled.
+                  bacterial cellulose, and develop it into finished bioleather. The
+                  whole process, handled.
                 </p>
               </div>
             </aside>

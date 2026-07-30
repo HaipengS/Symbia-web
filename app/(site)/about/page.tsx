@@ -3,7 +3,7 @@ import Image from "next/image";
 export const metadata = {
   title: "About | Symbia",
   description:
-    "Symbia is an independent biofabrication research group growing microbial leather from recycled kombucha — and teaching the craft to communities across Indonesia.",
+    "Symbia is an independent biofabrication research group that grows microbial leather from recycled kombucha and teaches the craft to communities across Indonesia.",
 };
 
 function MapPinIcon() {
@@ -46,7 +46,7 @@ const approach = [
 const values = [
   {
     title: "Waste is a resource",
-    body: "Discarded kombucha, tea, and other organic by-products are raw material for something better — not trash.",
+    body: "Discarded kombucha, tea, and other organic by-products are not trash. They are raw material for something better.",
   },
   {
     title: "Sustainability should be desirable",
@@ -54,7 +54,7 @@ const values = [
   },
   {
     title: "Innovation should include communities",
-    body: "We share the method, not just the product — training craftspeople so the value stays local.",
+    body: "We share the method, not just the product. Training craftspeople keeps the value local.",
   },
 ];
 
@@ -113,7 +113,7 @@ export default function AboutPage() {
               <h2 className="font-display text-3xl font-bold text-ink">Why we exist</h2>
             </div>
             <p className="text-base leading-relaxed text-ink/65">
-              Symbia began with a question about materials — whether the artificial
+              Symbia began with a question about materials: whether the artificial
               ones around us could be replaced by something grown rather than
               manufactured.
             </p>
@@ -124,15 +124,15 @@ export default function AboutPage() {
               on nanotechnology at Columbia University, which prompted me to explore
               the potential of natural materials replacing artificial ones.&rdquo;
               <cite className="mt-3 block not-italic text-xs uppercase tracking-[0.1em] text-amber-warm/60">
-                — Rayden Yap, Founder &amp; Head Manufacturer
+                Rayden Yap, Founder &amp; Head Manufacturer
               </cite>
             </blockquote>
             <p className="text-sm leading-relaxed text-ink/60">
-              As a social-impact startup, we work with anyone — from seasoned
-              artisans to young Gen&nbsp;Z creators — who hopes to develop
-              eco-friendly products but lacks the resources or training. Our
-              workshops teach the whole process: making the bioleather, and
-              navigating social entrepreneurship, just as we did.
+              As a social-impact startup, we work with seasoned artisans and young
+              Gen&nbsp;Z creators alike: anyone who hopes to develop eco-friendly
+              products but lacks the resources or training. Our workshops teach the
+              whole process, both making the bioleather and navigating social
+              entrepreneurship, just as we did.
             </p>
           </div>
 
@@ -180,9 +180,9 @@ export default function AboutPage() {
               material themselves, and building public awareness of biofabrication.
             </p>
             <p className="text-sm leading-relaxed text-ink/60">
-              We&apos;ve made jackets, tote bags, and lamps — some of which were
-              gifted to Indonesia&apos;s Ministry of Tourism and Creative Economy —
-              and we keep developing new products with the material. The goal is a
+              We&apos;ve made jackets, tote bags, and lamps, and we keep developing
+              new products with the material. Some of those pieces were gifted to
+              Indonesia&apos;s Ministry of Tourism and Creative Economy. The goal is a
               single loop that connects waste recovery, new material development,
               and product creation: from a brewery&apos;s discarded kombucha to a
               finished object in someone&apos;s hands.

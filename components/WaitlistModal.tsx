@@ -7,8 +7,14 @@ import { joinWaitlist } from "@/app/actions/waitlist";
 const initialState = { success: false as const, error: "" };
 
 export default function WaitlistModal() {
-  const { isOpen, close } = useWaitlist();
+  const { isOpen, close, source, markResponded } = useWaitlist();
   const [state, formAction, isPending] = useActionState(joinWaitlist, initialState);
+
+  // A completed signup retires the automatic prompt for good, so someone who
+  // joined is never asked again on a later visit.
+  useEffect(() => {
+    if (state.success) markResponded("joined");
+  }, [state.success, markResponded]);
 
   // Close on Escape key
   useEffect(() => {
@@ -83,11 +89,15 @@ export default function WaitlistModal() {
           ) : (
             <>
               <p className="mb-8 text-base leading-relaxed text-ink/60">
-                Be the first to know when Symbia bioleather is available — for
+                Be the first to know when Symbia bioleather is available for
                 makers, brands, and craftspeople ready to work with something new.
               </p>
 
               <form action={formAction} className="space-y-5">
+                {/* Recorded in the tracker so the team can see which surface
+                    the signup came from. */}
+                <input type="hidden" name="source" value={source} />
+
                 <label className="block space-y-2">
                   <span className="text-xs uppercase tracking-[0.1em] text-ink/45">
                     Name <span className="normal-case text-ink/25">(optional)</span>

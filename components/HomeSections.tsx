@@ -75,7 +75,7 @@ export default function HomeSections() {
             </h2>
           </div>
           <p className="hidden max-w-xs text-right text-sm leading-relaxed text-ink/45 md:block">
-            From SCOBY culture to finished bioleather — entirely fermentation-based.
+            From SCOBY culture to finished bioleather, entirely fermentation-based.
           </p>
         </div>
 

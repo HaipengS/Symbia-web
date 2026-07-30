@@ -49,12 +49,17 @@ export default function Footer() {
               uneven intervals, because each column is only as wide as its longest
               line; the reference spaces them evenly.
 
-              HORIZONTAL POSITION: `md:mr-*` below is the single knob. The row above
+              HORIZONTAL POSITION: the `mr-*` ladder below is the knob. The row above
               is justify-between, so this right margin is what pulls the group away
-              from the right edge. Larger moves the columns LEFT, smaller moves them
-              RIGHT. Drop the class entirely to sit flush right; drop the row's
-              justify-between instead to pack them against the mark. */}
-          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12 md:mr-32 lg:mr-48">
+              from the right edge; larger moves the columns LEFT.
+
+              It has to be a ladder rather than one value. The tracks may shrink to
+              zero, so a margin wide enough to look right on a desktop squeezes them
+              on a tablet until the address and the phone number wrap mid-line. Three
+              full 13rem tracks plus the mark, the gap and the page padding need about
+              1185px before a 16rem margin fits, which is why that value starts at xl.
+              Below lg there is no room for any margin at all. */}
+          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12 lg:mr-40 xl:mr-64">
           <div className="flex flex-col gap-3">
             <p className={COLUMN_LABEL}>Follow us</p>
             <ul className="flex flex-col gap-1.5">

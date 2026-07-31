@@ -28,12 +28,16 @@ export default function Footer() {
   return (
     <footer className="border-t border-ink/10">
       <div className="mx-auto w-full max-w-[1720px] px-6 py-14 md:px-10 md:py-16 lg:px-14">
-        {/* Left-packed, with the right side left empty. Measuring the reference in
-            the brief, its columns sit at 28 / 42 / 55% and the group ends around 62%
-            of the width. Spreading four equal columns across the full container
-            instead stretches short content thin and opens a dead gap beside the
-            mark, so the row is sized to its content and simply stops. */}
-        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between md:gap-16">
+        {/* Mark pinned left, information group centred. The empty 1fr track on the
+            right is what balances the mark on the left, so the group sits on the page
+            centre at every width without a fixed offset to maintain.
+
+            Two earlier attempts are worth not repeating. Four equal columns spanning
+            the container stretched short content thin and left a dead gap beside the
+            mark, which is only ~30px wide. Pushing the group right and pulling it back
+            with a margin worked on a desktop but silently squeezed the tracks on a
+            tablet until the address and phone number wrapped mid-line. */}
+        <div className="flex flex-col gap-12 md:grid md:grid-cols-[1fr_auto_1fr] md:items-start md:gap-8">
           <Link
             href="/"
             aria-label="Symbia home"
@@ -45,21 +49,12 @@ export default function Footer() {
             <Logo variant="emblem" emblemSize={64} label="Symbia" />
           </Link>
 
-          {/* Fixed, equal tracks. Content-sized columns put the three headings at
-              uneven intervals, because each column is only as wide as its longest
-              line; the reference spaces them evenly.
-
-              HORIZONTAL POSITION: the `mr-*` ladder below is the knob. The row above
-              is justify-between, so this right margin is what pulls the group away
-              from the right edge; larger moves the columns LEFT.
-
-              It has to be a ladder rather than one value. The tracks may shrink to
-              zero, so a margin wide enough to look right on a desktop squeezes them
-              on a tablet until the address and the phone number wrap mid-line. Three
-              full 13rem tracks plus the mark, the gap and the page padding need about
-              1185px before a 16rem margin fits, which is why that value starts at xl.
-              Below lg there is no room for any margin at all. */}
-          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12 lg:mr-40 xl:mr-64">
+          {/* Fixed, equal tracks, so the three headings land on even intervals.
+              Content-sized columns space them unevenly, because each column is then
+              only as wide as its own longest line. The tracks shrink below 13rem on
+              narrow viewports rather than overflowing; check the address and the
+              phone number for mid-line wrapping before widening them. */}
+          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12">
           <div className="flex flex-col gap-3">
             <p className={COLUMN_LABEL}>Follow us</p>
             <ul className="flex flex-col gap-1.5">

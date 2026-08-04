@@ -73,20 +73,18 @@ const timeline = [
   },
 ];
 
-// Drawn from public/products, which already carries the photography and its alt text.
+/**
+ * One frame per category rather than a wall of product shots. About only has to
+ * establish that the material reaches finished goods across quite different
+ * disciplines; the archive itself is the gallery's job. Naming the category is what
+ * makes five images say more than twelve unlabelled ones did.
+ */
 const range = [
-  { src: "/products/jacket-model-02.jpg", alt: "A model wearing a Symbia bioleather jacket", span: "md:col-span-2 md:row-span-2" },
-  { src: "/products/floor-lamp-02.jpg", alt: "A lit Symbia bioleather floor lamp" },
-  { src: "/products/totebag-3.jpg", alt: "A model carrying a Symbia bioleather tote bag" },
-  { src: "/products/240516-46.jpg", alt: "Symbia wallets, keychains and accessories arranged flat", span: "md:col-span-2" },
-  { src: "/products/fill-it-12.jpg", alt: "Sneakers made from Symbia bioleather" },
-  { src: "/products/passport-holder-01.jpg", alt: "A Symbia bioleather passport holder" },
-  { src: "/products/patterned-jacket-02.jpg", alt: "A Symbia jacket with an orange batik lining" },
-  { src: "/products/sandals-11.jpg", alt: "Symbia bioleather sandals" },
-  { src: "/products/240516-52.jpg", alt: "A Symbia bioleather wine holder" },
-  { src: "/products/pouch-pair-01.jpg", alt: "A pair of Symbia bioleather pouches" },
-  { src: "/products/symbia-bag-4.jpg", alt: "A model carrying a batik-patterned Symbia tote" },
-  { src: "/products/240516-35.jpg", alt: "A model holding a Symbia bioleather folder" },
+  { src: "/products/jacket-model-02.jpg", alt: "A model wearing a Symbia bioleather jacket", category: "Outerwear" },
+  { src: "/products/symbia-bag-4.jpg", alt: "A model carrying a batik-patterned Symbia tote", category: "Bags" },
+  { src: "/products/240516-46.jpg", alt: "Symbia wallets, keychains and accessories arranged flat", category: "Small goods" },
+  { src: "/products/fill-it-12.jpg", alt: "Sneakers made from Symbia bioleather", category: "Footwear" },
+  { src: "/products/floor-lamp-02.jpg", alt: "A lit Symbia bioleather floor lamp", category: "Lighting" },
 ];
 
 const press = [
@@ -306,7 +304,9 @@ export default function AboutPage() {
                 </p>
               </div>
               {entry.image ? (
-                <div className="relative aspect-[4/3] w-full overflow-hidden md:aspect-[3/2]">
+                // 4:3 rather than 3:2. These are phone photographs of people, and the
+                // wider frame was cropping heads out of the top.
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
                     src={entry.image.src}
                     alt={entry.image.alt}
@@ -341,21 +341,23 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-3 md:mt-16 md:grid-cols-4 md:gap-4">
+          <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 md:mt-16 md:grid-cols-5 md:gap-x-5">
             {range.map((item) => (
-              <div
-                key={item.src}
-                className={`relative aspect-[4/5] overflow-hidden ${item.span ?? ""}`}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover transition-transform duration-500 hover:scale-[1.03]"
-                  sizes="(min-width: 768px) 25vw, 50vw"
-                  unoptimized
-                />
-              </div>
+              <figure key={item.src} className="flex flex-col gap-3">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 768px) 20vw, 50vw"
+                    unoptimized
+                  />
+                </div>
+                <figcaption className="text-[0.6875rem] uppercase tracking-[0.16em] text-ink/50">
+                  {item.category}
+                </figcaption>
+              </figure>
             ))}
           </div>
 

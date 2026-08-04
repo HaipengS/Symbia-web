@@ -26,28 +26,34 @@ const SECTION_LABEL =
 const timeline = [
   {
     when: "September 2023",
+    place: "Jakarta and New York",
     title: "A question about materials",
-    body: "A teacher at Jakarta Intercultural School persuades Rayden to take a summer course on nanotechnology at Columbia. It introduces him to microbial leather, and to the idea that the artificial materials around us might be grown instead.",
+    body: "A teacher at Jakarta Intercultural School persuades Rayden to take a summer course on nanotechnology at Columbia. It introduces him to microbial leather, and to the idea that the artificial materials around us might be grown instead. The fermentation route it points at is a fraction as toxic as chrome tanning.",
   },
   {
     when: "April 2024",
+    place: "Jakarta",
     title: "The first batch",
-    body: "A wallet, a pouch and a document holder, made from sheets grown at home. Proof that the material survives being cut, sewn and carried.",
+    body: "A wallet, a pouch and a document holder, made from sheets grown at home. Proof that the material survives being cut, sewn and carried, which is the first thing anyone asks of something grown rather than tanned.",
     image: { src: "/products/long-wallet-01.jpg", alt: "An early Symbia bioleather long wallet" },
   },
   {
     when: "May 2024",
-    title: "The 10th World Water Forum, Bali",
-    body: "Symbia exhibits the material publicly for the first time, alongside the products made from it.",
+    place: "Bali",
+    title: "The 10th World Water Forum",
+    body: "Symbia exhibits the material publicly for the first time, alongside the products made from it. It is the first time the sheets are handled by people outside the workshop.",
     image: {
       src: "/timeline/water-forum-booth.jpg",
       alt: "The Symbia exhibit at the 10th World Water Forum in Bali",
     },
   },
   {
-    when: "2024",
+    // Dated from the photograph's own capture time, 20 May 2024, which places it on
+    // the forum floor rather than at some separate occasion.
+    when: "May 2024",
+    place: "Bali",
     title: "Into the hands of the Ministry",
-    body: "Pieces are gifted to Indonesia's Ministry of Tourism and Creative Economy.",
+    body: "Pieces are gifted to Indonesia's Ministry of Tourism and Creative Economy. The photograph was taken on the forum floor on 20 May, two days after the exhibit opened.",
     image: {
       src: "/timeline/ministry-handover.jpg",
       alt: "Rayden Yap presenting a sheet of Kombucha Bioleather to a government official",
@@ -55,8 +61,9 @@ const timeline = [
   },
   {
     when: "2024",
+    place: "Palo Alto and Jakarta",
     title: "Stanford, and a first collaboration",
-    body: "The material is shown at Stanford's SURGE Expo, and the shoe brand Polla Polly releases sandals made with it: the first time someone else's product carries Symbia inside it.",
+    body: "The material is shown at Stanford's SURGE Expo, and the shoe brand Polla Polly releases sandals made with it. It is the first time someone else's product carries Symbia inside it, which is a different kind of proof from making things yourself.",
     image: {
       src: "/products/sandals-8.jpg",
       alt: "Packaging from the Symbia and Polla Polly sandal collaboration",
@@ -64,8 +71,9 @@ const timeline = [
   },
   {
     when: "August 2025",
+    place: "Jakarta",
     title: "The Need for Creativity in Sustainability Efforts",
-    body: "A seminar run with Indonesia's Ministry of Creative Economy and KOMIB, in front of a hall of students.",
+    body: "A seminar run with Indonesia's Ministry of Creative Economy and KOMIB, in front of a hall of students. Three national outlets covered it, all of them linked further down this page.",
     image: {
       src: "/timeline/ministry-seminar.jpg",
       alt: "Rayden Yap speaking at the Ministry of Creative Economy seminar",
@@ -281,25 +289,40 @@ export default function AboutPage() {
         aria-label="How Symbia got here"
         className="mx-auto w-full max-w-[1720px] px-6 py-20 md:px-10 md:py-28 lg:px-14"
       >
-        <div className="border-t border-ink/15 pt-12 md:pt-16">
-          <p className={SECTION_LABEL}>How we got here</p>
-          <h2 className="mt-5 max-w-[16ch] font-display text-4xl leading-[1.05] text-ink md:text-6xl">
-            Two years, from a summer course to a ministry stage
-          </h2>
+        <div className="grid gap-8 border-t border-ink/15 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] md:items-end md:gap-16 md:pt-16">
+          <div>
+            <p className={SECTION_LABEL}>How we got here</p>
+            <h2 className="mt-5 max-w-[16ch] font-display text-4xl leading-[1.05] text-ink md:text-6xl">
+              Two years, from a summer course to a ministry stage
+            </h2>
+          </div>
+          <p className="text-lg leading-[1.65] text-ink/65">
+            Symbia is young enough that the whole of it fits on one page. Every date
+            below is one we can point at: a photograph, an exhibition listing, or an
+            article someone else wrote.
+          </p>
         </div>
 
         <ol className="mt-14 flex flex-col md:mt-20">
           {timeline.map((entry) => (
             <li
               key={entry.title}
-              className="grid gap-6 border-t border-ink/12 py-10 last:border-b md:grid-cols-[10rem_minmax(0,1fr)_22rem] md:gap-12 md:py-12 lg:gap-16"
+              // Image column narrowed from 22rem and the padding pulled in: the frame
+              // was setting a row height the copy could not fill, so every row opened
+              // a hole under its own text.
+              className="grid gap-6 border-t border-ink/12 py-8 last:border-b md:grid-cols-[9rem_minmax(0,1fr)_17rem] md:gap-10 md:py-10 lg:gap-14"
             >
-              <p className="font-display text-xl text-coral md:text-2xl">{entry.when}</p>
+              <div className="flex flex-col gap-1">
+                <p className="font-display text-xl text-coral md:text-2xl">{entry.when}</p>
+                <p className="text-[0.6875rem] uppercase tracking-[0.14em] text-ink/40">
+                  {entry.place}
+                </p>
+              </div>
               <div className="flex flex-col gap-3">
-                <h3 className="max-w-[24ch] font-display text-2xl leading-[1.15] text-ink md:text-[1.875rem]">
+                <h3 className="max-w-[24ch] font-display text-[1.75rem] leading-[1.15] text-ink md:text-4xl">
                   {entry.title}
                 </h3>
-                <p className="max-w-prose text-base leading-[1.7] text-ink/65">
+                <p className="max-w-prose text-lg leading-[1.65] text-ink/70">
                   {entry.body}
                 </p>
               </div>
@@ -312,7 +335,7 @@ export default function AboutPage() {
                     alt={entry.image.alt}
                     fill
                     className="object-cover"
-                    sizes="(min-width: 768px) 22rem, 100vw"
+                    sizes="(min-width: 768px) 17rem, 100vw"
                     unoptimized
                   />
                 </div>

@@ -164,30 +164,52 @@ export default function ImpactPage() {
         aria-label="How a training programme runs"
         className="mx-auto w-full max-w-[1720px] px-6 py-20 md:px-10 md:py-28 lg:px-14"
       >
-        <div className="grid gap-12 lg:grid-cols-[26rem_minmax(0,1fr)] lg:gap-24">
-          <div className="flex flex-col gap-5 lg:sticky lg:top-28 lg:self-start">
+        {/* The heading column was sticky and short, which parked a tall empty block
+            beside the list. It scrolls with the page now, and the list carries larger
+            copy so the rows are filled by their own text rather than by padding. */}
+        <div className="grid gap-12 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-20">
+          <div className="flex flex-col gap-5">
             <p className={SECTION_LABEL}>How a programme runs</p>
             <h2 className="font-display text-4xl leading-[1.05] text-ink md:text-5xl">
               Free to attend, and it does not end when we leave.
             </h2>
-            <p className="text-base leading-[1.7] text-ink/60">
+            <p className="text-lg leading-[1.65] text-ink/65">
               The point of a session is that the craftspeople who attend can grow the
               material without us afterwards.
             </p>
+
+            {/* Fills the column the heading alone left half empty, and answers the
+                question the list does not: where these actually happen. */}
+            <dl className="mt-2 flex flex-col border-t border-ink/12">
+              {[
+                ["Runs in", "Villages, local schools, vocational education centres"],
+                ["Cost to attend", "None, in every session so far"],
+                ["Provinces so far", "Five"],
+              ].map(([term, value]) => (
+                <div key={term} className="flex flex-col gap-1 border-b border-ink/12 py-4">
+                  <dt className="text-[0.6875rem] uppercase tracking-[0.14em] text-amber-warm/70">
+                    {term}
+                  </dt>
+                  <dd className="text-base leading-[1.6] text-ink/70">{value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           <ol className="flex flex-col">
             {steps.map((s) => (
               <li
                 key={s.step}
-                className="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-ink/12 py-6 last:border-b md:gap-8"
+                className="grid grid-cols-[3rem_minmax(0,1fr)] gap-5 border-t border-ink/12 py-7 last:border-b md:gap-8"
               >
-                <span className="font-display text-lg text-coral" aria-hidden>
+                <span className="font-display text-xl text-coral md:text-2xl" aria-hidden>
                   {s.step}
                 </span>
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-display text-xl text-ink md:text-2xl">{s.title}</h3>
-                  <p className="max-w-prose text-[0.9375rem] leading-[1.7] text-ink/60">
+                <div className="flex flex-col gap-2.5">
+                  <h3 className="font-display text-2xl text-ink md:text-[1.75rem]">
+                    {s.title}
+                  </h3>
+                  <p className="max-w-prose text-lg leading-[1.65] text-ink/65">
                     {s.body}
                   </p>
                 </div>

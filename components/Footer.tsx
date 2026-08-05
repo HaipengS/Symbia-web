@@ -45,7 +45,7 @@ const ITEM = "leading-[1.9]";
  * text below 24px needs; blush is 10.4:1 on the same ground and stays on palette.
  * The 48px beneath still does most of the separating.
  */
-const HEADING = "mb-12 text-[1.1875rem] font-normal leading-[1.35] text-blush";
+const HEADING = "mb-12 text-[1.3125rem] font-normal leading-[1.35] text-blush";
 
 function MenuList({ items }: { items: { label: string; href: string }[] }) {
   return (
@@ -85,15 +85,15 @@ export default function Footer() {
             with a fixed gap, which holds the same gap at every width.
             gap-x is zeroed there: the tracks already contain the gutters, so a column
             gap on top of them pushes every start to the right. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[31.22fr_40.95fr_16.43fr_11.4fr] min-[1440px]:items-start min-[1440px]:gap-x-0 min-[1440px]:gap-y-0">
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[34.95fr_37.22fr_16.43fr_11.4fr] min-[1440px]:items-start min-[1440px]:gap-x-0 min-[1440px]:gap-y-0">
           {/* The mark and its date share one vertical centre line. "Est. 2023" is the
               wider of the two, so the group is sized to it and the mark centres over
               it: the text keeps the column's left edge and only the mark moves.
               Centring the text on a mark pinned to the left edge would instead push
               the text outside the page container.
-              82px of top padding: a 32px drop below the heading line, plus the 50px
-              the three text blocks were moved up, so the mark stays where it was. */}
-          <div className="flex w-fit flex-col items-center min-[1440px]:pt-[5.125rem]">
+              42px of top padding. It was 82, which held the mark still while the three
+              text blocks came up 50px; 40 came back off to raise the mark itself. */}
+          <div className="flex w-fit flex-col items-center min-[1440px]:pt-[2.625rem]">
             <Link
               href="/"
               aria-label="Symbia home"

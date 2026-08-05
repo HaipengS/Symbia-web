@@ -10,7 +10,7 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * heading is set apart by the 48px of empty space under it and by its colour alone.
  * Nothing here should acquire a larger size, a bolder weight or the display face.
  *
- * Columns start at 0, 25, 55 and 77.65% of the content width. The band between the
+ * Columns start at 0, 25, 61.35 and 84% of the content width. The band between the
  * mark and the menu is deliberate and stays empty.
  */
 
@@ -67,19 +67,20 @@ function MenuList({ items }: { items: { label: string; href: string }[] }) {
 export default function Footer() {
   return (
     <footer className="bg-earth">
-      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[900px]:pt-[7.5rem] lg:px-14">
+      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[1100px]:pt-[7.5rem] lg:px-14">
         {/* Tracks are the distance from one start to the next, so each block begins
-            exactly on its percentage. Two columns between 700 and 900: four at that
-            width puts the email address in a 154px track, which overflows. */}
-        {/* fr rather than percentage tracks. The ratio puts the starts on 0, 25, 55 and
-            77.65%, but an fr track's automatic minimum is its min-content,
-            so when the viewport cannot afford that ratio the Contact column holds its
-            width and the other three give way instead of the email overflowing. Fixed
-            percentages cannot do this: at 900 the old 22% track was 180px against the
-            184px it needed.
-            gap-x is zeroed at 900: the tracks already contain the gutters, so a column
+            exactly on its percentage: 0, 25, 61.35 and 84%.
+            fr rather than percentage tracks, because an fr track's automatic minimum is
+            its min-content. When the viewport cannot afford the ratio the Contact
+            column holds its width and the other three give way, instead of the email
+            overflowing. Fixed percentages cannot do that: at 900 the old 22% track was
+            180px against the 184px it needed.
+            Four columns only from 1100. Address sits far enough right that the gap in
+            front of Contact is the first thing a narrower viewport eats: 57px at 1100,
+            but 38px at 1000 and 12px at 900, where the two blocks read as one run.
+            gap-x is zeroed there: the tracks already contain the gutters, so a column
             gap on top of them pushes every start to the right. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[25fr_30fr_22.65fr_22.35fr] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1100px]:grid-cols-[25fr_36.35fr_22.65fr_16fr] min-[1100px]:items-start min-[1100px]:gap-x-0 min-[1100px]:gap-y-0">
           {/* The mark and its date share one vertical centre line. "Est. 2023" is the
               wider of the two, so the group is sized to it and the mark centres over
               it: the text keeps the column's left edge, in line with the copyright,
@@ -87,7 +88,7 @@ export default function Footer() {
               edge would instead push the text outside the page container.
               A 32px drop, matching the gap under the mark, sets the group below the
               heading line without taking it all the way down to the first item. */}
-          <div className="flex w-fit flex-col items-center min-[900px]:pt-8">
+          <div className="flex w-fit flex-col items-center min-[1100px]:pt-8">
             <Link
               href="/"
               aria-label="Symbia home"
@@ -107,9 +108,9 @@ export default function Footer() {
                 track in half and stood the lists 178px apart, nothing like the 28px the
                 gap declared. Sized to their content they sit a real 32px apart and read
                 as one column rather than as two of four.
-                The pair holds below 900 as well: a single list of six there is 263px
-                tall against the 145px mark beside it, which opens a hole in the left
-                column. Only the one-column layout gets the list of six. */}
+                The pair holds through the two-column layout as well: a single list of
+                six there is 263px tall against the 145px mark beside it, which opens a
+                hole in the left column. Only the one-column layout gets the six. */}
             <div className="hidden min-[700px]:flex min-[700px]:gap-x-8">
               <MenuList items={menuLeft} />
               <MenuList items={menuRight} />

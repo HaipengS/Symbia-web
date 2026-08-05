@@ -163,12 +163,14 @@ export default function AboutPage() {
   return (
     <>
       {/* ── Opening ── */}
-      <header className="mx-auto w-full max-w-[1720px] px-6 pb-16 pt-16 md:px-10 md:pb-20 md:pt-24 lg:px-14">
+      {/* Centred. Left-aligned, the headline and its intro sat in the left half and
+          left the top right of the page empty at wide widths. */}
+      <header className="mx-auto w-full max-w-[1720px] px-6 pb-16 pt-16 text-center md:px-10 md:pb-20 md:pt-24 lg:px-14">
         <p className={SECTION_LABEL}>About</p>
-        <h1 className="mt-6 max-w-[20ch] font-display text-5xl leading-[0.98] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-[5.5rem]">
+        <h1 className="mx-auto mt-6 max-w-[24ch] font-display text-5xl leading-[0.98] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-[5.5rem]">
           Grown, not manufactured.
         </h1>
-        <p className="mt-8 max-w-2xl text-lg leading-[1.7] text-ink/65">
+        <p className="mx-auto mt-8 max-w-3xl text-lg leading-[1.7] text-ink/65">
           Symbia is an independent biofabrication group that grows leather from a
           symbiotic culture of bacteria and yeast and recycled kombucha. This is where
           the material came from, what it is actually like, and everything that has
@@ -182,7 +184,10 @@ export default function AboutPage() {
           runs at a readable measure and the photograph goes full width beneath it. */}
       <section aria-label="Origin">
         <div className="mx-auto w-full max-w-[1720px] px-6 md:px-10 lg:px-14">
-          <div className="grid gap-10 border-t border-ink/15 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] md:gap-16 md:pt-16 lg:gap-24">
+          {/* The copy column is fixed at its own readable measure and the images take
+              everything left over, so they reach the right edge instead of leaving a
+              band of dead width in the middle of the row. */}
+          <div className="grid gap-10 border-t border-ink/15 pt-12 md:grid-cols-[minmax(0,42rem)_minmax(0,1fr)] md:gap-12 md:pt-16 lg:gap-16">
           <div className="flex flex-col gap-6">
             <p className={SECTION_LABEL}>Origin</p>
             <h2 className="max-w-[18ch] font-display text-3xl leading-[1.1] text-ink md:text-[2.75rem]">
@@ -209,23 +214,37 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Deliberately the shorter column. A short image beside long copy reads as
-              composition; short copy beside a long image reads as a fault. */}
+          {/* A pair, not one frame: the question the section asks is about materials,
+              so the workshop sits beside the material itself. Wider than before and
+              still the shorter column, which is where any leftover height belongs. */}
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
-              <Image
-                src="/gallery/galery7.png"
-                alt="Participants at a Symbia workshop holding up a finished bioleather jacket"
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 24rem, 100vw"
-                unoptimized
-                priority
-              />
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
+              <div className="relative aspect-[4/5] w-full overflow-hidden">
+                <Image
+                  src="/gallery/galery7.png"
+                  alt="Participants at a Symbia workshop holding up a finished bioleather jacket"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 22rem, 50vw"
+                  unoptimized
+                  priority
+                />
+              </div>
+              <div className="relative aspect-[4/5] w-full overflow-hidden">
+                <Image
+                  src="/material/tones.jpg"
+                  alt="Three sheets of bioleather side by side, from pale amber through to near black"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 22rem, 50vw"
+                  unoptimized
+                />
+              </div>
             </div>
             <p className="text-[0.8125rem] leading-[1.6] text-ink/45">
-              A finished jacket going round a workshop, which is usually the moment
-              people stop asking whether the material is real.
+              A finished jacket going round a workshop, and the range one batch can
+              produce. The jacket is usually the moment people stop asking whether the
+              material is real.
             </p>
           </div>
           </div>
@@ -479,7 +498,9 @@ export default function AboutPage() {
       >
         <div className="border-t border-ink/15 pt-12 md:pt-16">
           <p className={SECTION_LABEL}>Written about</p>
-          <h2 className="mt-5 max-w-[18ch] font-display text-4xl leading-[1.05] text-ink md:text-5xl">
+          {/* No measure cap: the line is short enough to hold on one line from md up,
+              and wrapping it to two put a step in an otherwise flat section head. */}
+          <h2 className="mt-5 font-display text-4xl leading-[1.05] text-ink md:whitespace-nowrap md:text-5xl">
             Other people&apos;s account of it
           </h2>
         </div>

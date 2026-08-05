@@ -345,26 +345,69 @@ export default function ResearchPage() {
             is one of four options. The wording that was in it survives as the
             instruction here, so nothing a supplier needed to be told is lost. */}
         <section aria-label="Become a supplier" className="mt-24">
-          <div className="flex flex-col items-start gap-5 border-t border-ink/12 pt-10">
-            <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
-              Become a supplier
-            </p>
-            <h2 className="max-w-[22ch] font-display text-3xl font-bold text-ink md:text-4xl">
-              Tell us what your business produces
-            </h2>
-            <p className="max-w-2xl text-base leading-relaxed text-ink/60">
-              Say what you make, the organic by-product it generates, the rough
-              quantity, and how often it is available. On the contact page, choose
-              &ldquo;An organic by-product to supply&rdquo; and the form will ask for
-              exactly that.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-soft transition hover:bg-amber-warm"
-            >
-              Get in touch
-              <span aria-hidden>↗</span>
-            </Link>
+          {/* Copy left, frame right. The copy alone stopped 780px short of the
+              container, and this is the page's conversion point, so it is the last
+              place that should look unfinished. The two facts are lifted out of the
+              workflow above on purpose: cost and effort are the two things a
+              supplier weighs, and they belong next to the button as well as inside
+              step two. */}
+          <div className="grid gap-10 border-t border-ink/12 pt-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div className="flex flex-col items-start gap-5">
+              <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
+                Become a supplier
+              </p>
+              <h2 className="max-w-[22ch] font-display text-3xl font-bold text-ink md:text-4xl">
+                Tell us what your business produces
+              </h2>
+              <p className="max-w-2xl text-base leading-relaxed text-ink/60">
+                Say what you make, the organic by-product it generates, the rough
+                quantity, and how often it is available. On the contact page, choose
+                &ldquo;An organic by-product to supply&rdquo; and the form will ask
+                for exactly that.
+              </p>
+
+              <dl className="grid w-full gap-x-8 gap-y-4 border-t border-ink/12 pt-5 sm:grid-cols-2">
+                {[
+                  ["What it costs you", "Nothing. We handle collection."],
+                  ["What we need from you", "The agreed stream, set aside."],
+                ].map(([term, value]) => (
+                  <div key={term} className="flex flex-col gap-1">
+                    <dt className="text-[0.75rem] uppercase tracking-[0.13em] text-amber-warm/80">
+                      {term}
+                    </dt>
+                    <dd className="text-base leading-[1.5] text-ink/70">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <Link
+                href="/contact"
+                className="mt-2 inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-soft transition hover:bg-amber-warm"
+              >
+                Get in touch
+                <span aria-hidden>↗</span>
+              </Link>
+            </div>
+
+            {/* Landscape crop of a portrait frame, sized to finish level with the
+                copy beside it. Distinct from the two sheets used in the workflow
+                above: this one is the material being handled, not sitting still. */}
+            <figure className="flex flex-col gap-3">
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-cream">
+                <Image
+                  src="/material/in-hand.jpg"
+                  alt="Two hands smoothing a large amber sheet of Kombucha Bioleather"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              {/* Describes the photograph, not the supply chain: which stream this
+                  particular sheet came from is not something we can state. */}
+              <figcaption className="text-[0.6875rem] uppercase tracking-[0.16em] text-ink/50">
+                A finished sheet, worked by hand
+              </figcaption>
+            </figure>
           </div>
         </section>
       </main>

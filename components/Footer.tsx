@@ -3,13 +3,25 @@ import Logo from "@/components/Logo";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 /**
- * Site footer, built on the structure Rayden pointed at in the brief: the mark on
- * the left, then Follow us / Address / Contact as three columns.
+ * Three blocks divided by vertical rules: the mark and the copyright on the left,
+ * a menu in the middle, contact details on the right. Built after the Mycotech Lab
+ * footer, which is the layout Rayden's reference is a simplified version of.
  *
- * Text links rather than icon buttons, which is what the reference does and what
- * the previous version could not do, since its three icons were decorative spans
- * with no accounts behind two of them. Adding a platform is one entry in `socials`.
+ * The middle block carries a faint tint. It is a second navigation, so it has to
+ * read as a distinct object from the bar at the top of the page rather than as a
+ * repeat of it, and the tint is what does that without adding another rule.
+ *
+ * Contact is missing from the menu on purpose: that route does not exist yet. Add
+ * it here the moment it does.
  */
+
+const menu = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Research", href: "/research" },
+  { label: "Impact", href: "/impact" },
+  { label: "Gallery", href: "/gallery" },
+];
 
 const socials = [
   { label: "Instagram", href: "https://www.instagram.com/madewithsymbia/" },
@@ -19,91 +31,93 @@ const socials = [
 const PHONE_DISPLAY = "+1 224 204 3240";
 const PHONE_HREF = "tel:+12242043240";
 
-const COLUMN_LABEL =
-  "text-[0.8125rem] font-medium uppercase tracking-[0.15em] text-amber-warm/80";
+const BLOCK_HEADING = "font-display text-3xl leading-none text-ink md:text-[2rem]";
 const FOOTER_LINK =
-  "text-sm text-ink/60 transition-colors hover:text-coral focus-visible:text-coral";
+  "text-base text-ink/65 transition-colors hover:text-coral focus-visible:text-coral";
 
 export default function Footer() {
   return (
     <footer className="border-t border-ink/10">
-      <div className="mx-auto w-full max-w-[1720px] px-6 py-14 md:px-10 md:py-16 lg:px-14">
-        {/* Mark pinned left, information group centred. The empty 1fr track on the
-            right is what balances the mark on the left, so the group sits on the page
-            centre at every width without a fixed offset to maintain.
+      <div className="mx-auto grid w-full max-w-[1720px] grid-cols-1 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)_minmax(0,1.1fr)]">
+        {/* Mark top, copyright pinned to the bottom of the block. */}
+        <div className="flex flex-col justify-between gap-12 px-6 py-12 md:px-10 md:py-16 lg:pl-14">
+          <div className="flex flex-col gap-6">
+            <Link
+              href="/"
+              aria-label="Symbia home"
+              className="inline-flex self-start text-ink transition-colors hover:text-coral"
+            >
+              <Logo variant="emblem" emblemSize={88} label="Symbia" />
+            </Link>
+            {/* The reference fills this block with award badges. We have none to show,
+                so it carries the one line that says what the company is. */}
+            <p className="max-w-[22ch] text-base leading-[1.5] text-ink/60">
+              Leather grown from recycled kombucha, not tanned.
+            </p>
+          </div>
+          <div className="flex flex-col gap-1 text-sm text-ink/45">
+            <p>Symbia</p>
+            <p>Est. 2023</p>
+            <p className="mt-3 text-[0.8125rem] uppercase tracking-[0.14em] text-ink/35">
+              &copy; 2026 Symbia
+            </p>
+          </div>
+        </div>
 
-            Two earlier attempts are worth not repeating. Four equal columns spanning
-            the container stretched short content thin and left a dead gap beside the
-            mark, which is only ~30px wide. Pushing the group right and pulling it back
-            with a margin worked on a desktop but silently squeezed the tracks on a
-            tablet until the address and phone number wrapped mid-line. */}
-        <div className="flex flex-col gap-12 md:grid md:grid-cols-[1fr_auto_1fr] md:items-start md:gap-8">
-          <Link
-            href="/"
-            aria-label="Symbia home"
-            className="inline-flex self-start text-ink transition-colors hover:text-coral"
-          >
-            {/* The square emblem rather than the wordmark, so the footer mark reads
-                as a different object from the one sitting in the navbar. Its fills
-                are currentColor, so the class above sets the colour. */}
-            <Logo variant="emblem" emblemSize={64} label="Symbia" />
-          </Link>
-
-          {/* Fixed, equal tracks, so the three headings land on even intervals.
-              Content-sized columns space them unevenly, because each column is then
-              only as wide as its own longest line. The tracks shrink below 13rem on
-              narrow viewports rather than overflowing; check the address and the
-              phone number for mid-line wrapping before widening them. */}
-          <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,13rem))] sm:gap-12">
-          <div className="flex flex-col gap-3">
-            <p className={COLUMN_LABEL}>Follow us</p>
-            <ul className="flex flex-col gap-1.5">
-              {socials.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={FOOTER_LINK}
-                  >
-                    {s.label}
-                  </a>
+        {/* Menu. Same job as the navbar, deliberately not the same object. */}
+        <div className="border-t border-ink/10 bg-cream/40 px-6 py-12 md:border-l md:border-t-0 md:px-12 md:py-16">
+          <h2 className={BLOCK_HEADING}>Menu</h2>
+          <nav aria-label="Footer" className="mt-8 md:mt-10">
+            <ul className="grid grid-cols-2 gap-x-8 gap-y-4">
+              {menu.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={FOOTER_LINK}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
+        </div>
 
-          <div className="flex flex-col gap-3">
-            <p className={COLUMN_LABEL}>Address</p>
-            <address className="text-sm not-italic leading-relaxed text-ink/60">
+        {/* Contact. */}
+        <div className="border-t border-ink/10 px-6 py-12 md:border-l md:border-t-0 md:px-12 md:py-16 lg:pr-14">
+          <h2 className={BLOCK_HEADING}>Contact</h2>
+          {/* Two sub-columns, matching the menu's rhythm. Stacked in one narrow column
+              the details filled about a third of the block and left the rest empty. */}
+          <div className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 md:mt-10">
+            <address className="text-base not-italic leading-relaxed text-ink/65">
+              Symbia
+              <br />
               2311 N Campus Dr
               <br />
               Evanston, IL 60208
             </address>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <p className={COLUMN_LABEL}>Contact</p>
-            <ul className="flex flex-col gap-1.5">
-              <li>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
                 <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
                   {CONTACT_EMAIL}
                 </a>
-              </li>
-              <li>
                 <a href={PHONE_HREF} className={FOOTER_LINK}>
                   {PHONE_DISPLAY}
                 </a>
-              </li>
-            </ul>
+              </div>
+              <ul className="flex flex-col gap-2">
+                {socials.map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={FOOTER_LINK}
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t border-ink/10 pt-6">
-          <p className="text-[0.6875rem] uppercase tracking-[0.14em] text-ink/35">
-            &copy; 2026 Symbia
-          </p>
         </div>
       </div>
     </footer>

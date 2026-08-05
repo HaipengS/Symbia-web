@@ -20,7 +20,7 @@ const PHONE_DISPLAY = "+1 224 204 3240";
 const PHONE_HREF = "tel:+12242043240";
 
 const COLUMN_LABEL =
-  "text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-amber-warm/70";
+  "text-[0.8125rem] font-medium uppercase tracking-[0.15em] text-amber-warm/80";
 const FOOTER_LINK =
   "text-sm text-ink/60 transition-colors hover:text-coral focus-visible:text-coral";
 

@@ -19,7 +19,7 @@ export const metadata = {
  */
 
 const SECTION_LABEL =
-  "text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-amber-warm/70";
+  "text-[0.875rem] font-medium uppercase tracking-[0.16em] text-amber-warm/80";
 
 // Only dates that can be sourced are given a month. The Ministry gift and the two
 // 2024 collaborations are recorded without one.
@@ -274,7 +274,7 @@ export default function AboutPage() {
                 ["Two sheets alike", "No"],
               ].map(([term, value]) => (
                 <div key={term} className="flex flex-col gap-1">
-                  <dt className="text-[0.625rem] uppercase tracking-[0.16em] text-amber-warm/70">
+                  <dt className="text-[0.75rem] uppercase tracking-[0.14em] text-amber-warm/80">
                     {term}
                   </dt>
                   <dd className="text-[0.9375rem] leading-[1.5] text-ink/75">{value}</dd>
@@ -379,7 +379,7 @@ export default function AboutPage() {
             >
               <div className="flex flex-col gap-1">
                 <p className="font-display text-xl text-coral md:text-2xl">{entry.when}</p>
-                <p className="text-[0.6875rem] uppercase tracking-[0.14em] text-ink/40">
+                <p className="text-[0.75rem] uppercase tracking-[0.12em] text-ink/45">
                   {entry.place}
                 </p>
               </div>

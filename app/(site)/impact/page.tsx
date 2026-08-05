@@ -90,7 +90,7 @@ const steps = [
 ];
 
 const SECTION_LABEL =
-  "text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-amber-warm/70";
+  "text-[0.875rem] font-medium uppercase tracking-[0.16em] text-amber-warm/80";
 
 export default function ImpactPage() {
   return (
@@ -142,7 +142,7 @@ export default function ImpactPage() {
       {/* ── Dark band: the figures, each with the explanation it was published with. ── */}
       <section aria-label="Impact figures" className="mt-8 bg-earth py-20 md:mt-16 md:py-28">
         <div className="mx-auto w-full max-w-[1720px] px-6 md:px-10 lg:px-14">
-          <p className="text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-soft/50">
+          <p className="text-[0.875rem] font-medium uppercase tracking-[0.16em] text-soft/60">
             By the numbers
           </p>
           <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-16">
@@ -187,7 +187,7 @@ export default function ImpactPage() {
                 ["Provinces so far", "Five"],
               ].map(([term, value]) => (
                 <div key={term} className="flex flex-col gap-1 border-b border-ink/12 py-4">
-                  <dt className="text-[0.6875rem] uppercase tracking-[0.14em] text-amber-warm/70">
+                  <dt className="text-[0.75rem] uppercase tracking-[0.13em] text-amber-warm/80">
                     {term}
                   </dt>
                   <dd className="text-base leading-[1.6] text-ink/70">{value}</dd>

@@ -14,15 +14,12 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * mark and the menu is deliberate and stays empty.
  */
 
-const menuLeft = [
+// One list of six at every width. Contact still points at the homepage section:
+// the /contact route does not exist yet. One href to change once it does.
+const menu = [
   { label: "Home", href: "/" },
   { label: "Research", href: "/research" },
   { label: "Gallery", href: "/gallery" },
-];
-
-// Contact still points at the homepage section: the /contact route does not exist
-// yet. One href to change once it does.
-const menuRight = [
   { label: "About", href: "/about" },
   { label: "Impact", href: "/impact" },
   { label: "Contact", href: "/#contact" },
@@ -48,7 +45,7 @@ const ITEM = "leading-[1.9]";
  * text below 24px needs; blush is 10.4:1 on the same ground and stays on palette.
  * The 48px beneath still does most of the separating.
  */
-const HEADING = "mb-12 text-[1.0625rem] font-normal leading-[1.35] text-blush";
+const HEADING = "mb-12 text-[1.1875rem] font-normal leading-[1.35] text-blush";
 
 function MenuList({ items }: { items: { label: string; href: string }[] }) {
   return (
@@ -67,7 +64,9 @@ function MenuList({ items }: { items: { label: string; href: string }[] }) {
 export default function Footer() {
   return (
     <footer className="bg-earth">
-      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[1440px]:pt-[7.5rem] lg:px-14">
+      {/* 70px, not the 120 the spec asked for: the three text blocks were pulled up
+          50px. The mark takes those 50px back as padding below, so it has not moved. */}
+      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[1440px]:pt-[4.375rem] lg:px-14">
         {/* Tracks are the distance from one start to the next, so each block begins
             exactly on its percentage: 0, 25, 72.17 and 88.6%.
             88.6% is where Contact runs out of road: its text ends exactly on the
@@ -86,15 +85,15 @@ export default function Footer() {
             with a fixed gap, which holds the same gap at every width.
             gap-x is zeroed there: the tracks already contain the gutters, so a column
             gap on top of them pushes every start to the right. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[25fr_47.17fr_16.43fr_11.4fr] min-[1440px]:items-start min-[1440px]:gap-x-0 min-[1440px]:gap-y-0">
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[31.22fr_40.95fr_16.43fr_11.4fr] min-[1440px]:items-start min-[1440px]:gap-x-0 min-[1440px]:gap-y-0">
           {/* The mark and its date share one vertical centre line. "Est. 2023" is the
               wider of the two, so the group is sized to it and the mark centres over
               it: the text keeps the column's left edge and only the mark moves.
               Centring the text on a mark pinned to the left edge would instead push
               the text outside the page container.
-              A 32px drop, matching the gap under the mark, sets the group below the
-              heading line without taking it all the way down to the first item. */}
-          <div className="flex w-fit flex-col items-center min-[1440px]:pt-8">
+              82px of top padding: a 32px drop below the heading line, plus the 50px
+              the three text blocks were moved up, so the mark stays where it was. */}
+          <div className="flex w-fit flex-col items-center min-[1440px]:pt-[5.125rem]">
             <Link
               href="/"
               aria-label="Symbia home"
@@ -110,20 +109,7 @@ export default function Footer() {
               need; the gutter is the space left over inside each track instead. */}
           <div>
             <p className={HEADING}>Menu</p>
-            {/* 3 + 3 down to 700. Flex, not a two-column grid: the grid split the whole
-                track in half and stood the lists 178px apart, nothing like the 28px the
-                gap declared. Sized to their content they sit a real 32px apart and read
-                as one column rather than as two of four.
-                The pair holds through the two-column layout as well: a single list of
-                six there is 263px tall against the 145px mark beside it, which opens a
-                hole in the left column. Only the one-column layout gets the six. */}
-            <div className="hidden min-[700px]:flex min-[700px]:gap-x-8">
-              <MenuList items={menuLeft} />
-              <MenuList items={menuRight} />
-            </div>
-            <div className="min-[700px]:hidden">
-              <MenuList items={[...menuLeft, ...menuRight]} />
-            </div>
+            <MenuList items={menu} />
           </div>
 
           <div>

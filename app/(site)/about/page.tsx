@@ -230,33 +230,22 @@ export default function AboutPage() {
           </div>
           </div>
         </div>
-
-        <div className="relative mt-14 aspect-[3/2] w-full md:mt-20 md:aspect-[21/9]">
-          <Image
-            src="/material/origin-wide.jpg"
-            alt="Sheets of Kombucha Bioleather laid over one another, pale amber against near-black"
-            fill
-            className="object-cover"
-            sizes="100vw"
-            unoptimized
-          />
-        </div>
       </section>
 
       {/* ── The material, at a size where it can actually be read ── */}
       <section aria-label="The material" className="mt-20 md:mt-28">
-        {/* The heading used to sit alone on a line with two thirds of the width
-            empty beside it. It now shares the row with the characteristics, which is
-            the information a designer is looking for anyway. */}
-        <div className="mx-auto mb-10 w-full max-w-[1720px] px-6 md:mb-14 md:px-10 lg:px-14">
-          <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] md:items-end md:gap-16">
+        {/* Heading and characteristics share one row. The list runs to three columns
+            from lg up: two columns look dense at 1440 and leave a hole at 1840, which
+            is the width this gets reviewed at. */}
+        <div className="mx-auto mb-8 w-full max-w-[1720px] px-6 md:mb-10 md:px-10 lg:px-14">
+          <div className="grid gap-8 md:grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:items-end md:gap-12 lg:gap-20">
             <div>
               <p className={SECTION_LABEL}>The material</p>
               <h2 className="mt-5 max-w-[20ch] font-display text-4xl leading-[1.05] text-ink md:text-6xl">
                 Kombucha Bioleather
               </h2>
             </div>
-            <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-ink/15 pt-6">
+            <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-ink/15 pt-6 lg:grid-cols-3 lg:gap-x-12">
               {[
                 ["Grown from", "SCOBY and recycled kombucha"],
                 ["Tanning", "None"],
@@ -321,13 +310,21 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
-              <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src="/material/scale.jpg" alt="A full sheet of bioleather held up by hand" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
+            {/* 4:3, not 4:5. At 1840 the taller ratio ran the image pair 236px past
+                the copy beside it. */}
+            <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image src="/material/scale.jpg" alt="A full sheet of bioleather held up by hand" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
+                </div>
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image src="/material/stack.jpg" alt="Finished sheets of bioleather folded in a stack" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
+                </div>
               </div>
-              <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src="/material/stack.jpg" alt="Finished sheets of bioleather folded in a stack" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
-              </div>
+              <p className="text-[0.8125rem] leading-[1.6] text-ink/45">
+                One sheet at full size, and finished sheets stacked. A sheet weighs
+                little enough that the stack on the right is most of a jacket.
+              </p>
             </div>
           </div>
         </div>

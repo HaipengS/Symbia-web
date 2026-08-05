@@ -40,9 +40,16 @@ export default function Footer() {
         {/* items-center, not the default start. Aligned at the top the three blocks
             put their headings on one line but their centres on three different ones,
             because each holds a different amount. Centred, they share one axis. */}
-        {/* Four across only from lg. At md the four tracks are about 185px each and
-            the email address very nearly fills one; a tablet gets a roomier 2x2. */}
-        <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 sm:items-center sm:gap-x-8 lg:grid-cols-4 lg:gap-12">
+        {/* Tracks in proportion to their contents, not four equal quarters. Measured
+            at 1840 the four blocks are 242, 82, 146 and 173px wide, so equal quarters
+            left the menu filling 22% of its track while the mark filled 66%, and a
+            thin column of links floating in an empty quarter is what read as odd.
+            These weights are the content ratios eased back toward even, which lands
+            every block at 40 to 49% of its own track.
+
+            Four across only from lg: at md the tracks come out near 185px and the
+            email address very nearly fills one, so a tablet gets a roomier 2x2. */}
+        <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 sm:items-center sm:gap-x-8 lg:grid-cols-[34fr_14fr_24fr_28fr] lg:gap-12">
         {/* Mark and what the company is. */}
         <div className="flex flex-col items-center gap-8">
           <Link

@@ -6,10 +6,9 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * Swiss-modernist footer. Four left-aligned blocks separated by whitespace alone:
  * no rules, no borders, no tinted blocks behind any column.
  *
- * The typography is deliberately flat. One size, one weight, one colour for
- * headings and body alike. A heading is a heading only because of the 48px of empty
- * space under it, which is the whole point of the arrangement, so nothing here
- * should acquire a larger size, a bolder weight or the display face.
+ * The typography is deliberately flat: one size and one weight throughout, so a
+ * heading is set apart by the 48px of empty space under it and by its colour alone.
+ * Nothing here should acquire a larger size, a bolder weight or the display face.
  *
  * Columns start at 0, 25, 55 and 84% of the content width. The band between the
  * mark and the menu is deliberate and stays empty.
@@ -37,14 +36,19 @@ const socials = [
 const PHONE_DISPLAY = "Tel. +1 224 204 3240";
 const PHONE_HREF = "tel:+12242043240";
 
-/** One size, one weight, one colour. Everything in the footer uses this. */
+/** One size, one weight. Everything in the footer uses this. */
 const TEXT = "text-[1.0625rem] font-normal leading-[1.35] text-soft/80";
 /** Colour shift only on hover, so nothing in the layout moves. */
 const LINK = `${TEXT} transition-colors hover:text-soft focus-visible:text-soft`;
 /** Line height 1.9 does the spacing; the items carry no margins of their own. */
 const ITEM = "leading-[1.9]";
-/** A heading is set apart by the space beneath it and by nothing else. */
-const HEADING_GAP = "mb-12";
+/**
+ * Headings keep the one size and weight and take blush instead. Coral is the site's
+ * accent, but at this size it sits at 3.9:1 on the earth ground, under the 4.5:1 that
+ * text below 24px needs; blush is 10.4:1 on the same ground and stays on palette.
+ * The 48px beneath still does most of the separating.
+ */
+const HEADING = "mb-12 text-[1.0625rem] font-normal leading-[1.35] text-blush";
 
 function MenuList({ items }: { items: { label: string; href: string }[] }) {
   return (
@@ -98,13 +102,15 @@ export default function Footer() {
               counted towards their min-content and made them claim width they did not
               need; the gutter is the space left over inside each track instead. */}
           <div>
-            <p className={`${TEXT} ${HEADING_GAP}`}>Menu</p>
-            {/* 3 + 3 down to 700. The inner gutter is 28px against a 72px outer one, so
-                the pair still reads as one column rather than as two of four. It holds
-                below 900 as well: a single list of six there is 263px tall against the
-                145px mark beside it, which opens a hole in the left column. Only the
-                one-column layout gets the list of six. */}
-            <div className="hidden min-[700px]:grid min-[700px]:grid-cols-2 min-[700px]:gap-x-7">
+            <p className={HEADING}>Menu</p>
+            {/* 3 + 3 down to 700. Flex, not a two-column grid: the grid split the whole
+                track in half and stood the lists 178px apart, nothing like the 28px the
+                gap declared. Sized to their content they sit a real 32px apart and read
+                as one column rather than as two of four.
+                The pair holds below 900 as well: a single list of six there is 263px
+                tall against the 145px mark beside it, which opens a hole in the left
+                column. Only the one-column layout gets the list of six. */}
+            <div className="hidden min-[700px]:flex min-[700px]:gap-x-8">
               <MenuList items={menuLeft} />
               <MenuList items={menuRight} />
             </div>
@@ -114,7 +120,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className={`${TEXT} ${HEADING_GAP}`}>Address</p>
+            <p className={HEADING}>Address</p>
             {/* Held to a measure that breaks the address over three lines. Narrowed
                 from 17rem when "Symbia," came off the front: at the old measure the
                 shorter string fell to two lines. */}
@@ -124,7 +130,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className={`${TEXT} ${HEADING_GAP}`}>Contact</p>
+            <p className={HEADING}>Contact</p>
             <ul>
               <li className={ITEM}>
                 <a href={`mailto:${CONTACT_EMAIL}`} className={LINK}>

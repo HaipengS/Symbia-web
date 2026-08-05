@@ -29,6 +29,12 @@ const timeline = [
     place: "Jakarta and New York",
     title: "A question about materials",
     body: "A teacher at Jakarta Intercultural School persuades Rayden to take a summer course on nanotechnology at Columbia. It introduces him to microbial leather, and to the idea that the artificial materials around us might be grown instead. The fermentation route it points at is a fraction as toxic as chrome tanning.",
+    // Every entry carries a frame. Without one the row left its third of the width
+    // empty, which read as a missing image rather than as space.
+    image: {
+      src: "/material/sheet.jpg",
+      alt: "A single grown sheet of Kombucha Bioleather, edges left as they formed",
+    },
   },
   {
     when: "April 2024",
@@ -170,12 +176,13 @@ export default function AboutPage() {
         </p>
       </header>
 
-      {/* ── Origin ── */}
-      <section
-        aria-label="Origin"
-        className="mx-auto w-full max-w-[1720px] px-6 md:px-10 lg:px-14"
-      >
-        <div className="grid gap-10 border-t border-ink/15 pt-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16 md:pt-16 lg:gap-24">
+      {/* ── Origin ──
+          No side-by-side pairing here. A tall portrait beside a short block of copy
+          opens a hole under the copy that nothing legitimately fills, so the story
+          runs at a readable measure and the photograph goes full width beneath it. */}
+      <section aria-label="Origin">
+        <div className="mx-auto w-full max-w-[1720px] px-6 md:px-10 lg:px-14">
+          <div className="grid gap-10 border-t border-ink/15 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] md:gap-16 md:pt-16 lg:gap-24">
           <div className="flex flex-col gap-6">
             <p className={SECTION_LABEL}>Origin</p>
             <h2 className="max-w-[18ch] font-display text-3xl leading-[1.1] text-ink md:text-[2.75rem]">
@@ -202,27 +209,71 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative aspect-[3/4] w-full overflow-hidden">
-            <Image
-              src="/gallery/galery7.png"
-              alt="Rayden Yap showing a bioleather jacket at a Symbia workshop"
-              fill
-              className="object-cover"
-              sizes="(min-width: 768px) 620px, 100vw"
-              unoptimized
-              priority
-            />
+          {/* Deliberately the shorter column. A short image beside long copy reads as
+              composition; short copy beside a long image reads as a fault. */}
+          <div className="flex flex-col gap-4">
+            <div className="relative aspect-[4/5] w-full overflow-hidden">
+              <Image
+                src="/gallery/galery7.png"
+                alt="Participants at a Symbia workshop holding up a finished bioleather jacket"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 24rem, 100vw"
+                unoptimized
+                priority
+              />
+            </div>
+            <p className="text-[0.8125rem] leading-[1.6] text-ink/45">
+              A finished jacket going round a workshop, which is usually the moment
+              people stop asking whether the material is real.
+            </p>
           </div>
+          </div>
+        </div>
+
+        <div className="relative mt-14 aspect-[3/2] w-full md:mt-20 md:aspect-[21/9]">
+          <Image
+            src="/material/origin-wide.jpg"
+            alt="Sheets of Kombucha Bioleather laid over one another, pale amber against near-black"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            unoptimized
+          />
         </div>
       </section>
 
       {/* ── The material, at a size where it can actually be read ── */}
       <section aria-label="The material" className="mt-20 md:mt-28">
+        {/* The heading used to sit alone on a line with two thirds of the width
+            empty beside it. It now shares the row with the characteristics, which is
+            the information a designer is looking for anyway. */}
         <div className="mx-auto mb-10 w-full max-w-[1720px] px-6 md:mb-14 md:px-10 lg:px-14">
-          <p className={SECTION_LABEL}>The material</p>
-          <h2 className="mt-5 max-w-[20ch] font-display text-4xl leading-[1.05] text-ink md:text-6xl">
-            Kombucha Bioleather
-          </h2>
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] md:items-end md:gap-16">
+            <div>
+              <p className={SECTION_LABEL}>The material</p>
+              <h2 className="mt-5 max-w-[20ch] font-display text-4xl leading-[1.05] text-ink md:text-6xl">
+                Kombucha Bioleather
+              </h2>
+            </div>
+            <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-ink/15 pt-6">
+              {[
+                ["Grown from", "SCOBY and recycled kombucha"],
+                ["Tanning", "None"],
+                ["Colour", "Pale amber to near black"],
+                ["Edges", "Translucent, irregular"],
+                ["Thickness", "Set by fermentation time"],
+                ["Two sheets alike", "No"],
+              ].map(([term, value]) => (
+                <div key={term} className="flex flex-col gap-1">
+                  <dt className="text-[0.625rem] uppercase tracking-[0.16em] text-amber-warm/70">
+                    {term}
+                  </dt>
+                  <dd className="text-[0.9375rem] leading-[1.5] text-ink/75">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
 
         <div className="relative aspect-[3/2] w-full md:aspect-[21/9]">
@@ -237,9 +288,10 @@ export default function AboutPage() {
         </div>
 
         <div className="mx-auto w-full max-w-[1720px] px-6 pt-12 md:px-10 md:pt-16 lg:px-14">
-          {/* Centred: the image stack runs taller than the copy, and top-aligning
-              the two dumps all of the difference into one empty corner. */}
-          <div className="grid gap-10 md:grid-cols-2 md:items-center md:gap-16 lg:gap-24">
+          {/* Top-aligned again, and the image side cut to two frames so it no longer
+              overruns the copy. Centring it only split the same emptiness across the
+              top and bottom of the column. */}
+          <div className="grid gap-10 md:grid-cols-2 md:gap-16 lg:gap-24">
             <div className="flex flex-col gap-5">
               <p className="text-base leading-[1.7] text-ink/70">
                 Bacteria and yeast ferment recycled kombucha and grow cellulose into a
@@ -270,14 +322,11 @@ export default function AboutPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 md:gap-4">
-              <div className="relative col-span-2 aspect-[3/2] overflow-hidden">
-                <Image src="/material/scale.jpg" alt="A full sheet of bioleather held up by hand" fill className="object-cover" sizes="(min-width:768px) 50vw, 100vw" unoptimized />
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image src="/material/scale.jpg" alt="A full sheet of bioleather held up by hand" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
               </div>
-              <div className="relative aspect-square overflow-hidden">
-                <Image src="/material/drape.jpg" alt="A sheet of bioleather folded over a hand" fill className="object-cover" sizes="25vw" unoptimized />
-              </div>
-              <div className="relative aspect-square overflow-hidden">
-                <Image src="/material/stack.jpg" alt="Finished sheets of bioleather folded in a stack" fill className="object-cover" sizes="25vw" unoptimized />
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image src="/material/stack.jpg" alt="Finished sheets of bioleather folded in a stack" fill className="object-cover" sizes="(min-width:768px) 25vw, 50vw" unoptimized />
               </div>
             </div>
           </div>
@@ -402,16 +451,22 @@ export default function AboutPage() {
         aria-label="Symbia on DAAI TV"
         className="mx-auto w-full max-w-[1720px] px-6 py-20 md:px-10 md:py-28 lg:px-14"
       >
-        <div className="grid gap-10 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-20">
-          <div className="flex flex-col gap-5">
+        {/* Heading above, player full width. A 16:9 frame beside a three line intro
+            left the intro's column two thirds empty. */}
+        <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,30rem)] md:items-end md:gap-16">
+          <div>
             <p className={SECTION_LABEL}>On television</p>
-            <h2 className="font-display text-3xl leading-[1.1] text-ink md:text-4xl">
+            <h2 className="mt-5 max-w-[22ch] font-display text-4xl leading-[1.05] text-ink md:text-5xl">
               The whole thing, explained in a workshop
             </h2>
-            <p className="text-base leading-[1.7] text-ink/60">
-              DAAI TV followed the process from brewed tea to a finished jacket.
-            </p>
           </div>
+          <p className="text-lg leading-[1.65] text-ink/65">
+            DAAI TV followed the process from brewed tea to a finished jacket. It is the
+            clearest account of the method that exists, and it is not ours.
+          </p>
+        </div>
+
+        <div className="mt-10 md:mt-14">
           <VideoEmbed
             id="QFm-a9qAQiI"
             title="DAAI TV: Kombucha tea turned into kombucha leather jackets"

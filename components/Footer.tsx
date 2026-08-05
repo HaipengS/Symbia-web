@@ -36,8 +36,12 @@ const FOOTER_LINK =
 export default function Footer() {
   return (
     <footer className="bg-earth">
-      <div className="mx-auto grid w-full max-w-[1720px] grid-cols-1 gap-16 px-6 py-16 text-center md:grid-cols-3 md:gap-10 md:px-10 md:py-20 lg:gap-16 lg:px-14">
-        {/* Mark, what the company is, then the notice. */}
+      <div className="mx-auto w-full max-w-[1720px] px-6 py-16 text-center md:px-10 md:py-20 lg:px-14">
+        {/* items-center, not the default start. Aligned at the top the three blocks
+            put their headings on one line but their centres on three different ones,
+            because each holds a different amount. Centred, they share one axis. */}
+        <div className="grid grid-cols-1 gap-16 md:grid-cols-3 md:items-center md:gap-10 lg:gap-16">
+        {/* Mark and what the company is. */}
         <div className="flex flex-col items-center gap-8">
           <Link
             href="/"
@@ -53,9 +57,6 @@ export default function Footer() {
             <p>Symbia</p>
             <p>Est. 2023</p>
           </div>
-          <p className="text-[0.8125rem] uppercase tracking-[0.16em] text-soft/35">
-            &copy; 2026 Symbia
-          </p>
         </div>
 
         {/* Menu. Same job as the bar at the top, arranged so it cannot be mistaken
@@ -106,6 +107,14 @@ export default function Footer() {
             ))}
           </ul>
         </div>
+        </div>
+
+        {/* Out of the left column and onto the page's own centre line. Sitting inside
+            that column it also made the column taller than the other two, which is
+            what pushed their centres apart. */}
+        <p className="mt-16 text-[0.8125rem] uppercase tracking-[0.16em] text-soft/35 md:mt-20">
+          &copy; 2026 Symbia
+        </p>
       </div>
     </footer>
   );

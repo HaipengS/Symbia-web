@@ -14,15 +14,14 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * mark and the menu is deliberate and stays empty.
  */
 
-// One list of six at every width. Contact still points at the homepage section:
-// the /contact route does not exist yet. One href to change once it does.
+// One list of six at every width.
 const menu = [
   { label: "Home", href: "/" },
   { label: "Research", href: "/research" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Impact", href: "/impact" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const socials = [

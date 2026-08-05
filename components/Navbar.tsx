@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type MouseEvent, type ReactNode } from "react";
+import { useState, type MouseEvent, type ReactNode } from "react";
 import { useWaitlist } from "@/lib/waitlist-context";
 
 /**
@@ -12,17 +12,25 @@ import { useWaitlist } from "@/lib/waitlist-context";
  *     hooks; components/LogoIntro.tsx drives its opacity / pointer-events from scroll
  *     progress and docks the shared logo into the slot.
  * Links, CTA, spacing and typography are shared so the two never drift apart.
+ *
+ * Below 1024 the links collapse into a panel. Six of them plus the waitlist button
+ * measure about 850px next to the mark, so they stop fitting somewhere near 900;
+ * the bar carried five and no fallback at all before Impact and Contact joined it.
  */
 
 type NavLink = { href: string; label: string; type: "section" | "route" };
 
 // Section links (#…) live on the home scroll; route links are dedicated pages.
+// Contact became a route rather than a home anchor because the brief asks for a
+// separate page that does not send you back to the home page. Impact was reachable
+// only from the footer until now.
 const NAV_LINKS: NavLink[] = [
   { href: "#home", label: "Home", type: "section" },
   { href: "/about", label: "About", type: "route" },
+  { href: "/impact", label: "Impact", type: "route" },
   { href: "/research", label: "Research", type: "route" },
   { href: "/gallery", label: "Gallery", type: "route" },
-  { href: "#contact", label: "Contact", type: "section" },
+  { href: "/contact", label: "Contact", type: "route" },
 ];
 
 const CTA_CLASS =
@@ -43,6 +51,13 @@ export default function Navbar({
   const { open } = useWaitlist();
   const pathname = usePathname();
   const onHome = pathname === "/";
+  // The navbar survives a route change, so the panel has to close itself on one.
+  // Storing the path it was opened at derives that instead of watching for it: any
+  // navigation, including the mark and the browser's own back button, makes the
+  // stored path stale and the panel shut.
+  const [openedAt, setOpenedAt] = useState<string | null>(null);
+  const menuOpen = openedAt === pathname;
+  const closeMenu = () => setOpenedAt(null);
 
   // Section links scroll on the home page; off home they route to the home anchor.
   const hrefFor = (l: NavLink) =>
@@ -58,14 +73,17 @@ export default function Navbar({
   const isActive = (l: NavLink) =>
     l.type === "route" ? pathname === l.href : l.href === "#home" && onHome;
 
-  const renderLinks = () =>
+  const renderLinks = (onNavigate?: () => void) =>
     NAV_LINKS.map((l) => {
       const active = isActive(l);
       return (
         <Link
           key={l.href}
           href={hrefFor(l)}
-          onClick={l.type === "section" ? scrollToSection(l.href.slice(1)) : undefined}
+          onClick={(e) => {
+            if (l.type === "section") scrollToSection(l.href.slice(1))(e);
+            onNavigate?.();
+          }}
           aria-current={active ? "page" : undefined}
           className={cx(
             "transition-colors hover:text-earth",
@@ -77,7 +95,57 @@ export default function Navbar({
       );
     });
 
-  const linkGroup = "flex items-center gap-7 text-xs uppercase tracking-[0.14em]";
+  const linkGroup =
+    "hidden lg:flex items-center gap-7 text-xs uppercase tracking-[0.14em]";
+
+  /** Hamburger plus the panel it opens. Hidden from 1024 up, where the bar fits. */
+  const renderMobile = (source: string) => (
+    <div className="lg:hidden">
+      <button
+        type="button"
+        onClick={() => setOpenedAt(menuOpen ? null : pathname)}
+        aria-expanded={menuOpen}
+        aria-controls="navbar-menu"
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
+      >
+        <span
+          className={cx(
+            "block h-px w-5 bg-earth transition-transform duration-200",
+            menuOpen && "translate-y-[3px] rotate-45",
+          )}
+        />
+        <span
+          className={cx(
+            "block h-px w-5 bg-earth transition-transform duration-200",
+            menuOpen && "-translate-y-[3px] -rotate-45",
+          )}
+        />
+      </button>
+
+      {/* Opaque, not translucent: at 95% the heading behind it stayed legible
+          through the links. */}
+      {menuOpen && (
+        <div
+          id="navbar-menu"
+          className="absolute inset-x-0 top-full border-b border-earth/10 bg-soft px-6 pb-8 pt-2 md:px-10"
+        >
+          <div className="mx-auto flex w-full max-w-[1720px] flex-col items-start gap-5 text-sm uppercase tracking-[0.14em]">
+            {renderLinks(closeMenu)}
+            <button
+              onClick={() => {
+                closeMenu();
+                open(source);
+              }}
+              className={cx(CTA_CLASS, "mt-2")}
+            >
+              Join waitlist
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   // ── Animated mode (home hero) — LogoIntro drives opacity/pointer-events ──
   if (mode === "animated") {
@@ -103,9 +171,13 @@ export default function Navbar({
             style={{ opacity: 0, pointerEvents: "none" }}
           >
             <div className={linkGroup}>{renderLinks()}</div>
-            <button onClick={() => open("navbar-home")} className={CTA_CLASS}>
+            <button
+              onClick={() => open("navbar-home")}
+              className={cx(CTA_CLASS, "hidden lg:inline-flex")}
+            >
               Join waitlist
             </button>
+            {renderMobile("navbar-home")}
           </div>
         </div>
       </nav>
@@ -129,9 +201,13 @@ export default function Navbar({
         </Link>
         <div className="flex items-center gap-7">
           <div className={linkGroup}>{renderLinks()}</div>
-          <button onClick={() => open("navbar")} className={CTA_CLASS}>
+          <button
+            onClick={() => open("navbar")}
+            className={cx(CTA_CLASS, "hidden lg:inline-flex")}
+          >
             Join waitlist
           </button>
+          {renderMobile("navbar")}
         </div>
       </div>
     </nav>

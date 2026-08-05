@@ -15,7 +15,15 @@ const resend = apiKey ? new Resend(apiKey) : null;
 const FROM = process.env.CONTACT_FROM_EMAIL ?? "Symbia <onboarding@resend.dev>";
 const TO = process.env.CONTACT_TO_EMAIL ?? CONTACT_EMAIL;
 
-type ContactPayload = { name: string | null; email: string; message: string };
+type ContactPayload = {
+  name: string | null;
+  email: string;
+  message: string;
+  /** Null from the Research form, which asks only about supply. */
+  organisation?: string | null;
+  /** Already resolved against the published list by the caller. */
+  topic?: string | null;
+};
 
 export type EmailOutcome =
   | { ok: true }
@@ -51,30 +59,54 @@ export async function sendContactNotification(
   }
 
   const name = input.name?.trim() || "Someone";
+  const organisation = input.organisation?.trim() || null;
+  const topic = input.topic?.trim() || null;
   const messageHtml = escapeHtml(input.message).replace(/\n/g, "<br>");
+
+  // The topic leads the subject line, so the inbox sorts itself. En dash, matching
+  // the rule the site itself follows.
+  const subject = topic ? `${topic} – ${name}` : `New contact from ${name}`;
+
+  const row = (term: string, valueHtml: string) => `
+      <tr>
+        <td style="padding:4px 16px 4px 0;color:rgba(36,26,18,0.5);white-space:nowrap;">${term}</td>
+        <td style="padding:4px 0;">${valueHtml}</td>
+      </tr>`;
 
   const html = `
   <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;padding:8px 0;color:#241a12;">
-    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#A75A2B;margin:0 0 6px;">New contact · symbia.studio</p>
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#A75A2B;margin:0 0 6px;">${topic ? escapeHtml(topic) : "New contact"} · symbia.studio</p>
     <h1 style="font-size:20px;font-weight:600;margin:0 0 20px;">${escapeHtml(name)}</h1>
-    <table style="border-collapse:collapse;font-size:14px;margin:0 0 18px;">
-      <tr>
-        <td style="padding:4px 16px 4px 0;color:rgba(36,26,18,0.5);">Email</td>
-        <td style="padding:4px 0;"><a href="mailto:${escapeHtml(input.email)}" style="color:#F04E3E;text-decoration:none;">${escapeHtml(input.email)}</a></td>
-      </tr>
+    <table style="border-collapse:collapse;font-size:14px;margin:0 0 18px;">${row(
+      "Email",
+      `<a href="mailto:${escapeHtml(input.email)}" style="color:#F04E3E;text-decoration:none;">${escapeHtml(input.email)}</a>`,
+    )}${organisation ? row("Company", escapeHtml(organisation)) : ""}${
+      topic ? row("About", escapeHtml(topic)) : ""
+    }
     </table>
     <div style="border-left:3px solid rgba(240,78,62,0.4);padding:2px 0 2px 16px;font-size:15px;line-height:1.6;color:rgba(36,26,18,0.85);">${messageHtml}</div>
     <p style="margin:24px 0 0;font-size:12px;color:rgba(36,26,18,0.4);">Reply directly to this email to respond to ${escapeHtml(name)}.</p>
   </div>`.trim();
 
-  const text = `New contact from ${name}\n\nEmail: ${input.email}\n\n${input.message}\n\nReply to this email to respond.`;
+  const text = [
+    topic ? `${topic} enquiry from ${name}` : `New contact from ${name}`,
+    "",
+    `Email: ${input.email}`,
+    organisation ? `Company: ${organisation}` : null,
+    "",
+    input.message,
+    "",
+    "Reply to this email to respond.",
+  ]
+    .filter((l) => l !== null)
+    .join("\n");
 
   try {
     const { error } = await resend.emails.send({
       from: FROM,
       to: TO,
       replyTo: input.email,
-      subject: `New contact from ${name}`,
+      subject,
       html,
       text,
     });

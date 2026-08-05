@@ -1,7 +1,6 @@
-import ContactSection from "@/components/ContactSection";
+import Link from "next/link";
 import MosaicGallery from "@/components/MosaicGallery";
 import { galleryImages } from "@/data/galleryImages";
-import { CONTACT_EMAIL } from "@/lib/constants";
 
 export const metadata = {
   title: "Gallery | Symbia",
@@ -31,10 +30,23 @@ export default function GalleryPage() {
         <MosaicGallery images={galleryImages} />
       </section>
 
-      {/* ── Contact (standard readable width) ── */}
-      <div className="mx-auto w-full max-w-5xl px-6 pb-24">
-        <ContactSection email={CONTACT_EMAIL} />
-      </div>
+      {/* The generic contact form that stood here is now one page at /contact. It
+          asked nothing this page's visitors would answer differently, unlike the
+          supplier form on Research, which stays where it is. */}
+      <section aria-label="Contact Symbia" className="px-2 pb-24 md:px-3">
+        <div className="flex flex-col items-start gap-5 border-t border-ink/12 pt-10">
+          <h2 className="max-w-[20ch] font-display text-3xl leading-[1.1] text-ink md:text-4xl">
+            Something here you want made in Kombucha Bioleather?
+          </h2>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-soft transition hover:bg-amber-warm"
+          >
+            Get in touch
+            <span aria-hidden>↗</span>
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

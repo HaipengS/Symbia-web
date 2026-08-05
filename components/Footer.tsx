@@ -71,7 +71,10 @@ export default function Footer() {
             column gap on top of them pushes every start to the right. The gutters
             come from the right padding on the middle two blocks instead. */}
         <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[19%_30%_29%_22%] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
-          <div>
+          {/* Dropped by the height of a heading plus its 48px gap, so the mark starts
+              on the same line as the first item in every other column rather than up
+              level with the headings. */}
+          <div className="min-[900px]:pt-[4.4375rem]">
             <Link
               href="/"
               aria-label="Symbia home"
@@ -79,17 +82,21 @@ export default function Footer() {
             >
               <Logo variant="emblem" emblemSize={90} label="Symbia" />
             </Link>
+            <p className={`${TEXT} mt-8`}>Est. 2023</p>
           </div>
 
           <div className="min-[900px]:pr-[4.5rem]">
             <p className={`${TEXT} ${HEADING_GAP}`}>Menu</p>
-            {/* 3 + 3 above 900. The inner gutter is 28px against a 72px outer one, so
-                the pair still reads as one column rather than as two of four. */}
-            <div className="hidden min-[900px]:grid min-[900px]:grid-cols-2 min-[900px]:gap-x-7">
+            {/* 3 + 3 down to 700. The inner gutter is 28px against a 72px outer one, so
+                the pair still reads as one column rather than as two of four. It holds
+                below 900 as well: a single list of six there is 263px tall against the
+                145px mark beside it, which opens a hole in the left column. Only the
+                one-column layout gets the list of six. */}
+            <div className="hidden min-[700px]:grid min-[700px]:grid-cols-2 min-[700px]:gap-x-7">
               <MenuList items={menuLeft} />
               <MenuList items={menuRight} />
             </div>
-            <div className="min-[900px]:hidden">
+            <div className="min-[700px]:hidden">
               <MenuList items={[...menuLeft, ...menuRight]} />
             </div>
           </div>

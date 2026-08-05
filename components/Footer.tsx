@@ -3,24 +3,22 @@ import Logo from "@/components/Logo";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 /**
- * Three blocks divided by vertical rules: the mark and the copyright on the left,
- * a menu in the middle, contact details on the right. Built after the Mycotech Lab
- * footer, which is the layout Rayden's reference is a simplified version of.
+ * Three columns on a dark ground, each centred inside its own track.
  *
- * The middle block carries a faint tint. It is a second navigation, so it has to
- * read as a distinct object from the bar at the top of the page rather than as a
- * repeat of it, and the tint is what does that without adding another rule.
+ * No rules and no tint: centring each column is what separates them, so the
+ * dividers the previous version needed are gone. The ground is `earth`, the same
+ * dark the figures band on /impact uses, so the two read as one device rather than
+ * as two unrelated dark patches.
  *
- * Contact is missing from the menu on purpose: that route does not exist yet. Add
- * it here the moment it does.
+ * Contact is deliberately missing from the menu. That route does not exist yet.
  */
 
 const menu = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Research", href: "/research" },
-  { label: "Impact", href: "/impact" },
   { label: "Gallery", href: "/gallery" },
+  { label: "About", href: "/about" },
+  { label: "Impact", href: "/impact" },
 ];
 
 const socials = [
@@ -31,44 +29,41 @@ const socials = [
 const PHONE_DISPLAY = "+1 224 204 3240";
 const PHONE_HREF = "tel:+12242043240";
 
-const BLOCK_HEADING = "font-display text-3xl leading-none text-ink md:text-[2rem]";
+const BLOCK_HEADING = "font-display text-3xl leading-none text-soft md:text-[2rem]";
 const FOOTER_LINK =
-  "text-base text-ink/65 transition-colors hover:text-coral focus-visible:text-coral";
+  "text-base text-soft/70 transition-colors hover:text-soft focus-visible:text-soft";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink/10">
-      <div className="mx-auto grid w-full max-w-[1720px] grid-cols-1 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)_minmax(0,1.1fr)]">
-        {/* Mark top, copyright pinned to the bottom of the block. */}
-        <div className="flex flex-col justify-between gap-12 px-6 py-12 md:px-10 md:py-16 lg:pl-14">
-          <div className="flex flex-col gap-6">
-            <Link
-              href="/"
-              aria-label="Symbia home"
-              className="inline-flex self-start text-ink transition-colors hover:text-coral"
-            >
-              <Logo variant="emblem" emblemSize={88} label="Symbia" />
-            </Link>
-            {/* The reference fills this block with award badges. We have none to show,
-                so it carries the one line that says what the company is. */}
-            <p className="max-w-[22ch] text-base leading-[1.5] text-ink/60">
-              Leather grown from recycled kombucha, not tanned.
-            </p>
-          </div>
-          <div className="flex flex-col gap-1 text-sm text-ink/45">
+    <footer className="bg-earth">
+      <div className="mx-auto grid w-full max-w-[1720px] grid-cols-1 gap-16 px-6 py-16 text-center md:grid-cols-3 md:gap-10 md:px-10 md:py-20 lg:gap-16 lg:px-14">
+        {/* Mark, what the company is, then the notice. */}
+        <div className="flex flex-col items-center gap-8">
+          <Link
+            href="/"
+            aria-label="Symbia home"
+            className="inline-flex text-soft transition-opacity hover:opacity-75"
+          >
+            <Logo variant="emblem" emblemSize={104} label="Symbia" />
+          </Link>
+          <p className="max-w-[24ch] text-base leading-[1.6] text-soft/70">
+            Leather grown from recycled kombucha, not tanned.
+          </p>
+          <div className="flex flex-col gap-1 text-base text-soft/45">
             <p>Symbia</p>
             <p>Est. 2023</p>
-            <p className="mt-3 text-[0.8125rem] uppercase tracking-[0.14em] text-ink/35">
-              &copy; 2026 Symbia
-            </p>
           </div>
+          <p className="text-[0.8125rem] uppercase tracking-[0.16em] text-soft/35">
+            &copy; 2026 Symbia
+          </p>
         </div>
 
-        {/* Menu. Same job as the navbar, deliberately not the same object. */}
-        <div className="border-t border-ink/10 bg-cream/40 px-6 py-12 md:border-l md:border-t-0 md:px-12 md:py-16">
+        {/* Menu. Same job as the bar at the top, arranged so it cannot be mistaken
+            for it: one centred column rather than a horizontal row. */}
+        <div className="flex flex-col items-center gap-8">
           <h2 className={BLOCK_HEADING}>Menu</h2>
-          <nav aria-label="Footer" className="mt-8 md:mt-10">
-            <ul className="grid grid-cols-2 gap-x-8 gap-y-4">
+          <nav aria-label="Footer">
+            <ul className="flex flex-col gap-4">
               {menu.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={FOOTER_LINK}>
@@ -81,43 +76,35 @@ export default function Footer() {
         </div>
 
         {/* Contact. */}
-        <div className="border-t border-ink/10 px-6 py-12 md:border-l md:border-t-0 md:px-12 md:py-16 lg:pr-14">
+        <div className="flex flex-col items-center gap-8">
           <h2 className={BLOCK_HEADING}>Contact</h2>
-          {/* Two sub-columns, matching the menu's rhythm. Stacked in one narrow column
-              the details filled about a third of the block and left the rest empty. */}
-          <div className="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 md:mt-10">
-            <address className="text-base not-italic leading-relaxed text-ink/65">
-              Symbia
-              <br />
-              2311 N Campus Dr
-              <br />
-              Evanston, IL 60208
-            </address>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
-                  {CONTACT_EMAIL}
-                </a>
-                <a href={PHONE_HREF} className={FOOTER_LINK}>
-                  {PHONE_DISPLAY}
-                </a>
-              </div>
-              <ul className="flex flex-col gap-2">
-                {socials.map((s) => (
-                  <li key={s.label}>
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={FOOTER_LINK}
-                    >
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <address className="not-italic text-base leading-[1.7] text-soft/70">
+            2311 N Campus Dr
+            <br />
+            Evanston, IL 60208
+          </address>
+          <div className="flex flex-col gap-1.5">
+            <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
+              {CONTACT_EMAIL}
+            </a>
+            <a href={PHONE_HREF} className={FOOTER_LINK}>
+              {PHONE_DISPLAY}
+            </a>
           </div>
+          <ul className="flex flex-col gap-3">
+            {socials.map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={FOOTER_LINK}
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

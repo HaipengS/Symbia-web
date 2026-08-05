@@ -40,7 +40,9 @@ export default function Footer() {
         {/* items-center, not the default start. Aligned at the top the three blocks
             put their headings on one line but their centres on three different ones,
             because each holds a different amount. Centred, they share one axis. */}
-        <div className="grid grid-cols-1 gap-16 md:grid-cols-3 md:items-center md:gap-10 lg:gap-16">
+        {/* Four across only from lg. At md the four tracks are about 185px each and
+            the email address very nearly fills one; a tablet gets a roomier 2x2. */}
+        <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 sm:items-center sm:gap-x-8 lg:grid-cols-4 lg:gap-12">
         {/* Mark and what the company is. */}
         <div className="flex flex-col items-center gap-8">
           <Link
@@ -76,36 +78,39 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Contact. */}
+        {/* Where we are. Its own column now: bundled under Contact it made that block
+            twice the height of the others and there is nothing to reach it by. */}
         <div className="flex flex-col items-center gap-8">
-          <h2 className={BLOCK_HEADING}>Contact</h2>
+          <h2 className={BLOCK_HEADING}>Address</h2>
           <address className="not-italic text-base leading-[1.7] text-soft/70">
             2311 N Campus Dr
             <br />
             Evanston, IL 60208
           </address>
-          <div className="flex flex-col gap-1.5">
+        </div>
+
+        {/* How to reach us. */}
+        <div className="flex flex-col items-center gap-8">
+          <h2 className={BLOCK_HEADING}>Contact</h2>
+          <div className="flex flex-col gap-3">
             <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
               {CONTACT_EMAIL}
             </a>
             <a href={PHONE_HREF} className={FOOTER_LINK}>
               {PHONE_DISPLAY}
             </a>
-          </div>
-          <ul className="flex flex-col gap-3">
             {socials.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={FOOTER_LINK}
-                >
-                  {s.label}
-                </a>
-              </li>
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className={FOOTER_LINK}
+              >
+                {s.label}
+              </a>
             ))}
-          </ul>
+          </div>
         </div>
         </div>
 

@@ -11,7 +11,7 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * space under it, which is the whole point of the arrangement, so nothing here
  * should acquire a larger size, a bolder weight or the display face.
  *
- * Columns start at 0, 19, 49 and 78% of the content width. The band between the
+ * Columns start at 0, 25, 55 and 84% of the content width. The band between the
  * mark and the menu is deliberate and stays empty.
  */
 
@@ -67,14 +67,23 @@ export default function Footer() {
         {/* Tracks are the distance from one start to the next, so each block begins
             exactly on its percentage. Two columns between 700 and 900: four at that
             width puts the email address in a 154px track, which overflows. */}
-        {/* gap-x is zeroed at 900: the percentages already contain the gutters, so a
-            column gap on top of them pushes every start to the right. The gutters
-            come from the right padding on the middle two blocks instead. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[19%_30%_29%_22%] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
-          {/* Dropped by the height of a heading plus its 48px gap, so the mark starts
-              on the same line as the first item in every other column rather than up
-              level with the headings. */}
-          <div className="min-[900px]:pt-[4.4375rem]">
+        {/* fr rather than percentage tracks. The ratio 25:30:29:16 puts the starts on
+            0, 25, 55 and 84%, but an fr track's automatic minimum is its min-content,
+            so when the viewport cannot afford that ratio the Contact column holds its
+            width and the other three give way instead of the email overflowing. Fixed
+            percentages cannot do this: at 900 the old 22% track was 180px against the
+            184px it needed.
+            gap-x is zeroed at 900: the tracks already contain the gutters, so a column
+            gap on top of them pushes every start to the right. */}
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[25fr_30fr_29fr_16fr] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
+          {/* The mark and its date share one vertical centre line. "Est. 2023" is the
+              wider of the two, so the group is sized to it and the mark centres over
+              it: the text keeps the column's left edge, in line with the copyright,
+              and only the mark moves. Centring the text on a mark pinned to the left
+              edge would instead push the text outside the page container.
+              A 32px drop, matching the gap under the mark, sets the group below the
+              heading line without taking it all the way down to the first item. */}
+          <div className="flex w-fit flex-col items-center min-[900px]:pt-8">
             <Link
               href="/"
               aria-label="Symbia home"
@@ -85,7 +94,10 @@ export default function Footer() {
             <p className={`${TEXT} mt-8`}>Est. 2023</p>
           </div>
 
-          <div className="min-[900px]:pr-[4.5rem]">
+          {/* No right padding on the middle two blocks any more. Under fr tracks it
+              counted towards their min-content and made them claim width they did not
+              need; the gutter is the space left over inside each track instead. */}
+          <div>
             <p className={`${TEXT} ${HEADING_GAP}`}>Menu</p>
             {/* 3 + 3 down to 700. The inner gutter is 28px against a 72px outer one, so
                 the pair still reads as one column rather than as two of four. It holds
@@ -101,11 +113,13 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="min-[900px]:pr-[4.5rem]">
+          <div>
             <p className={`${TEXT} ${HEADING_GAP}`}>Address</p>
-            {/* Held to a measure that breaks the address over three lines. */}
-            <address className={`${TEXT} max-w-[17rem] not-italic leading-[1.9]`}>
-              Symbia, 2311 N Campus Dr, Evanston, IL 60208. United States.
+            {/* Held to a measure that breaks the address over three lines. Narrowed
+                from 17rem when "Symbia," came off the front: at the old measure the
+                shorter string fell to two lines. */}
+            <address className={`${TEXT} max-w-[11.5rem] not-italic leading-[1.9]`}>
+              2311 N Campus Dr, Evanston, IL 60208. United States.
             </address>
           </div>
 
@@ -117,7 +131,9 @@ export default function Footer() {
                   {CONTACT_EMAIL}
                 </a>
               </li>
-              <li className={ITEM}>
+              {/* Kept on one line so it counts towards the track's min-content floor
+                  along with the unbreakable email address. */}
+              <li className={`${ITEM} whitespace-nowrap`}>
                 <a href={PHONE_HREF} className={LINK}>
                   {PHONE_DISPLAY}
                 </a>

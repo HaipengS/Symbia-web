@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ContactSection from "@/components/ContactSection";
-import { CONTACT_EMAIL } from "@/lib/constants";
+import Link from "next/link";
+import WorkflowStepper, { type WorkflowStep } from "@/components/WorkflowStepper";
 
 export const metadata = {
   title: "Research | Symbia",
@@ -34,13 +34,25 @@ const feedstocks = [
   "Other clean fermentation by-products",
 ];
 
-const workflow = [
+/**
+ * Each step carries its own frame, and the panel beside the list follows whichever
+ * step is being read. Steps three to six show the thing they describe. One and two
+ * do not: there is no photograph of a by-product at a supplier or of a collection,
+ * so they show what a stream turns into and the caption says exactly that rather
+ * than implying a picture of the pickup.
+ */
+const workflow: WorkflowStep[] = [
   {
     step: "01",
     title: "Supplier assessment",
     body: "We review your by-product together: what it is, how much you produce, how often, and whether it's a good candidate for testing.",
     you: "Tell us what you make.",
     us: "Assess fit and next steps.",
+    image: {
+      src: "/process/sheet-grown.jpg",
+      alt: "A single sheet of Kombucha Bioleather on a pale surface, its edges left as they grew",
+      caption: "What a clean stream turns into",
+    },
   },
   {
     step: "02",
@@ -48,6 +60,11 @@ const workflow = [
     body: "We agree a pickup rhythm that fits your operation and simple storage guidance so the material stays usable between collections.",
     you: "Set the agreed stream aside.",
     us: "Handle collection, free of charge.",
+    image: {
+      src: "/process/sheets-folded.jpg",
+      alt: "Several finished sheets of Kombucha Bioleather folded and stacked",
+      caption: "Finished sheets, folded and stacked",
+    },
   },
   {
     step: "03",
@@ -55,6 +72,11 @@ const workflow = [
     body: "Back at the studio, the recovered material is cleaned, filtered, and prepared to feed our cultivation system.",
     you: null,
     us: "Handle all processing.",
+    image: {
+      src: "/material/scale.jpg",
+      alt: "Kombucha Bioleather at full sheet size, showing the scale a single growth reaches",
+      caption: "One growth, at full size",
+    },
   },
   {
     step: "04",
@@ -62,6 +84,11 @@ const workflow = [
     body: "Under controlled conditions, microorganisms ferment the prepared feedstock and grow cellulose into sheets over time.",
     you: null,
     us: "Run the cultivation.",
+    image: {
+      src: "/process/step1.png",
+      alt: "Gloved hands lifting a grown cellulose pellicle out of a vat of fermented tea",
+      caption: "Lifting a pellicle from the vat",
+    },
   },
   {
     step: "05",
@@ -69,6 +96,11 @@ const workflow = [
     body: "The grown cellulose is pressed, dried, and finished into a workable material with the feel and durability of leather.",
     you: null,
     us: "Finish the material.",
+    image: {
+      src: "/process/step2.png",
+      alt: "A wet harvested sheet laid flat on a green drying rack",
+      caption: "Laid out on the drying rack",
+    },
   },
   {
     step: "06",
@@ -76,6 +108,11 @@ const workflow = [
     body: "The finished bioleather is tested and developed into products: accessories, bags, apparel components, and prototypes.",
     you: null,
     us: "Build & showcase with partners.",
+    image: {
+      src: "/products/symbia-bag-10.jpg",
+      alt: "A finished bag in Kombucha Bioleather, held open to show its woven Tenun lining",
+      caption: "A finished bag, lined in Tenun",
+    },
   },
 ];
 
@@ -229,65 +266,7 @@ export default function ResearchPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
-            <ol className="relative space-y-8 border-l border-ink/12 pl-8">
-              {workflow.map((s) => (
-                <li key={s.step} className="relative">
-                  <span
-                    className="absolute -left-[41px] flex h-8 w-8 items-center justify-center rounded-full bg-coral font-display text-xs font-bold text-soft ring-4 ring-[#ffffff]"
-                    aria-hidden
-                  >
-                    {s.step}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-ink">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/65">
-                    {s.body}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs">
-                    {s.you && (
-                      <span className="text-ink/55">
-                        <span className="font-semibold uppercase tracking-[0.1em] text-amber-warm/70">
-                          You
-                        </span>{" "}
-                        · {s.you}
-                      </span>
-                    )}
-                    <span className="text-ink/55">
-                      <span className="font-semibold uppercase tracking-[0.1em] text-coral/80">
-                        Symbia
-                      </span>{" "}
-                      · {s.us}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            <aside className="card-surface overflow-hidden rounded-2xl lg:sticky lg:top-24">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src="/process/step1.png"
-                  alt="Fermenting bioleather sheets"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 340px, 100vw"
-                  unoptimized
-                />
-              </div>
-              <div className="space-y-3 p-6">
-                <p className="text-xs uppercase tracking-[0.12em] text-amber-warm/70">
-                  At a glance
-                </p>
-                <p className="text-sm leading-relaxed text-ink/70">
-                  You set aside a clean organic stream. We collect it, grow it into
-                  bacterial cellulose, and develop it into finished bioleather. The
-                  whole process, handled.
-                </p>
-              </div>
-            </aside>
-          </div>
+          <WorkflowStepper steps={workflow} />
         </section>
 
         {/* ── Environmental value ── */}
@@ -362,18 +341,32 @@ export default function ResearchPage() {
           </div>
         </section>
 
-        {/* ── Contact: centered, supplier-focused ── */}
-        <div className="mx-auto mt-24 w-full max-w-3xl">
-          <ContactSection
-            email={CONTACT_EMAIL}
-            centered
-            eyebrow="Become a supplier"
-            heading="Tell us what your business produces"
-            description="Share what you make, the organic by-product you have, and how often it's generated. We'll review whether it may be a fit for our research and collection workflow."
-            messageLabel="Your business & by-product"
-            messagePlaceholder="Your business, the by-product you produce (e.g. kombucha SCOBY, spent tea, coffee grounds), rough quantity, and how often it's available."
-          />
-        </div>
+        {/* The supplier form that closed this page now lives on /contact, where it
+            is one of four options. The wording that was in it survives as the
+            instruction here, so nothing a supplier needed to be told is lost. */}
+        <section aria-label="Become a supplier" className="mt-24">
+          <div className="flex flex-col items-start gap-5 border-t border-ink/12 pt-10">
+            <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
+              Become a supplier
+            </p>
+            <h2 className="max-w-[22ch] font-display text-3xl font-bold text-ink md:text-4xl">
+              Tell us what your business produces
+            </h2>
+            <p className="max-w-2xl text-base leading-relaxed text-ink/60">
+              Say what you make, the organic by-product it generates, the rough
+              quantity, and how often it is available. On the contact page, choose
+              &ldquo;An organic by-product to supply&rdquo; and the form will ask for
+              exactly that.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-soft transition hover:bg-amber-warm"
+            >
+              Get in touch
+              <span aria-hidden>↗</span>
+            </Link>
+          </div>
+        </section>
       </main>
     </>
   );

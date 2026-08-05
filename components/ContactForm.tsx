@@ -9,9 +9,8 @@ import {
 } from "@/lib/contact-topics";
 
 /**
- * The /contact form. Distinct from ContactSection, which is the in-context block
- * still used on Research: that one is a single supplier-specific form and does not
- * ask who is writing.
+ * The site's only contact form. ContactSection, the block that used to be dropped
+ * into the home, gallery and research pages, is gone: those three now link here.
  *
  * Choosing a topic is a real radio group rather than styled buttons, so it arrives
  * in the FormData on its own and keeps arrow-key navigation for free. The only

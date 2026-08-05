@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
@@ -50,23 +49,6 @@ const channels = [
     term: "Where we are",
     value: "2311 N Campus Dr, Evanston, IL 60208",
     href: null,
-  },
-];
-
-// Each entry answers one of the topic options. Every figure here is one the site
-// already publishes on /impact and /about, not a new claim.
-const guidance = [
-  {
-    title: "If you want material",
-    body: "Tell us the product, roughly how much surface area it takes, and when you need it. Sheet size and lead time depend on all three, so a message that has them gets answered in one reply rather than three.",
-  },
-  {
-    title: "If you want a session",
-    body: "Sessions have run in villages, local schools and vocational education centres across five provinces, and they have been free to attend in every case so far. Where you are decides more than the date does.",
-  },
-  {
-    title: "If you are writing about us",
-    body: "The material is Kombucha Bioleather, grown from fermented tea rather than tanned from a hide. The story so far is on About, and the teaching and offsetting work is on Impact.",
   },
 ];
 
@@ -143,40 +125,6 @@ export default function ContactPage() {
         />
       </section>
 
-      <section aria-label="What to include" className="bg-earth py-20 md:py-28">
-        <div className="mx-auto w-full max-w-[1720px] px-6 md:px-10 lg:px-14">
-          <p className="text-[0.875rem] font-medium uppercase tracking-[0.16em] text-soft/60">
-            What to include
-          </p>
-          <div className="mt-12 grid gap-12 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-16">
-            {guidance.map((g) => (
-              <div key={g.title} className="flex flex-col gap-4 border-t border-soft/20 pt-6">
-                <h2 className="font-display text-2xl leading-[1.15] text-soft md:text-[1.75rem]">
-                  {g.title}
-                </h2>
-                <p className="text-base leading-[1.75] text-soft/60">{g.body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-14 text-base leading-[1.7] text-soft/55">
-            More on the material and where it came from is on{" "}
-            <Link
-              href="/about"
-              className="text-soft underline decoration-soft/30 underline-offset-4 transition hover:decoration-soft"
-            >
-              About
-            </Link>
-            , and the teaching and offsetting work is on{" "}
-            <Link
-              href="/impact"
-              className="text-soft underline decoration-soft/30 underline-offset-4 transition hover:decoration-soft"
-            >
-              Impact
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
     </main>
   );
 }

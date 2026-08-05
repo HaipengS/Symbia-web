@@ -10,7 +10,7 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * heading is set apart by the 48px of empty space under it and by its colour alone.
  * Nothing here should acquire a larger size, a bolder weight or the display face.
  *
- * Columns start at 0, 25, 55 and 84% of the content width. The band between the
+ * Columns start at 0, 25, 55 and 77.65% of the content width. The band between the
  * mark and the menu is deliberate and stays empty.
  */
 
@@ -71,15 +71,15 @@ export default function Footer() {
         {/* Tracks are the distance from one start to the next, so each block begins
             exactly on its percentage. Two columns between 700 and 900: four at that
             width puts the email address in a 154px track, which overflows. */}
-        {/* fr rather than percentage tracks. The ratio 25:30:29:16 puts the starts on
-            0, 25, 55 and 84%, but an fr track's automatic minimum is its min-content,
+        {/* fr rather than percentage tracks. The ratio puts the starts on 0, 25, 55 and
+            77.65%, but an fr track's automatic minimum is its min-content,
             so when the viewport cannot afford that ratio the Contact column holds its
             width and the other three give way instead of the email overflowing. Fixed
             percentages cannot do this: at 900 the old 22% track was 180px against the
             184px it needed.
             gap-x is zeroed at 900: the tracks already contain the gutters, so a column
             gap on top of them pushes every start to the right. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[25fr_30fr_29fr_16fr] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[25fr_30fr_22.65fr_22.35fr] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
           {/* The mark and its date share one vertical centre line. "Est. 2023" is the
               wider of the two, so the group is sized to it and the mark centres over
               it: the text keeps the column's left edge, in line with the copyright,

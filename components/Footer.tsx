@@ -3,22 +3,30 @@ import Logo from "@/components/Logo";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 /**
- * Three columns on a dark ground, each centred inside its own track.
+ * Swiss-modernist footer. Four left-aligned blocks separated by whitespace alone:
+ * no rules, no borders, no tinted blocks behind any column.
  *
- * No rules and no tint: centring each column is what separates them, so the
- * dividers the previous version needed are gone. The ground is `earth`, the same
- * dark the figures band on /impact uses, so the two read as one device rather than
- * as two unrelated dark patches.
+ * The typography is deliberately flat. One size, one weight, one colour for
+ * headings and body alike. A heading is a heading only because of the 48px of empty
+ * space under it, which is the whole point of the arrangement, so nothing here
+ * should acquire a larger size, a bolder weight or the display face.
  *
- * Contact is deliberately missing from the menu. That route does not exist yet.
+ * Columns start at 0, 19, 49 and 78% of the content width. The band between the
+ * mark and the menu is deliberate and stays empty.
  */
 
-const menu = [
+const menuLeft = [
   { label: "Home", href: "/" },
   { label: "Research", href: "/research" },
   { label: "Gallery", href: "/gallery" },
+];
+
+// Contact still points at the homepage section: the /contact route does not exist
+// yet. One href to change once it does.
+const menuRight = [
   { label: "About", href: "/about" },
   { label: "Impact", href: "/impact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const socials = [
@@ -26,107 +34,104 @@ const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/madewithsymbia/" },
 ];
 
-const PHONE_DISPLAY = "+1 224 204 3240";
+const PHONE_DISPLAY = "Tel. +1 224 204 3240";
 const PHONE_HREF = "tel:+12242043240";
 
-const BLOCK_HEADING = "font-display text-3xl leading-none text-soft md:text-[2rem]";
-const FOOTER_LINK =
-  "text-base text-soft/70 transition-colors hover:text-soft focus-visible:text-soft";
+/** One size, one weight, one colour. Everything in the footer uses this. */
+const TEXT = "text-[1.0625rem] font-normal leading-[1.35] text-soft/80";
+/** Colour shift only on hover, so nothing in the layout moves. */
+const LINK = `${TEXT} transition-colors hover:text-soft focus-visible:text-soft`;
+/** Line height 1.9 does the spacing; the items carry no margins of their own. */
+const ITEM = "leading-[1.9]";
+/** A heading is set apart by the space beneath it and by nothing else. */
+const HEADING_GAP = "mb-12";
+
+function MenuList({ items }: { items: { label: string; href: string }[] }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.label} className={ITEM}>
+          <Link href={item.href} className={LINK}>
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Footer() {
   return (
     <footer className="bg-earth">
-      <div className="mx-auto w-full max-w-[1720px] px-6 py-16 text-center md:px-10 md:py-20 lg:px-14">
-        {/* items-center, not the default start. Aligned at the top the three blocks
-            put their headings on one line but their centres on three different ones,
-            because each holds a different amount. Centred, they share one axis. */}
-        {/* Tracks in proportion to their contents, not four equal quarters. Measured
-            at 1840 the four blocks are 242, 82, 146 and 173px wide, so equal quarters
-            left the menu filling 22% of its track while the mark filled 66%, and a
-            thin column of links floating in an empty quarter is what read as odd.
-            These weights are the content ratios eased back toward even, which lands
-            every block at 40 to 49% of its own track.
-
-            Four across only from lg: at md the tracks come out near 185px and the
-            email address very nearly fills one, so a tablet gets a roomier 2x2. */}
-        <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 sm:items-center sm:gap-x-8 lg:grid-cols-[34fr_14fr_24fr_28fr] lg:gap-12">
-        {/* Mark and what the company is. */}
-        <div className="flex flex-col items-center gap-8">
-          <Link
-            href="/"
-            aria-label="Symbia home"
-            className="inline-flex text-soft transition-opacity hover:opacity-75"
-          >
-            <Logo variant="emblem" emblemSize={104} label="Symbia" />
-          </Link>
-          <p className="max-w-[24ch] text-base leading-[1.6] text-soft/70">
-            Leather grown from recycled kombucha, not tanned.
-          </p>
-          <div className="flex flex-col gap-1 text-base text-soft/45">
-            <p>Symbia</p>
-            <p>Est. 2023</p>
+      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[900px]:pt-[7.5rem] lg:px-14">
+        {/* Tracks are the distance from one start to the next, so each block begins
+            exactly on its percentage. Two columns between 700 and 900: four at that
+            width puts the email address in a 154px track, which overflows. */}
+        {/* gap-x is zeroed at 900: the percentages already contain the gutters, so a
+            column gap on top of them pushes every start to the right. The gutters
+            come from the right padding on the middle two blocks instead. */}
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[900px]:grid-cols-[19%_30%_29%_22%] min-[900px]:items-start min-[900px]:gap-x-0 min-[900px]:gap-y-0">
+          <div>
+            <Link
+              href="/"
+              aria-label="Symbia home"
+              className="inline-flex text-soft transition-opacity hover:opacity-75"
+            >
+              <Logo variant="emblem" emblemSize={90} label="Symbia" />
+            </Link>
           </div>
-        </div>
 
-        {/* Menu. Same job as the bar at the top, arranged so it cannot be mistaken
-            for it: one centred column rather than a horizontal row. */}
-        <div className="flex flex-col items-center gap-8">
-          <h2 className={BLOCK_HEADING}>Menu</h2>
-          <nav aria-label="Footer">
-            <ul className="flex flex-col gap-4">
-              {menu.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className={FOOTER_LINK}>
-                    {item.label}
-                  </Link>
+          <div className="min-[900px]:pr-[4.5rem]">
+            <p className={`${TEXT} ${HEADING_GAP}`}>Menu</p>
+            {/* 3 + 3 above 900. The inner gutter is 28px against a 72px outer one, so
+                the pair still reads as one column rather than as two of four. */}
+            <div className="hidden min-[900px]:grid min-[900px]:grid-cols-2 min-[900px]:gap-x-7">
+              <MenuList items={menuLeft} />
+              <MenuList items={menuRight} />
+            </div>
+            <div className="min-[900px]:hidden">
+              <MenuList items={[...menuLeft, ...menuRight]} />
+            </div>
+          </div>
+
+          <div className="min-[900px]:pr-[4.5rem]">
+            <p className={`${TEXT} ${HEADING_GAP}`}>Address</p>
+            {/* Held to a measure that breaks the address over three lines. */}
+            <address className={`${TEXT} max-w-[17rem] not-italic leading-[1.9]`}>
+              Symbia, 2311 N Campus Dr, Evanston, IL 60208. United States.
+            </address>
+          </div>
+
+          <div>
+            <p className={`${TEXT} ${HEADING_GAP}`}>Contact</p>
+            <ul>
+              <li className={ITEM}>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={LINK}>
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li className={ITEM}>
+                <a href={PHONE_HREF} className={LINK}>
+                  {PHONE_DISPLAY}
+                </a>
+              </li>
+              {/* The blank line is a list item so the rhythm stays on the same grid. */}
+              <li className={ITEM} aria-hidden>
+                &nbsp;
+              </li>
+              {socials.map((s) => (
+                <li key={s.label} className={ITEM}>
+                  <a href={s.href} target="_blank" rel="noreferrer" className={LINK}>
+                    {s.label}
+                  </a>
                 </li>
               ))}
             </ul>
-          </nav>
-        </div>
-
-        {/* Where we are. Its own column now: bundled under Contact it made that block
-            twice the height of the others and there is nothing to reach it by. */}
-        <div className="flex flex-col items-center gap-8">
-          <h2 className={BLOCK_HEADING}>Address</h2>
-          <address className="not-italic text-base leading-[1.7] text-soft/70">
-            2311 N Campus Dr
-            <br />
-            Evanston, IL 60208
-          </address>
-        </div>
-
-        {/* How to reach us. */}
-        <div className="flex flex-col items-center gap-8">
-          <h2 className={BLOCK_HEADING}>Contact</h2>
-          <div className="flex flex-col gap-3">
-            <a href={`mailto:${CONTACT_EMAIL}`} className={FOOTER_LINK}>
-              {CONTACT_EMAIL}
-            </a>
-            <a href={PHONE_HREF} className={FOOTER_LINK}>
-              {PHONE_DISPLAY}
-            </a>
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className={FOOTER_LINK}
-              >
-                {s.label}
-              </a>
-            ))}
           </div>
         </div>
-        </div>
 
-        {/* Out of the left column and onto the page's own centre line. Sitting inside
-            that column it also made the column taller than the other two, which is
-            what pushed their centres apart. */}
-        <p className="mt-16 text-[0.8125rem] uppercase tracking-[0.16em] text-soft/35 md:mt-20">
-          &copy; 2026 Symbia
-        </p>
+        {/* Bottom left, on the mark's own left edge. */}
+        <p className={`${TEXT} mt-14`}>&copy; 2026 Symbia</p>
       </div>
     </footer>
   );

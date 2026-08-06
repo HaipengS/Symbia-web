@@ -27,7 +27,7 @@ export default function WaitlistSection() {
             Join the waitlist
           </h2>
           <p className="max-w-md text-base leading-relaxed text-ink/65">
-            Be the first to know when Symbia bioleather is available — for
+            Be the first to know when Symbia bioleather is available for
             makers, brands, and craftspeople ready to work with something new.
           </p>
           <ul className="space-y-2 text-sm text-ink/55">

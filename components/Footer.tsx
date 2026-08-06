@@ -1,107 +1,158 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import Logo from "@/components/Logo";
+import { CONTACT_EMAIL } from "@/lib/constants";
 
-type Social = {
-  label: string;
-  icon: ReactNode;
-  // href intentionally omitted for now — links get wired in later.
-};
+/**
+ * Swiss-modernist footer. Four left-aligned blocks separated by whitespace alone:
+ * no rules, no borders, no tinted blocks behind any column.
+ *
+ * The typography is deliberately flat: one size and one weight throughout, so a
+ * heading is set apart by the 48px of empty space under it and by its colour alone.
+ * Nothing here should acquire a larger size, a bolder weight or the display face.
+ *
+ * Columns start at 0, 25, 72.17 and 88.6% of the content width. The band between the
+ * mark and the menu is deliberate and stays empty.
+ */
 
-const socials: Social[] = [
-  {
-    label: "Instagram",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
-        <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    label: "LinkedIn",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path
-          d="M7 10v7M7 7.5v.01M11 17v-4a2 2 0 0 1 4 0v4M11 17v-7"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    label: "Email",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden className="h-5 w-5">
-        <rect
-          x="3"
-          y="5"
-          width="18"
-          height="14"
-          rx="2.5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <path
-          d="m4 7 8 6 8-6"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
+// One list at every width, in the navbar's order so the two never read as two
+// different site maps. Home is not in it: the mark above is the link home, and a
+// footer that lists it as well is padding out the column.
+const menu = [
+  { label: "About", href: "/about" },
+  { label: "Impact", href: "/impact" },
+  { label: "Research", href: "/research" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact", href: "/contact" },
 ];
+
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/madewithsymbia/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/madewithsymbia/" },
+];
+
+const PHONE_DISPLAY = "Tel. +1 224 204 3240";
+const PHONE_HREF = "tel:+12242043240";
+
+/** One size, one weight. Everything in the footer uses this. */
+const TEXT = "text-[1.0625rem] font-normal leading-[1.35] text-soft/80";
+/** Colour shift only on hover, so nothing in the layout moves. */
+const LINK = `${TEXT} transition-colors hover:text-soft focus-visible:text-soft`;
+/** Line height 1.9 does the spacing; the items carry no margins of their own. */
+const ITEM = "leading-[1.9]";
+/**
+ * Headings keep the one size and weight and take blush instead. Coral is the site's
+ * accent, but at this size it sits at 3.9:1 on the earth ground, under the 4.5:1 that
+ * text below 24px needs; blush is 10.4:1 on the same ground and stays on palette.
+ * The 48px beneath still does most of the separating.
+ */
+const HEADING = "mb-12 text-[1.3125rem] font-normal leading-[1.35] text-blush";
+
+function MenuList({ items }: { items: { label: string; href: string }[] }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.label} className={ITEM}>
+          <Link href={item.href} className={LINK}>
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink/10 px-6 py-12">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-7">
-        <Link
-          href="/"
-          aria-label="Symbia home"
-          className="font-display text-lg font-bold tracking-tight text-ink transition-colors hover:text-coral"
-        >
-          Symbia
-        </Link>
-
-        {/* Decorative until real social URLs are wired — not announced as links. */}
-        <div className="flex items-center gap-3">
-          {socials.map((s) => (
-            <span
-              key={s.label}
-              title={s.label}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 text-ink/60"
+    <footer className="bg-earth">
+      {/* 70px, not the 120 the spec asked for: the three text blocks were pulled up
+          50px. The mark takes those 50px back as padding below, so it has not moved. */}
+      <div className="mx-auto w-full max-w-[1720px] px-6 pb-20 pt-24 md:px-10 min-[1440px]:pt-[4.375rem] lg:px-14">
+        {/* Tracks are the distance from one start to the next, so each block begins
+            exactly on its percentage: 0, 25, 72.17 and 88.6%.
+            88.6% is where Contact runs out of road: its text ends exactly on the
+            content's right edge, the same edge every other section of the site ends
+            on. The 100px shift asked for could only be 73.9px for that reason.
+            fr rather than percentage tracks, because an fr track's automatic minimum is
+            its min-content. When the viewport cannot afford the ratio the Contact
+            column holds its width and the other three give way, instead of the email
+            overflowing. Fixed percentages cannot do that: at 900 the old 22% track was
+            180px against the 184px it needed.
+            Four columns only from 1440, because percentage starts scale with the
+            viewport and the gap in front of Contact is the first thing a narrower one
+            eats: 104px at 1840, 82px at 1600, 52px at 1440. That floor now pins
+            Contact to the right edge at every width, so the gap is the only thing left
+            that moves. If this spacing is a keeper the tracks should become fixed px
+            with a fixed gap, which holds the same gap at every width.
+            gap-x is zeroed there: the tracks already contain the gutters, so a column
+            gap on top of them pushes every start to the right. */}
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[minmax(0,1fr)_auto_auto_auto] min-[1440px]:items-start min-[1440px]:gap-x-[6.5rem] min-[1440px]:gap-y-0">
+          {/* The mark and its date share one vertical centre line. "Est. 2023" is the
+              wider of the two, so the group is sized to it and the mark centres over
+              it: the text keeps the column's left edge and only the mark moves.
+              Centring the text on a mark pinned to the left edge would instead push
+              the text outside the page container.
+              42px of top padding. It was 82, which held the mark still while the three
+              text blocks came up 50px; 40 came back off to raise the mark itself. */}
+          <div className="flex w-fit flex-col items-center min-[1440px]:pt-[2.625rem]">
+            <Link
+              href="/"
+              aria-label="Symbia home"
+              className="inline-flex text-soft transition-opacity hover:opacity-75"
             >
-              {s.icon}
-            </span>
-          ))}
-        </div>
+              <Logo variant="emblem" emblemSize={90} label="Symbia" />
+            </Link>
+            <p className={`${TEXT} mt-8`}>Est. 2023</p>
+          </div>
 
-        <p className="text-xs uppercase tracking-[0.14em] text-ink/35">
-          © 2026 Symbia
-        </p>
+          {/* No right padding on the middle two blocks any more. Under fr tracks it
+              counted towards their min-content and made them claim width they did not
+              need; the gutter is the space left over inside each track instead. */}
+          <div>
+            <p className={HEADING}>Menu</p>
+            <MenuList items={menu} />
+          </div>
+
+          <div>
+            <p className={HEADING}>Address</p>
+            {/* Held to a measure that breaks the address over three lines, and now
+                sized to the longest of those three (159.8px) rather than to 184px.
+                Under auto tracks the block's own width IS the column, so the 24px it
+                was not using showed up as extra space in front of Contact and made
+                the two gaps read 104 and 128. */}
+            <address className={`${TEXT} max-w-[10.25rem] not-italic leading-[1.9]`}>
+              2311 N Campus Dr, Evanston, IL 60208. United States.
+            </address>
+          </div>
+
+          <div>
+            <p className={HEADING}>Contact</p>
+            <ul>
+              <li className={ITEM}>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={LINK}>
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              {/* Kept on one line so it counts towards the track's min-content floor
+                  along with the unbreakable email address. */}
+              <li className={`${ITEM} whitespace-nowrap`}>
+                <a href={PHONE_HREF} className={LINK}>
+                  {PHONE_DISPLAY}
+                </a>
+              </li>
+              {/* The blank line is a list item so the rhythm stays on the same grid. */}
+              <li className={ITEM} aria-hidden>
+                &nbsp;
+              </li>
+              {socials.map((s) => (
+                <li key={s.label} className={ITEM}>
+                  <a href={s.href} target="_blank" rel="noreferrer" className={LINK}>
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -1,17 +1,17 @@
 import Image from "next/image";
-import ContactSection from "@/components/ContactSection";
-import { CONTACT_EMAIL } from "@/lib/constants";
+import Link from "next/link";
+import WorkflowStepper, { type WorkflowStep } from "@/components/WorkflowStepper";
 
 export const metadata = {
   title: "Research | Symbia",
   description:
-    "How Symbia turns organic by-products from local beverage makers into bacterial cellulose and bioleather — and why it's worth partnering with us.",
+    "How Symbia turns organic by-products from local beverage makers into bacterial cellulose and bioleather, and why it's worth partnering with us.",
 };
 
 const problems = [
   {
     title: "Discarded value",
-    body: "SCOBY, spent grounds, and tea residue are treated as trash the day they're produced — even though they're clean, consistent organic material.",
+    body: "SCOBY, spent grounds, and tea residue are treated as trash the day they're produced, even though they're clean, consistent organic material.",
   },
   {
     title: "An operational burden",
@@ -34,13 +34,25 @@ const feedstocks = [
   "Other clean fermentation by-products",
 ];
 
-const workflow = [
+/**
+ * Each step carries its own frame, and the panel beside the list follows whichever
+ * step is being read. Steps three to six show the thing they describe. One and two
+ * do not: there is no photograph of a by-product at a supplier or of a collection,
+ * so they show what a stream turns into and the caption says exactly that rather
+ * than implying a picture of the pickup.
+ */
+const workflow: WorkflowStep[] = [
   {
     step: "01",
     title: "Supplier assessment",
-    body: "We review your by-product together — what it is, how much you produce, how often, and whether it's a good candidate for testing.",
+    body: "We review your by-product together: what it is, how much you produce, how often, and whether it's a good candidate for testing.",
     you: "Tell us what you make.",
     us: "Assess fit and next steps.",
+    image: {
+      src: "/process/sheet-grown.jpg",
+      alt: "A single sheet of Kombucha Bioleather on a pale surface, its edges left as they grew",
+      caption: "What a clean stream turns into",
+    },
   },
   {
     step: "02",
@@ -48,6 +60,11 @@ const workflow = [
     body: "We agree a pickup rhythm that fits your operation and simple storage guidance so the material stays usable between collections.",
     you: "Set the agreed stream aside.",
     us: "Handle collection, free of charge.",
+    image: {
+      src: "/process/sheets-folded.jpg",
+      alt: "Several finished sheets of Kombucha Bioleather folded and stacked",
+      caption: "Finished sheets, folded and stacked",
+    },
   },
   {
     step: "03",
@@ -55,6 +72,11 @@ const workflow = [
     body: "Back at the studio, the recovered material is cleaned, filtered, and prepared to feed our cultivation system.",
     you: null,
     us: "Handle all processing.",
+    image: {
+      src: "/material/scale.jpg",
+      alt: "Kombucha Bioleather at full sheet size, showing the scale a single growth reaches",
+      caption: "One growth, at full size",
+    },
   },
   {
     step: "04",
@@ -62,6 +84,11 @@ const workflow = [
     body: "Under controlled conditions, microorganisms ferment the prepared feedstock and grow cellulose into sheets over time.",
     you: null,
     us: "Run the cultivation.",
+    image: {
+      src: "/process/step1.png",
+      alt: "Gloved hands lifting a grown cellulose pellicle out of a vat of fermented tea",
+      caption: "Lifting a pellicle from the vat",
+    },
   },
   {
     step: "05",
@@ -69,13 +96,23 @@ const workflow = [
     body: "The grown cellulose is pressed, dried, and finished into a workable material with the feel and durability of leather.",
     you: null,
     us: "Finish the material.",
+    image: {
+      src: "/process/step2.png",
+      alt: "A wet harvested sheet laid flat on a green drying rack",
+      caption: "Laid out on the drying rack",
+    },
   },
   {
     step: "06",
     title: "Prototype & product development",
-    body: "The finished bioleather is tested and developed into products — accessories, bags, apparel components, and prototypes.",
+    body: "The finished bioleather is tested and developed into products: accessories, bags, apparel components, and prototypes.",
     you: null,
     us: "Build & showcase with partners.",
+    image: {
+      src: "/products/symbia-bag-10.jpg",
+      alt: "A finished bag in Kombucha Bioleather, held open to show its woven Tenun lining",
+      caption: "A finished bag, lined in Tenun",
+    },
   },
 ];
 
@@ -117,7 +154,7 @@ export default function ResearchPage() {
             <p className="max-w-xl text-base leading-relaxed text-ink/65 md:text-lg">
               Symbia partners with kombucha breweries, coffee roasters, tea
               companies, and cafés across the Chicagoland area to redirect organic
-              by-products into biofabrication research — growing them into
+              by-products into biofabrication research, growing them into
               bacterial cellulose and, ultimately, bioleather. We handle
               collection; you gain a concrete circular-economy story.
             </p>
@@ -164,7 +201,7 @@ export default function ResearchPage() {
             </h2>
             <p className="text-base leading-relaxed text-ink/60">
               For most beverage businesses, organic by-products are hauled away at
-              a cost — with nothing to show for it.
+              a cost, with nothing to show for it.
             </p>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -192,9 +229,9 @@ export default function ResearchPage() {
               </h2>
               <p className="text-base leading-relaxed text-ink/60">
                 We evaluate each potential feedstock on consistency, cleanliness,
-                composition, and suitability for bacterial-cellulose growth — so
-                not every stream is a fit, and that&apos;s something we&apos;ll
-                assess together.
+                composition, and suitability for bacterial-cellulose growth. Not
+                every stream is a fit, and that&apos;s something we&apos;ll assess
+                together.
               </p>
             </div>
             <ul className="grid gap-4 sm:grid-cols-2">
@@ -224,70 +261,12 @@ export default function ResearchPage() {
               From by-product to bioleather
             </h2>
             <p className="text-base leading-relaxed text-ink/60">
-              A clear, six-step workflow. You provide the by-product — we handle
+              A clear, six-step workflow. You provide the by-product; we handle
               everything after that.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
-            <ol className="relative space-y-8 border-l border-ink/12 pl-8">
-              {workflow.map((s) => (
-                <li key={s.step} className="relative">
-                  <span
-                    className="absolute -left-[41px] flex h-8 w-8 items-center justify-center rounded-full bg-coral font-display text-xs font-bold text-soft ring-4 ring-[#ffffff]"
-                    aria-hidden
-                  >
-                    {s.step}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-ink">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/65">
-                    {s.body}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs">
-                    {s.you && (
-                      <span className="text-ink/55">
-                        <span className="font-semibold uppercase tracking-[0.1em] text-amber-warm/70">
-                          You
-                        </span>{" "}
-                        · {s.you}
-                      </span>
-                    )}
-                    <span className="text-ink/55">
-                      <span className="font-semibold uppercase tracking-[0.1em] text-coral/80">
-                        Symbia
-                      </span>{" "}
-                      · {s.us}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            <aside className="card-surface overflow-hidden rounded-2xl lg:sticky lg:top-24">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src="/process/step1.png"
-                  alt="Fermenting bioleather sheets"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 340px, 100vw"
-                  unoptimized
-                />
-              </div>
-              <div className="space-y-3 p-6">
-                <p className="text-xs uppercase tracking-[0.12em] text-amber-warm/70">
-                  At a glance
-                </p>
-                <p className="text-sm leading-relaxed text-ink/70">
-                  You set aside a clean organic stream. We collect it, grow it into
-                  bacterial cellulose, and develop it into finished bioleather —
-                  the whole process, handled.
-                </p>
-              </div>
-            </aside>
-          </div>
+          <WorkflowStepper steps={workflow} />
         </section>
 
         {/* ── Environmental value ── */}
@@ -362,18 +341,75 @@ export default function ResearchPage() {
           </div>
         </section>
 
-        {/* ── Contact: centered, supplier-focused ── */}
-        <div className="mx-auto mt-24 w-full max-w-3xl">
-          <ContactSection
-            email={CONTACT_EMAIL}
-            centered
-            eyebrow="Become a supplier"
-            heading="Tell us what your business produces"
-            description="Share what you make, the organic by-product you have, and how often it's generated. We'll review whether it may be a fit for our research and collection workflow."
-            messageLabel="Your business & by-product"
-            messagePlaceholder="Your business, the by-product you produce (e.g. kombucha SCOBY, spent tea, coffee grounds), rough quantity, and how often it's available."
-          />
-        </div>
+        {/* The supplier form that closed this page now lives on /contact, where it
+            is one of four options. The wording that was in it survives as the
+            instruction here, so nothing a supplier needed to be told is lost. */}
+        <section aria-label="Become a supplier" className="mt-24">
+          {/* Copy left, frame right. The copy alone stopped 780px short of the
+              container, and this is the page's conversion point, so it is the last
+              place that should look unfinished. The two facts are lifted out of the
+              workflow above on purpose: cost and effort are the two things a
+              supplier weighs, and they belong next to the button as well as inside
+              step two. */}
+          <div className="grid gap-10 border-t border-ink/12 pt-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div className="flex flex-col items-start gap-5">
+              <p className="text-xs uppercase tracking-[0.16em] text-amber-warm/70">
+                Become a supplier
+              </p>
+              <h2 className="max-w-[22ch] font-display text-3xl font-bold text-ink md:text-4xl">
+                Tell us what your business produces
+              </h2>
+              <p className="max-w-2xl text-base leading-relaxed text-ink/60">
+                Say what you make, the organic by-product it generates, the rough
+                quantity, and how often it is available. On the contact page, choose
+                &ldquo;An organic by-product to supply&rdquo; and the form will ask
+                for exactly that.
+              </p>
+
+              <dl className="grid w-full gap-x-8 gap-y-4 border-t border-ink/12 pt-5 sm:grid-cols-2">
+                {[
+                  ["What it costs you", "Nothing. We handle collection."],
+                  ["What we need from you", "The agreed stream, set aside."],
+                ].map(([term, value]) => (
+                  <div key={term} className="flex flex-col gap-1">
+                    <dt className="text-[0.75rem] uppercase tracking-[0.13em] text-amber-warm/80">
+                      {term}
+                    </dt>
+                    <dd className="text-base leading-[1.5] text-ink/70">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <Link
+                href="/contact"
+                className="mt-2 inline-flex items-center gap-2 rounded-full bg-coral px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-soft transition hover:bg-amber-warm"
+              >
+                Get in touch
+                <span aria-hidden>↗</span>
+              </Link>
+            </div>
+
+            {/* Landscape crop of a portrait frame, sized to finish level with the
+                copy beside it. Distinct from the two sheets used in the workflow
+                above: this one is the material being handled, not sitting still. */}
+            <figure className="flex flex-col gap-3">
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-cream">
+                <Image
+                  src="/material/in-hand.jpg"
+                  alt="Two hands smoothing a large amber sheet of Kombucha Bioleather"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              {/* Describes the photograph, not the supply chain: which stream this
+                  particular sheet came from is not something we can state. */}
+              <figcaption className="text-[0.6875rem] uppercase tracking-[0.16em] text-ink/50">
+                A finished sheet, worked by hand
+              </figcaption>
+            </figure>
+          </div>
+        </section>
       </main>
     </>
   );

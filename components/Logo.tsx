@@ -9,6 +9,24 @@ type LogoProps = {
   label?: string;
   /** Small, content-trimmed navbar mark (matches the logo docked in the home navbar). */
   mark?: boolean;
+  /**
+   * Which artwork to inline. "wordmark" is the lettering used by the hero and the
+   * navbar; "emblem" is the square mark, which reads as a different object at small
+   * sizes and so distinguishes the footer from the navbar.
+   */
+  variant?: "wordmark" | "emblem";
+  /**
+   * Rendered HEIGHT of the emblem in px; its width follows the artwork's own
+   * proportions, which are roughly 1:2. Ignored by the wordmark.
+   */
+  emblemSize?: number;
+  /**
+   * Namespace for the artwork's internal ids. Defaults to something derived from the
+   * other props, which is enough while each variant appears at most once per page.
+   * Pass a distinct value if you ever render two logos that share those props, or
+   * their clip paths will collide and the later one will not draw.
+   */
+  idScope?: string;
 };
 
 // The wordmark's tight content box (measured with getBBox in the browser). The "mark"
@@ -24,9 +42,40 @@ const LOGO_PATH = path.join(
   "Font",
   "symbia website font.svg",
 );
+// Filename is spelled "symbla" in the repo.
+const EMBLEM_PATH = path.join(process.cwd(), "public", "symbla logo.svg");
+
+// The emblem is a vertically stacked wordmark drawn in the middle of a 1500x1500
+// canvas, so 57% of that square is empty air. Fitted to a square box the artwork
+// renders at under half the intended width. These are its real content bounds,
+// measured with getBBox in the browser exactly as MARK_VIEWBOX above was; update
+// both if the source art changes.
+const EMBLEM_VIEWBOX = "408.5 51.3 647.4 1314.8";
+const EMBLEM_ASPECT = 647.4 / 1314.8;
 const LETTER_STAGGER = 0.1;
 
 const readLogoSvg = cache(() => readFile(LOGO_PATH, "utf8"));
+const readEmblemSvg = cache(() => readFile(EMBLEM_PATH, "utf8"));
+
+/**
+ * Both artworks clip every glyph through `url(#id)` references to their own
+ * `<clipPath>` defs. Ids are document-global, so a second copy of the same file
+ * resolves those references against the FIRST copy in the document, and is then
+ * clipped by geometry that belongs to something else. Worse, when that first copy
+ * is hidden the later copies clip to nothing and disappear, which is exactly what
+ * happened when the footer began rendering the same wordmark as the navbar: it
+ * showed until the hero drop finished and hid the hero, then vanished.
+ *
+ * Suffixing every id keeps each copy self-contained. The suffix is derived from the
+ * props rather than a counter so rendering stays pure; `idScope` is the escape hatch
+ * for rendering two logos that would otherwise derive the same one.
+ */
+function namespaceIds(markup: string, suffix: string) {
+  return markup
+    .replace(/id="([^"]+)"/g, `id="$1-${suffix}"`)
+    .replace(/url\(#([^)]+)\)/g, `url(#$1-${suffix})`)
+    .replace(/(xlink:href|href)="#([^"]+)"/g, `$1="#$2-${suffix}"`);
+}
 
 function joinClassNames(...classNames: Array<string | undefined>) {
   return classNames.filter(Boolean).join(" ");
@@ -148,13 +197,72 @@ function buildSvg(
   );
 }
 
+/**
+ * Square emblem: keep the artwork's own viewBox and let the wrapper set the size.
+ *
+ * The file is drawn in flat white, for use on a dark ground, so it is invisible on
+ * the light pages as shipped. Its fills become `currentColor` and the colour is left
+ * to CSS, which also means the same file works on a dark section later.
+ */
+function buildEmblem(svgText: string, label: string) {
+  const rootMatch = /<svg\b[^>]*>/.exec(svgText);
+
+  if (!rootMatch) {
+    throw new Error("Unable to parse Symbia emblem SVG: no <svg> root.");
+  }
+
+  const openTag = rootMatch[0]
+    .replace(/\s+(?:width|height|class|role|aria-label|focusable)="[^"]*"/g, "")
+    .replace(/\s+viewBox="[^"]*"/, ` viewBox="${EMBLEM_VIEWBOX}"`)
+    .replace(
+      />$/,
+      ` role="img" aria-label="${escapeAttribute(label)}" focusable="false"` +
+        ` style="display:block;width:100%;height:100%">`,
+    );
+
+  const body = svgText
+    .slice(rootMatch.index + rootMatch[0].length)
+    .replace(/fill="#(?:fff|ffffff)"/gi, 'fill="currentColor"');
+
+  return openTag + body;
+}
+
 export default async function Logo({
   className,
   animated = false,
   delay = 0,
   label = "Symbia",
   mark = false,
+  variant = "wordmark",
+  emblemSize = 34,
+  idScope,
 }: LogoProps) {
+  const suffix =
+    idScope ??
+    [variant === "emblem" ? "em" : "wm", animated ? "anim" : null, mark ? "mark" : null]
+      .filter(Boolean)
+      .join("-");
+
+  if (variant === "emblem") {
+    const emblemText = await readEmblemSvg();
+
+    return (
+      <span
+        className={className}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          width: `${Math.round(emblemSize * EMBLEM_ASPECT * 100) / 100}px`,
+          height: `${emblemSize}px`,
+          lineHeight: 0,
+        }}
+        dangerouslySetInnerHTML={{
+          __html: namespaceIds(buildEmblem(emblemText, label), suffix),
+        }}
+      />
+    );
+  }
+
   const svgText = await readLogoSvg();
 
   return (
@@ -176,7 +284,7 @@ export default async function Logo({
           : undefined
       }
       dangerouslySetInnerHTML={{
-        __html: buildSvg(svgText, animated, delay, label, mark),
+        __html: namespaceIds(buildSvg(svgText, animated, delay, label, mark), suffix),
       }}
     />
   );

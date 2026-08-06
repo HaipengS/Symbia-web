@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Footer from "@/components/Footer";
-import ContactSection from "@/components/ContactSection";
-import { CONTACT_EMAIL } from "@/lib/constants";
 
 const processSteps = [
   {
@@ -75,7 +73,7 @@ export default function HomeSections() {
             </h2>
           </div>
           <p className="hidden max-w-xs text-right text-sm leading-relaxed text-ink/45 md:block">
-            From SCOBY culture to finished bioleather — entirely fermentation-based.
+            From SCOBY culture to finished bioleather, entirely fermentation-based.
           </p>
         </div>
 
@@ -252,12 +250,10 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* ── Get in touch ── */}
-      <div className="mx-auto max-w-4xl px-6 pb-24 md:px-10 lg:px-14">
-        <ContactSection email={CONTACT_EMAIL} />
-      </div>
+      {/* The contact form used to sit here. The brief asks for it to come off the
+          home page and be replaced by the footer, and for contact to become a page
+          of its own at /contact. */}
 
-      {/* ── Social footer ── */}
       <Footer />
     </>
   );

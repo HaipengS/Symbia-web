@@ -14,13 +14,14 @@ import { CONTACT_EMAIL } from "@/lib/constants";
  * mark and the menu is deliberate and stays empty.
  */
 
-// One list of six at every width.
+// One list at every width, in the navbar's order so the two never read as two
+// different site maps. Home is not in it: the mark above is the link home, and a
+// footer that lists it as well is padding out the column.
 const menu = [
-  { label: "Home", href: "/" },
-  { label: "Research", href: "/research" },
-  { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Impact", href: "/impact" },
+  { label: "Research", href: "/research" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -84,7 +85,7 @@ export default function Footer() {
             with a fixed gap, which holds the same gap at every width.
             gap-x is zeroed there: the tracks already contain the gutters, so a column
             gap on top of them pushes every start to the right. */}
-        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[34.95fr_37.22fr_16.43fr_11.4fr] min-[1440px]:items-start min-[1440px]:gap-x-0 min-[1440px]:gap-y-0">
+        <div className="grid grid-cols-1 gap-y-14 text-left min-[700px]:grid-cols-2 min-[700px]:gap-x-16 min-[1440px]:grid-cols-[minmax(0,1fr)_auto_auto_auto] min-[1440px]:items-start min-[1440px]:gap-x-[6.5rem] min-[1440px]:gap-y-0">
           {/* The mark and its date share one vertical centre line. "Est. 2023" is the
               wider of the two, so the group is sized to it and the mark centres over
               it: the text keeps the column's left edge and only the mark moves.
@@ -113,10 +114,12 @@ export default function Footer() {
 
           <div>
             <p className={HEADING}>Address</p>
-            {/* Held to a measure that breaks the address over three lines. Narrowed
-                from 17rem when "Symbia," came off the front: at the old measure the
-                shorter string fell to two lines. */}
-            <address className={`${TEXT} max-w-[11.5rem] not-italic leading-[1.9]`}>
+            {/* Held to a measure that breaks the address over three lines, and now
+                sized to the longest of those three (159.8px) rather than to 184px.
+                Under auto tracks the block's own width IS the column, so the 24px it
+                was not using showed up as extra space in front of Contact and made
+                the two gaps read 104 and 128. */}
+            <address className={`${TEXT} max-w-[10.25rem] not-italic leading-[1.9]`}>
               2311 N Campus Dr, Evanston, IL 60208. United States.
             </address>
           </div>

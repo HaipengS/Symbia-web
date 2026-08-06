@@ -3,6 +3,7 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { sendContactNotification } from "@/lib/email";
 import { topicLabel } from "@/lib/contact-topics";
+import { LIMITS, cleanEmail, multiLine, singleLine } from "@/lib/form-input";
 
 export type ContactResult =
   | { success: true }
@@ -22,17 +23,19 @@ export async function submitContact(
   _prevState: ContactResult,
   formData: FormData,
 ): Promise<ContactResult> {
-  const name = (formData.get("name") as string | null)?.trim() || null;
-  const email = (formData.get("email") as string | null)?.trim().toLowerCase();
-  const message = (formData.get("message") as string | null)?.trim();
+  // Cleaned before use: `name` reaches an email subject line, where a newline is
+  // the end of the header, and all four are unbounded until something caps them.
+  const name = singleLine(formData, "name", LIMITS.name) || null;
+  const email = cleanEmail(formData);
+  const message = multiLine(formData, "message", LIMITS.message);
   const organisation =
-    (formData.get("organisation") as string | null)?.trim() || null;
+    singleLine(formData, "organisation", LIMITS.organisation) || null;
   // Resolved against the published list rather than trusted, so the subject line
   // can never be set from whatever was posted. The forms that predate the topic
   // row send nothing here and get null.
   const topic = topicLabel(formData.get("topic") as string | null);
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!email) {
     return { success: false, error: "Please enter a valid email address." };
   }
 

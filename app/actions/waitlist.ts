@@ -2,6 +2,7 @@
 
 import { supabaseServer } from "@/lib/supabase-server";
 import { appendWaitlistRow } from "@/lib/sheets";
+import { LIMITS, cleanEmail, cleanSource, singleLine } from "@/lib/form-input";
 
 type WaitlistResult =
   | { success: true }
@@ -17,11 +18,13 @@ export async function joinWaitlist(
   _prevState: WaitlistResult,
   formData: FormData,
 ): Promise<WaitlistResult> {
-  const email = (formData.get("email") as string | null)?.trim().toLowerCase();
-  const name = (formData.get("name") as string | null)?.trim() || null;
-  const source = (formData.get("source") as string | null)?.trim() || "site";
+  // Every one of these lands in a spreadsheet cell, including `source`, which is a
+  // hidden field and therefore the visitor's to set. See lib/form-input.
+  const email = cleanEmail(formData);
+  const name = singleLine(formData, "name", LIMITS.name) || null;
+  const source = cleanSource(formData);
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!email) {
     return { success: false, error: "Please enter a valid email address." };
   }
 

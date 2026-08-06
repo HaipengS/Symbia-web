@@ -63,9 +63,16 @@ export async function sendContactNotification(
   const topic = input.topic?.trim() || null;
   const messageHtml = escapeHtml(input.message).replace(/\n/g, "<br>");
 
+  // A subject is a header, and a line break is where a header ends. The action
+  // already flattens `name` before it gets here, but this module is exported and
+  // should not depend on its caller having done that.
+  const headerSafe = (s: string) => s.replace(/[\r\n]+/g, " ").slice(0, 200);
+
   // The topic leads the subject line, so the inbox sorts itself. En dash, matching
   // the rule the site itself follows.
-  const subject = topic ? `${topic} – ${name}` : `New contact from ${name}`;
+  const subject = headerSafe(
+    topic ? `${topic} – ${name}` : `New contact from ${name}`,
+  );
 
   const row = (term: string, valueHtml: string) => `
       <tr>

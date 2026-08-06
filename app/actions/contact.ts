@@ -4,6 +4,13 @@ import { supabaseServer } from "@/lib/supabase-server";
 import { sendContactNotification } from "@/lib/email";
 import { topicLabel } from "@/lib/contact-topics";
 import { LIMITS, cleanEmail, multiLine, singleLine } from "@/lib/form-input";
+import {
+  FORM_LIMIT,
+  FORM_WINDOW_MS,
+  TOO_MANY,
+  check,
+  clientKey,
+} from "@/lib/rate-limit";
 
 export type ContactResult =
   | { success: true }
@@ -23,6 +30,12 @@ export async function submitContact(
   _prevState: ContactResult,
   formData: FormData,
 ): Promise<ContactResult> {
+  // Before validation, so probing for a shape that passes costs the same as
+  // sending one that does. This endpoint reaches a real inbox.
+  if (!check(`contact:${await clientKey()}`, FORM_LIMIT, FORM_WINDOW_MS).allowed) {
+    return { success: false, error: TOO_MANY };
+  }
+
   // Cleaned before use: `name` reaches an email subject line, where a newline is
   // the end of the header, and all four are unbounded until something caps them.
   const name = singleLine(formData, "name", LIMITS.name) || null;
